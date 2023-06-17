@@ -63,7 +63,7 @@
 						<img src="<?= base_url() . 'assets/images/user.jpg' ?>" class="img-circle elevation-2" alt="User Image">
 					</div>
 					<div class="info">
-						<a href="#" class="d-block">Alexander Pierce</a>
+						<a href="#" class="d-block">Ade Rahmat N</a>
 					</div>
 				</div>
 
@@ -73,7 +73,7 @@
 				<nav class="mt-2">
 					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 						<li class="nav-item">~
-							<a href="<?= base_url() ?>" class="nav-link active">
+							<a href="<?= base_url('dashboard') ?>" class="nav-link active">
 								<i class="nav-icon fas fa-tachometer-alt"></i>
 								<p>
 									Dashboad
@@ -154,7 +154,7 @@
 						</li>
 						<li class="nav-header">UTILITY</li>
 						<li class="nav-item">
-							<a href="pages/calendar.html" class="nav-link">
+									<a href="pages/calendar.html" class="nav-link">
 								<i class="nav-icon fas fa-cogs"></i>
 								<p>
 									Settings
