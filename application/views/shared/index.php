@@ -28,6 +28,17 @@
     <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/daterangepicker/daterangepicker.css' ?>">
     <!-- summernote -->
     <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/summernote/summernote-bs4.min.css' ?>">
+    <!-- Sweetalert -->
+    <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/sweetalert2/dark.css' ?>">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/toastr/toastr.min.css' ?>">
+    <!-- Datatables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css" />
+
+
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -39,12 +50,6 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
                 </li>
             </ul>
         </nav>
@@ -119,7 +124,6 @@
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     New Customers
-                                    <span class="badge badge-info right">2</span>
                                 </p>
                             </a>
                         <li class="nav-header">SERVICES MANAGEMENT</li>
@@ -142,16 +146,17 @@
                         </li>
                         <li class="nav-header">USER MANAGEMENT</li>
                         <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
+                            <a href="<?= base_url('users') ?>"
+                                class="nav-link <?= $this->uri->segment(1) == 'users' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-user-lock"></i>
                                 <p>
                                     Users
-                                    <span class="badge badge-info right">2</span>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/gallery.html" class="nav-link">
+                            <a href="<?= base_url('group_users') ?>"
+                                class="nav-link <?= $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-users-cog"></i>
                                 <p>
                                     Group Users
@@ -184,13 +189,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <?= $contents ?>
-                </div>
-            </section>
-            <!-- /.content -->
+            <?= $contents ?>
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
@@ -243,6 +242,53 @@
     <script src="<?= base_url() . 'assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' ?>"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url() . 'assets/dist/js/adminlte.js' ?>"></script>
+    <!-- Sweetalert -->
+    <script src="<?= base_url() . 'assets/plugins/sweetalert2/sweetalert2.min.js' ?>"></script>
+    <!-- Toastr -->
+    <script src="<?= base_url() . 'assets/plugins/toastr/toastr.min.js' ?>"></script>
+    <script src="<?= base_url() . '/assets/dist/js/datatablesConfig.js' ?>"></script>
+    <!-- Datatables -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
+
+
+
+
 </body>
 
 </html>
+<script>
+    $(function () {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 10000
+        });
+        <?php if ($this->session->flashdata('success')) { ?>
+            Toast.fire({
+                icon: 'success',
+                title: '<?= $this->session->flashdata('success'); ?>'
+            });
+        <?php } else if ($this->session->flashdata('error')) { ?>
+                Toast.fire({
+                    icon: 'error',
+                    title: '<?= $this->session->flashdata('error'); ?>'
+                });
+        <?php } else if ($this->session->flashdata('warning')) { ?>
+                    Toast.fire({
+                        icon: 'warning',
+                        title: '<?= $this->session->flashdata('warning'); ?>'
+                    });
+        <?php } else if ($this->session->flashdata('info')) { ?>
+                        Toast.fire({
+                            icon: 'info',
+                            title: '<?= $this->session->flashdata('info'); ?>'
+                        });
+        <?php } ?>
+    });
+
+</script>

@@ -2,12 +2,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Browse Customers</h1>
+                <h1>Users</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">Customers</a></li>
-                    <li class="breadcrumb-item active">Browse Customers</li>
+                    <li class="breadcrumb-item">User Management</a></li>
+                    <li class="breadcrumb-item active">Group User</li>
                 </ol>
             </div>
         </div>
@@ -21,52 +21,47 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
-                        <table id="tableCustomers" class="display nowrap " style="width:100%">
+                        <a class="btn btn-sm btn-primary mb-3" href="<?= base_url('users/create') ?>">+ Tambah User</a>
+                        <table id="tableUSer" class="display nowrap " style="width:100%">
                             <thead>
                                 <tr>
                                     <th style="width: 15px">No</th>
-                                    <th>ID Pelanggan</th>
-                                    <th>Nama</th>
-                                    <th>Handphone</th>
-                                    <th>No ID</th>
-                                    <th>Jenis ID</th>
-                                    <th>Alamat</th>
-                                    <th>NPWP</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Group</th>
+                                    <th>Active</th>
                                     <th>Modify</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($customers as $key): ?>
+                                foreach ($users as $key): ?>
                                     <tr>
                                         <td>
                                             <?= $no++ ?>
                                         </td>
-                                        <td>
-                                            <?= $key->id_customer ?>
+                                        <td data-priority="2">
+                                            <?= $key->nama_user ?>
                                         </td>
                                         <td>
-                                            <?= $key->fullname ?>
+                                            <?= $key->email_user ?>
                                         </td>
                                         <td>
-                                            <?= $key->phone_customer ?>
+                                            <?= $key->phone_user ?>
                                         </td>
                                         <td>
-                                            <?= $key->no_id ?>
+                                            <?= $key->group_user ?>
                                         </td>
                                         <td>
-                                            <?= $key->jenis_id ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->alamat_id ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->no_npwp ?>
+
+                                            <span
+                                                class="badge badge-pill <?= $key->status_user == 1 ? "badge-success" : "badge-danger" ?>"><?= $key->status_user == 1 ? "yes" : "no" ?></span>
                                         </td>
                                         <td>
                                             <a href="#"
-                                                onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->uid_customer) ?>')">delete</a>
+                                                onclick="deleteConfirm('<?= base_url() . 'users/delete/' . encrypt_url($key->id_user) ?>')">delete</a>
                                             |
                                             <a href="">detail</a>
                                         </td>

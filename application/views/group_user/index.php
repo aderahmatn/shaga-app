@@ -2,12 +2,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Browse Customers</h1>
+                <h1>Group User</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">Customers</a></li>
-                    <li class="breadcrumb-item active">Browse Customers</li>
+                    <li class="breadcrumb-item">User Management</a></li>
+                    <li class="breadcrumb-item active">Group User</li>
                 </ol>
             </div>
         </div>
@@ -17,56 +17,58 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <!-- left column -->
+            <div class="col-md-6">
+                <div class="card ">
+                    <!-- card-body -->
+                    <div class="card-body">
+                        <form role="form" method="POST" action="" autocomplete="off">
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                                value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+                            <div class="form-group">
+                                <label for="fgroup_user">Tambah Group User</label>
+                                <input type="text"
+                                    class="form-control <?= form_error('fgroup_user') ? 'is-invalid' : '' ?>"
+                                    id="fgroup_user" name="fgroup_user" placeholder="Group user"
+                                    value="<?= $this->input->post('fgroup_user'); ?>">
+                                <div class="invalid-feedback">
+                                    <?= form_error('fgroup_user') ?>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary float-right">Tambah</button>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="col-md-6">
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
-                        <table id="tableCustomers" class="display nowrap " style="width:100%">
+                        <table id="TabelUser" class="table table-condensed table-sm ">
                             <thead>
                                 <tr>
                                     <th style="width: 15px">No</th>
-                                    <th>ID Pelanggan</th>
-                                    <th>Nama</th>
-                                    <th>Handphone</th>
-                                    <th>No ID</th>
-                                    <th>Jenis ID</th>
-                                    <th>Alamat</th>
-                                    <th>NPWP</th>
+                                    <th>Group User</th>
                                     <th>Modify</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($customers as $key): ?>
+                                foreach ($group_user as $key): ?>
                                     <tr>
                                         <td>
                                             <?= $no++ ?>
                                         </td>
-                                        <td>
-                                            <?= $key->id_customer ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->fullname ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->phone_customer ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->no_id ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->jenis_id ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->alamat_id ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->no_npwp ?>
+                                        <td class="text-uppercase">
+                                            <?= $key->group_user ?>
                                         </td>
                                         <td>
                                             <a href="#"
-                                                onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->uid_customer) ?>')">delete</a>
+                                                onclick="deleteConfirm('<?= base_url() . 'group_users/delete/' . encrypt_url($key->id_group_user) ?>')">delete</a>
                                             |
                                             <a href="">detail</a>
                                         </td>
@@ -113,5 +115,4 @@
         $('#btn-delete').attr('href', url);
         $('#deleteModal').modal();
     }
-
 </script>
