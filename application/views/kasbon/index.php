@@ -2,12 +2,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h1>List Pengguna</h1>
+                <h1>List Kasbon</h1>
             </div>
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
-                    <a class="btn btn-md btn-primary " href="<?= base_url('users/create') ?>">Tambah</a>
-                    <a class="btn btn-md btn-primary " href="<?= base_url('group_users') ?>">Group User</a>
+                    <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/create') ?>">Buat Pengajuan</a>
                 </div>
             </div>
         </div>
@@ -21,53 +20,44 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
-
                         <table id="tableUSer" class="display nowrap " style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 15px">No</th>
-                                    <th>NIK</th>
+                                    <th style="width: 15px">NO</th>
+                                    <th>NO DOC</th>
                                     <th>NAMA</th>
-                                    <th>EMAIL</th>
-                                    <th>PHONE</th>
-                                    <th>GROUP</th>
-                                    <th>AKTIF</th>
-                                    <th>OPSI</th>
+                                    <th>TGL PENGAJUAN</th>
+                                    <th>NOMINAL</th>
+                                    <th>KEPERLUAN</th>
+                                    <th>STATUS</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($users as $key): ?>
+                                foreach ($kasbon as $key): ?>
                                     <tr class="text-uppercase">
                                         <td>
                                             <?= $no++ ?>
                                         </td>
                                         <td>
-                                            <?= $key->nik ?>
+                                            <?= $key->no_dokumen ?>
                                         </td>
                                         <td>
                                             <?= $key->nama_user ?>
                                         </td>
                                         <td>
-                                            <?= $key->email_user ?>
+                                            <?= TanggalIndo($key->created_date) ?>
                                         </td>
-                                        <td>
-                                            <?= $key->phone_user ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->group_user ?>
-                                        </td>
-                                        <td>
 
-                                            <span
-                                                class="badge badge-pill <?= $key->status_user == 1 ? "badge-success" : "badge-danger" ?>"><?= $key->status_user == 1 ? "yes" : "no" ?></span>
+                                        <td>
+                                            <?= rupiah($key->nominal) ?>
                                         </td>
                                         <td>
-                                            <a href="#"
-                                                onclick="deleteConfirm('<?= base_url() . 'users/delete/' . encrypt_url($key->id_user) ?>')">delete</a>
-                                            |
-                                            <a href="">detail</a>
+                                            <?= $key->keperluan ?>
+                                        </td>
+                                        <td>
+                                            <?= $key->status ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

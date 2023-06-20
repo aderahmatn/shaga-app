@@ -6,6 +6,10 @@ class Users_m extends CI_Model
 
     private $_table = 'users';
     public $id_user;
+    public $nik;
+    public $no_rekening;
+    public $tgl_join;
+    public $bank;
     public $nama_user;
     public $email_user;
     public $phone_user;
@@ -51,8 +55,18 @@ class Users_m extends CI_Model
             [
                 'field' => 'fconfpassword',
                 'label' => 'konfirmasi password',
-                'rules' => 'required|matches[fpassword]
-'
+                'rules' => 'required|matches[fpassword]'
+            ],
+            [
+                'field' => 'fno_rekening',
+                'label' => 'nomor rekening',
+                'rules' => 'numeric'
+            ],
+            [
+                'field' => 'ftgl_join',
+                'label' => 'tanggal join',
+                'rules' => 'required'
+
             ],
         ];
     }
@@ -70,9 +84,23 @@ class Users_m extends CI_Model
     {
         $post = $this->input->post();
         $this->nama_user = $post['fname_user'];
+        $this->no_rekening = $post['fno_rekening'];
+        $this->bank = $post['fbank'];
+        $this->tgl_join = $post['ftgl_join'];
         $this->email_user = $post['femail_user'];
         $this->phone_user = $post['fphone_user'];
         $this->status_user = 1;
+        $tgl_join = preg_replace("/[^0-9]/", "", $post['ftgl_join']);
+        $thn_bln = substr($tgl_join, 2, 4);
+        $no_urut = substr($this->get_last_nik(), 4) + 1;
+        if (strlen($no_urut) == 1) {
+            $no_urut_new = "00" . $no_urut;
+        } else if (strlen($no_urut) == 2) {
+            $no_urut_new = "0" . $no_urut;
+        } else {
+            $no_urut_new = $no_urut;
+        }
+        $this->nik = $thn_bln . $no_urut_new; //2023-06-19
         $this->id_group_user = $post['fid_group_user'];
         $this->username = $post['fusername'];
         $this->password = encrypt_url($post['fpassword']);
@@ -84,6 +112,26 @@ class Users_m extends CI_Model
         $this->db->set('deleted', 1);
         $this->db->where('id_user', $id);
         $this->db->update($this->_table);
+    }
+
+    function get_last_nik()
+    {
+        $this->db->select('nik');
+        $this->db->limit(1);
+        $this->db->order_by('nik', 'desc');
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->row()->nik;
+
+    }
+    public function login($post)
+    {
+        $this->db->select('*');
+        $this->db->from($this->_table);
+        $this->db->where('username', $post['fusername']);
+        $this->db->where('password', encrypt_url($post['fpassword']));
+        $query = $this->db->get();
+        return $query;
     }
 
 

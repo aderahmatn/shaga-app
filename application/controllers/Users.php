@@ -7,6 +7,7 @@ class Users extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        check_not_login();
         $this->load->model('Users_m');
         $this->load->model('Group_user_m');
 
@@ -25,6 +26,7 @@ class Users extends CI_Controller
         $validation = $this->form_validation;
         $validation->set_rules($users->rules());
         if ($validation->run() == FALSE) {
+            $data['last_nik'] = $users->get_last_nik();
             $data['group_user'] = $this->Group_user_m->get_all_group_user();
             $this->template->load('shared/index', 'user/create', $data);
         } else {

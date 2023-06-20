@@ -4,7 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shaga | Dashboard</title>
+    <link rel="icon" href="<?= base_url() . 'assets/images/favicon1.png' ?>" type="image/jpeg">
+
+    <title>GOA |
+        <?= $this->uri->segment(1) ?>
+    </title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -22,6 +26,7 @@
     <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/jqvmap/jqvmap.min.css' ?>">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url() . 'assets/dist/css/adminlte.min.css' ?>">
+    <link rel="stylesheet" href="<?= base_url() . 'assets/dist/css/custom.css' ?>">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' ?>">
     <!-- Daterange picker -->
@@ -45,33 +50,38 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-indigo navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-black navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link toggle-expand-btn" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
                 </li>
             </ul>
         </nav>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-indigo elevation-4 ">
-            <!-- Brand Logo -->
-            <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">Shaga</span>
-            </a>
-
+        <aside class="main-sidebar sidebar-dark-primary elevation-4 ">
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
+                    <!-- <div class="image">
                         <img src="<?= base_url() . 'assets/images/user.jpg' ?>" class="img-circle elevation-2"
                             alt="User Image">
-                    </div>
+                    </div> -->
                     <div class="info">
-                        <a href="#" class="d-block">Ade Rahmat N</a>
+                        <a href="#" class="d-block">
+                            <?= strtoupper($this->session->userdata('nama_user')); ?>
+                        </a>
                     </div>
                 </div>
 
@@ -81,16 +91,35 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <li class="nav-item">~
+                        <li class="nav-item">
                             <a href="<?= base_url('dashboard') ?>"
-                                class="nav-link <?= $this->uri->segment(1) == 'dashboard' ? 'active' : '' ?>">
+                                class="nav-link <?= $this->uri->segment(1) == 'dashboard' || $this->uri->segment(1) == '' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Dashboard
+                                    DASHBOARD
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-header">TICKET MANAGEMENT</li>
+                        <li
+                            class="nav-item <?= $this->uri->segment(1) == 'kasbon' ? 'menu-is-opening menu-open' : '' ?> ">
+                            <a href="#" class="nav-link <?= $this->uri->segment(1) == 'kasbon' ? 'active' : '' ?> ">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>
+                                    PENGAJUAN
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('kasbon') ?>"
+                                        class="nav-link <?= $this->uri->segment(1) == 'kasbon' ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>KASBON</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- <li class="nav-header">TICKET MANAGEMENT</li>
                         <li class="nav-item">
                             <a href="pages/calendar.html" class="nav-link">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
@@ -143,23 +172,13 @@
                                     <span class="badge badge-info right">2</span>
                                 </p>
                             </a>
-                        </li>
-                        <li class="nav-header">USER MANAGEMENT</li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="<?= base_url('users') ?>"
-                                class="nav-link <?= $this->uri->segment(1) == 'users' ? 'active' : '' ?>">
+                                class="nav-link <?= $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-user-lock"></i>
                                 <p>
-                                    Users
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('group_users') ?>"
-                                class="nav-link <?= $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-users-cog"></i>
-                                <p>
-                                    Group Users
+                                    PENGGUNA
                                 </p>
                             </a>
                         </li>
@@ -168,15 +187,15 @@
                             <a href="pages/calendar.html" class="nav-link">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>
-                                    Settings
+                                    SETTING
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/gallery.html" class="nav-link">
+                            <a href="<?= base_url('auth/logout') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
                                 <p>
-                                    Logout
+                                    LOGOUT
                                 </p>
                             </a>
                         </li>
@@ -247,6 +266,7 @@
     <!-- Toastr -->
     <script src="<?= base_url() . 'assets/plugins/toastr/toastr.min.js' ?>"></script>
     <script src="<?= base_url() . '/assets/dist/js/datatablesConfig.js' ?>"></script>
+    <script src="<?= base_url() . '/assets/dist/js/goa.js' ?>"></script>
     <!-- Datatables -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -268,26 +288,10 @@
             showConfirmButton: false,
             timer: 10000
         });
-        <?php if ($this->session->flashdata('success')) { ?>
-            Toast.fire({
-                icon: 'success',
-                title: '<?= $this->session->flashdata('success'); ?>'
-            });
-        <?php } else if ($this->session->flashdata('error')) { ?>
-                Toast.fire({
-                    icon: 'error',
-                    title: '<?= $this->session->flashdata('error'); ?>'
-                });
-        <?php } else if ($this->session->flashdata('warning')) { ?>
-                    Toast.fire({
-                        icon: 'warning',
-                        title: '<?= $this->session->flashdata('warning'); ?>'
-                    });
-        <?php } else if ($this->session->flashdata('info')) { ?>
-                        Toast.fire({
-                            icon: 'info',
-                            title: '<?= $this->session->flashdata('info'); ?>'
-                        });
+        <?php if ($this->session->flashdata('success')) { ?>         Toast.fire({ icon: 'success', title: '<?= $this->session->flashdata('success'); ?>' });
+        <?php } else if ($this->session->flashdata('error')) { ?>         Toast.fire({ icon: 'error', title: '<?= $this->session->flashdata('error'); ?>' });
+        <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
+        <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
         <?php } ?>
     });
 

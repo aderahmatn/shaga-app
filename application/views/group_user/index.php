@@ -5,10 +5,9 @@
                 <h1>Group User</h1>
             </div>
             <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">User Management</a></li>
-                    <li class="breadcrumb-item active">Group User</li>
-                </ol>
+                <div class=" float-sm-right justify-content-center">
+                    <a class="btn btn-md btn-primary " href="<?= base_url('users') ?>">Kembali</a>
+                </div>
             </div>
         </div>
     </div><!-- /.container-fluid -->
