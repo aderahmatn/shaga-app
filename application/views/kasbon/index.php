@@ -29,7 +29,7 @@
                                     <th>TGL PENGAJUAN</th>
                                     <th>NOMINAL</th>
                                     <th>KEPERLUAN</th>
-                                    <th>STATUS</th>
+                                    <th>OPSI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,7 +41,10 @@
                                             <?= $no++ ?>
                                         </td>
                                         <td>
-                                            <?= $key->no_dokumen ?>
+                                            <a data-toggle="modal" onclick="getDetail(<?= $key->id_kasbon ?>)"
+                                                href="#modal_Detail">
+                                                <?= $key->no_dokumen ?>
+                                            </a>
                                         </td>
                                         <td>
                                             <?= $key->nama_user ?>
@@ -57,7 +60,22 @@
                                             <?= $key->keperluan ?>
                                         </td>
                                         <td>
-                                            <?= $key->status ?>
+                                            <?php if ($this->session->userdata('group') == 1) { ?>
+                                                <a data-toggle="modal" onclick="approveAct(<?= $key->id_kasbon ?>)"
+                                                    href="#modal_Detail"
+                                                    class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-success" : "btn-secondary disabled" ?> btn-xs ">
+                                                    SETUJUI
+                                                </a>
+                                                <a data-toggle="modal" onclick="rejectAct(<?= $key->id_kasbon ?>)"
+                                                    href="#modal_Detail"
+                                                    class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-danger" : "btn-secondary disabled" ?> btn-xs ">
+                                                    TOLAK
+                                                </a>
+                                            <?php } ?>
+                                            <a data-toggle="modal" onclick="showStatus(<?= $key->id_kasbon ?>)"
+                                                href="#modal_status" class="btn btn-primary btn-xs">
+                                                LIHAT STATUS
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -95,7 +113,24 @@
         </div>
     </div>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="modal_Detail">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-body" id="bodymodal_Detail">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modal_status">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" id="bodymodal_status">
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Delete Confirm -->
 <script type="text/javascript">
     function deleteConfirm(url) {
@@ -103,4 +138,52 @@
         $('#deleteModal').modal();
     }
 
+    function getDetail(id) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('kasbon/detail/'); ?>" + id,
+            // data: "id=" + id,
+            dataType: "html",
+            success: function (response) {
+                $('#bodymodal_Detail').empty();
+                $('#bodymodal_Detail').append(response);
+            }
+        });
+    }
+    function approveAct(id) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('kasbon/approve/'); ?>" + id,
+            // data: "id=" + id,
+            dataType: "html",
+            success: function (response) {
+                $('#bodymodal_Detail').empty();
+                $('#bodymodal_Detail').append(response);
+            }
+        });
+    }
+    function rejectAct(id) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('kasbon/reject/'); ?>" + id,
+            // data: "id=" + id,
+            dataType: "html",
+            success: function (response) {
+                $('#bodymodal_Detail').empty();
+                $('#bodymodal_Detail').append(response);
+            }
+        });
+    }
+    function showStatus(id) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('kasbon/show_status/'); ?>" + id,
+            // data: "id=" + id,
+            dataType: "html",
+            success: function (response) {
+                $('#bodymodal_status').empty();
+                $('#bodymodal_status').append(response);
+            }
+        });
+    }
 </script>

@@ -60,8 +60,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link toggle-expand-btn" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
+                    <p class="m-0 text-muted text-md mr-4">Gisaka Office Automation</p>
                     </a>
                 </li>
             </ul>
@@ -212,17 +211,19 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-
-            <strong>Copyright &copy; 2023 </strong> -
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                Made with <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="red"
-                    class="bi bi-heart-fill mx-1" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                </svg>
-                for <a href="https://gisaka.net/" class="text-muted" target="_blank">Gisaka Media</a>
+            <div class="text-sm">
+                <strong>Copyright &copy; 2023 </strong> -
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block text-sm text-muted">
+                    Made with <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="grey"
+                        class="bi bi-heart-fill mx-0" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                    </svg>
+                    for <a href="https://gisaka.net/" class="text-muted" target="_blank">Gisaka Media</a>
+                </div>
             </div>
+
         </footer>
 
         <!-- Control Sidebar -->
@@ -290,9 +291,8 @@
         });
         <?php if ($this->session->flashdata('success')) { ?>         Toast.fire({ icon: 'success', title: '<?= $this->session->flashdata('success'); ?>' });
         <?php } else if ($this->session->flashdata('error')) { ?>         Toast.fire({ icon: 'error', title: '<?= $this->session->flashdata('error'); ?>' });
-        <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
-        <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
-        <?php } ?>
+           <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
+              <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
+                 <?php } ?>
     });
-
 </script>

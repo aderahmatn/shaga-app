@@ -11,7 +11,7 @@ class Kasbon_m extends CI_Model
     public $cara_bayar;
     public $no_urut_kasbon;
     public $note;
-    public $status;
+    public $deleted;
     public function rules()
     {
         return [
@@ -41,14 +41,13 @@ class Kasbon_m extends CI_Model
         $this->nominal = str_replace(".", "", $post['fnominal']);
         $this->cara_bayar = $post['fcara_pencairan'];
         $this->note = $post['fnote'];
-        $this->status = 'created';
         $this->no_urut_kasbon = $this->get_no_urut_kasbon();
         $this->deleted = 0;
         $this->db->insert($this->_table, $this);
     }
     public function get_all_kasbon()
     {
-        $this->db->select('*');
+        $this->db->select('kasbon.*, users.nama_user');
         $this->db->from($this->_table);
         $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
         if ($this->session->userdata('group') != 1) {
@@ -57,6 +56,16 @@ class Kasbon_m extends CI_Model
         $this->db->where('kasbon.deleted', 0);
         $query = $this->db->get();
         return $query->result();
+    }
+    public function get_by_id_kasbon($id)
+    {
+        $this->db->select('kasbon.*, users.nama_user, users.nik');
+        $this->db->from($this->_table);
+        $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
+        $this->db->where('kasbon.deleted', 0);
+        $this->db->where('kasbon.id_kasbon', $id);
+        $query = $this->db->get();
+        return $query->row();
     }
     function get_no_urut_kasbon()
     {
