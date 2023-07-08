@@ -10,6 +10,7 @@ class Kasbon extends CI_Controller
         check_not_login();
         $this->load->model('Kasbon_m');
         $this->load->model('Status_kasbon_m');
+        $this->load->model('Pencairan_kasbon_m');
         $this->load->helper('rupiah');
         $this->load->helper('status_kasbon');
 
@@ -35,14 +36,55 @@ class Kasbon extends CI_Controller
             $kasbon->add_kasbon($post);
             $this->Status_kasbon_m->add_status_created_kasbon($post);
             if ($this->db->affected_rows() > 0) {
-                $this->session->set_flashdata('success', 'Data kasbon berhasil diajukan!');
+                $this->session->set_flashdata('success', 'Data pencairan berhasil disimpan!');
                 redirect('kasbon', 'refresh');
             }
         }
     }
+    function process_pencairan()
+    {
+        // HANYA ADMIN
+        check_role_administrator();
+        $post = $this->input->post(null, TRUE);
+        $filename = date('d/m/Y') . '-' . decrypt_url($post['fid_kasbon']);
+        $config['overwrite'] = false;
+        $config['upload_path'] = './uploads/kasbon';
+        $config['allowed_types'] = 'png|jpg|pdf|jpeg';
+        $config['file_name'] = $filename;
+        $config['max_size'] = 2048;
+
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('fbukti_pencairan')) {
+            $this->session->set_flashdata('error', $this->upload->display_errors());
+            redirect('kasbon', 'refresh');
+        } else {
+            $pencairan = $this->Pencairan_kasbon_m;
+            $validation = $this->form_validation;
+            $validation->set_rules($pencairan->rules());
+            if ($validation->run() == FALSE) {
+                $this->session->set_flashdata('error', form_error('ftgl_pencairan'));
+                redirect('kasbon', 'refresh');
+            } else {
+                $post = $this->input->post(null, TRUE);
+                $file = $this->upload->data("file_name");
+                $pencairan->add_pencairan_kasbon($file);
+                if ($this->db->affected_rows() > 0) {
+                    $this->Status_kasbon_m->add_status_closed_kasbon($post);
+                    if ($this->db->affected_rows() > 0) {
+                        $this->session->set_flashdata('success', 'Data kasbon berhasil diajukan!');
+                        redirect('kasbon', 'refresh');
+                    }
+                }
+            }
+
+        }
+
+
+    }
     function process_approve()
     {
         // HANYA ADMIN
+        check_role_administrator();
         $post = $this->input->post(null, TRUE);
         $this->Status_kasbon_m->add_status_approve_kasbon($post);
         if ($this->db->affected_rows() > 0) {
@@ -53,6 +95,7 @@ class Kasbon extends CI_Controller
     function process_reject()
     {
         // HANYA ADMIN
+        check_role_administrator();
         $post = $this->input->post(null, TRUE);
         $this->Status_kasbon_m->add_status_reject_kasbon($post);
         if ($this->db->affected_rows() > 0) {
@@ -147,7 +190,7 @@ class Kasbon extends CI_Controller
                 <?php foreach ($data as $key): ?>
 
                     <tr
-                        class="<?= $key->status_kasbon == 'created' ? 'table-primary' : '' ?><?= $key->status_kasbon == 'approved' ? 'table-success' : '' ?><?= $key->status_kasbon == 'rejected' ? 'table-danger' : '' ?>">
+                        class="<?= $key->status_kasbon == 'created' ? 'table-warning' : '' ?><?= $key->status_kasbon == 'approved' ? 'table-success' : '' ?><?= $key->status_kasbon == 'rejected' ? 'table-danger' : '' ?><?= $key->status_kasbon == 'closed' ? 'table-info' : '' ?>">
                         <th scope="row">
                             <?= $key->status_kasbon ?>
                         </th>
@@ -166,6 +209,9 @@ class Kasbon extends CI_Controller
 
             </tbody>
         </table>
+        <?php if (cek_status_terakhir_kasbon($key->no_dokumen) == 'closed') { ?>
+            <a href="<?= base_url('/uploads/kasbon/') . $key->bukti_pencairan ?>" class="mt-2" target="_blank">[Bukti Pencairan]</a>
+        <?php } ?>
         <button class="btn btn-primary float-right" id="closemodal">TUTUP</button>
         <script>
             $(document).ready(function () {
@@ -180,6 +226,7 @@ class Kasbon extends CI_Controller
     function approve($id)
     {
         // HANYA ADMIN
+        check_role_administrator();
         $data = $this->Kasbon_m->get_by_id_kasbon($id);
         ?>
         <form role="form" method="POST" action="<?= base_url('kasbon/process_approve') ?>" autocomplete="off">
@@ -228,6 +275,7 @@ class Kasbon extends CI_Controller
     function reject($id)
     {
         // HANYA ADMIN
+        check_role_administrator();
         $data = $this->Kasbon_m->get_by_id_kasbon($id);
         ?>
         <form role="form" method="POST" action="<?= base_url('kasbon/process_reject') ?>" autocomplete="off">
@@ -268,6 +316,78 @@ class Kasbon extends CI_Controller
                 </div>
             </div>
             <button type="submit" class="btn btn-danger float-right mt-2">TOLAK</button>
+            <a href="<?= base_url('kasbon') ?>" class="btn btn-primary">TUTUP</a>
+        </form>
+        <?php
+
+    }
+    function pencairan($id)
+    {
+        // HANYA ADMIN
+        check_role_administrator();
+        $data = $this->Kasbon_m->get_by_id_kasbon($id);
+        ?>
+        <form role="form" method="POST" action="<?= base_url('kasbon/process_pencairan') ?>" autocomplete="off"
+            enctype="multipart/form-data">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+            <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>"
+                style="display: none">
+            <input type="hidden" name="fid_kasbon" value="<?= encrypt_url($data->id_kasbon) ?>" style="display: none">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required">
+                        <label class="control-label" for="fno_dokumen">No. Dokumen</label>
+                        <input type="text" class="form-control <?= form_error('fno_dokumen') ? 'is-invalid' : '' ?>"
+                            id="fno_dokumen" name="fno_dokumen" value="<?= $data->no_dokumen ?>" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required">
+                        <label class="control-label" for="ftgl_pencairan">Tanggal pencairan</label>
+                        <input type="date" class="form-control <?= form_error('ftgl_pencairan') ? 'is-invalid' : '' ?>"
+                            id="ftgl_pencairan" name="ftgl_pencairan" placeholder="Tanggal pencairan">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required">
+                        <label class="control-label" for="fnominal">Nominal</label>
+                        <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal"
+                            name="fnominal" value="<?= rupiah($data->nominal) ?>" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required">
+                        <label class="control-label" for="ftgl_approve">Jenis pencairan</label>
+                        <input type="text" class="form-control <?= form_error('ftgl_approve') ? 'is-invalid' : '' ?>"
+                            id="ftgl_approve" name="ftgl_approve" value="<?= strtoupper($data->cara_bayar) ?>" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group required">
+                <label class="control-label" for="fname_user">Pencairan oleh</label>
+                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user"
+                    name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
+            </div>
+            <div class="form-group required">
+                <label class="control-label" for="fbukti_pencairan">Bukti pencairan</label>
+                <input type="file" class="pb-4 form-control <?= form_error('fbukti_pencairan') ? 'is-invalid' : '' ?>"
+                    id="fbukti_pencairan" name="fbukti_pencairan">
+                <small id="fbukti_pencairan" class="form-text text-muted">Format file harus .pdf .png .jpg .jpeg, ukuran
+                    maksimal 2Mb </small>
+            </div>
+            <div class="form-group ">
+                <label for="fnote">Catatan</label>
+                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase"
+                    id="fnote"><?= $this->input->post('fnote'); ?></textarea>
+                <div class="invalid-feedback">
+                    <?= form_error('fnote') ?>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success float-right mt-2">SIMPAN</button>
             <a href="<?= base_url('kasbon') ?>" class="btn btn-primary">TUTUP</a>
         </form>
         <?php

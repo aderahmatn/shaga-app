@@ -47,13 +47,15 @@ class Kasbon_m extends CI_Model
     }
     public function get_all_kasbon()
     {
-        $this->db->select('kasbon.*, users.nama_user');
+        $this->db->select('kasbon.*, users.nama_user, users.nik');
         $this->db->from($this->_table);
         $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
         if ($this->session->userdata('group') != 1) {
             $this->db->where('kasbon.id_user', $this->session->userdata('id_user'));
         }
         $this->db->where('kasbon.deleted', 0);
+        $this->db->order_by('created_date', 'desc');
+
         $query = $this->db->get();
         return $query->result();
     }

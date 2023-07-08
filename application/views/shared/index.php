@@ -172,24 +172,26 @@
                                 </p>
                             </a>
                         </li> -->
-                        <li class="nav-item">
-                            <a href="<?= base_url('users') ?>"
-                                class="nav-link <?= $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-user-lock"></i>
-                                <p>
-                                    PENGGUNA
-                                </p>
-                            </a>
-                        </li>
+                        <?php if ($this->session->userdata('group') == 1) { ?>
+                            <li class="nav-item">
+                                <a href="<?= base_url('users') ?>"
+                                    class="nav-link <?= $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-user-lock"></i>
+                                    <p>
+                                        PENGGUNA
+                                    </p>
+                                </a>
+                            </li>
+                        <?php } ?>
                         <li class="nav-header">UTILITY</li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="pages/calendar.html" class="nav-link">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>
                                     SETTING
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="<?= base_url('auth/logout') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -241,6 +243,7 @@
 
     <!-- Bootstrap 4 -->
     <script src="<?= base_url() . 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' ?>"></script>
+    <script src="<?= base_url() . 'assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js' ?>"></script>
     <!-- ChartJS -->
     <script src="<?= base_url() . 'assets/plugins/chart.js/Chart.min.js' ?>"></script>
     <!-- Sparkline -->
@@ -282,6 +285,11 @@
 
 </html>
 <script>
+
+    $(function () {
+        bsCustomFileInput.init();
+    });
+
     $(function () {
         const Toast = Swal.mixin({
             toast: true,
@@ -291,8 +299,8 @@
         });
         <?php if ($this->session->flashdata('success')) { ?>         Toast.fire({ icon: 'success', title: '<?= $this->session->flashdata('success'); ?>' });
         <?php } else if ($this->session->flashdata('error')) { ?>         Toast.fire({ icon: 'error', title: '<?= $this->session->flashdata('error'); ?>' });
-           <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
-              <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
-                 <?php } ?>
+                                                  <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
+                                                                                                                      <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
+                    <?php } ?>
     });
 </script>

@@ -8,6 +8,7 @@ class Users extends CI_Controller
     {
         parent::__construct();
         check_not_login();
+        check_role_administrator();
         $this->load->model('Users_m');
         $this->load->model('Group_user_m');
 

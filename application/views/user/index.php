@@ -66,8 +66,8 @@
                                         <td>
                                             <a href="#"
                                                 onclick="deleteConfirm('<?= base_url() . 'users/delete/' . encrypt_url($key->id_user) ?>')">delete</a>
-                                            |
-                                            <a href="">detail</a>
+                                            <!-- |
+                                            <a href="">detail</a> -->
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -19,15 +19,15 @@ function check_not_login()
     }
 }
 
-// function check_role_sales()
-// {
-//     $CI = &get_instance();
-//     $user_session = $CI->session->userdata('role');
-//     if ($user_session != '2') {
-//         $CI->session->set_flashdata('error', 'Hak akses terbatas!');
-//         redirect('dashboard', 'refresh');
-//     }
-// }
+function check_role_administrator()
+{
+    $CI = &get_instance();
+    $user_session = $CI->session->userdata('group');
+    if ($user_session != '1') {
+        $CI->session->set_flashdata('error', 'Halaman tidak ditemukan');
+        redirect('dashboard', 'refresh');
+    }
+}
 
 // function check_role_admin()
 // {

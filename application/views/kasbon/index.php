@@ -71,11 +71,19 @@
                                                     class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-danger" : "btn-secondary disabled" ?> btn-xs ">
                                                     TOLAK
                                                 </a>
+                                                <a data-toggle="modal" onclick="pencairanAct(<?= $key->id_kasbon ?>)"
+                                                    href="#modal_Detail"
+                                                    class="btn <?= cek_status_terakhir_kasbon($key->no_dokumen) == "approved" ? "btn-primary" : "btn-secondary disabled" ?> btn-xs ">
+                                                    PENCAIRAN
+                                                </a>
                                             <?php } ?>
                                             <a data-toggle="modal" onclick="showStatus(<?= $key->id_kasbon ?>)"
                                                 href="#modal_status" class="btn btn-primary btn-xs">
                                                 LIHAT STATUS
                                             </a>
+                                            <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GOA%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20KASBON%0ANo.%20Dokumen%20%3A%20<?= $key->no_dokumen ?>%0ANama%20PIC%20%3A%20<?= strtoupper($key->nama_user) ?>%0ANIK%20%3A%20<?= strtoupper($key->nik) ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('kasbon') ?>"
+                                                class="btn btn-xs btn-success" target="_blank"><i
+                                                    class="fab fa-whatsapp"></i> KIRIM WA</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -174,6 +182,18 @@
             }
         });
     }
+    function pencairanAct(id) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('kasbon/pencairan/'); ?>" + id,
+            // data: "id=" + id,
+            dataType: "html",
+            success: function (response) {
+                $('#bodymodal_Detail').empty();
+                $('#bodymodal_Detail').append(response);
+            }
+        });
+    }
     function showStatus(id) {
         $.ajax({
             type: "get",
@@ -186,4 +206,6 @@
             }
         });
     }
+
+
 </script>
