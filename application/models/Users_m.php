@@ -130,6 +130,8 @@ class Users_m extends CI_Model
         $this->db->from($this->_table);
         $this->db->where('username', $post['fusername']);
         $this->db->where('password', encrypt_url($post['fpassword']));
+        $this->db->join('group_users', 'group_users.id_group_user = users.id_group_user', 'left');
+
         $query = $this->db->get();
         return $query;
     }

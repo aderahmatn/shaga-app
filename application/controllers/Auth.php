@@ -30,6 +30,7 @@ class auth extends CI_Controller
                     'email' => $row->email_user,
                     'nik' => $row->nik,
                     'group' => $row->id_group_user,
+                    'nama_group' => $row->group_user,
                     'username' => $row->username,
                     'nama_user' => $row->nama_user,
                     'status' => 'login'
