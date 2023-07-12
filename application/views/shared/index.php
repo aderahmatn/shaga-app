@@ -188,15 +188,16 @@
                                 </a>
                             </li>
                         <?php } ?>
-                        <li class="nav-header">UTILITY</li>
-                        <!-- <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
+                        <hr>
+                        <li class="nav-item">
+                            <a href="<?= base_url('pengaturan/ganti_pass') ?>"
+                                class="nav-link <?= $this->uri->segment(1) == 'pengaturan' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>
-                                    SETTING
+                                    PENGATURAN
                                 </p>
                             </a>
-                        </li> -->
+                        </li>
                         <li class="nav-item">
                             <a href="<?= base_url('auth/logout') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -304,8 +305,8 @@
         });
         <?php if ($this->session->flashdata('success')) { ?>         Toast.fire({ icon: 'success', title: '<?= $this->session->flashdata('success'); ?>' });
         <?php } else if ($this->session->flashdata('error')) { ?>         Toast.fire({ icon: 'error', title: '<?= $this->session->flashdata('error'); ?>' });
-                                                                                         <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
-                                                                                                                                                                                                                              <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
+                                                                                                                    <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
+                                                                                                                                                                                                                                                                                                      <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
                     <?php } ?>
     });
 </script>

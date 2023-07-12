@@ -47,6 +47,21 @@ class Users extends CI_Controller
             redirect('users', 'refresh');
         }
     }
+    public function aktif_nonaktif($id, $value)
+    {
+        $this->Users_m->aktif_nonaktif(decrypt_url($id), $value);
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Data user berhasil diupdate!');
+            redirect('users', 'refresh');
+        }
+    }
+    function detail($id)
+    {
+        $data['user'] = $this->Users_m->get_by_id_user(decrypt_url($id));
+        $this->template->load('shared/index', 'user/detail', $data);
+
+
+    }
 
 }
 

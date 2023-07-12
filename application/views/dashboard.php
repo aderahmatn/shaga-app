@@ -11,6 +11,14 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
+        <?php if ($isdefault) { ?>
+            <div class="alert alert-dismissible alert-default-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <i class="icon fas fa-exclamation-triangle"></i>Demi keamanan akun anda, silahkan mengganti password pada
+                menu <a href="<?= base_url('pengaturan/ganti_pass') ?>" class="text-info">pengaturan/ganti_password</a>
+            </div>
+        <?php } ?>
+
         <div class="row">
             <!-- left column -->
             <div class="col-md-6">

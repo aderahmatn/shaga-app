@@ -8,10 +8,13 @@ class Dashboard extends CI_Controller
 	{
 		parent::__construct();
 		check_not_login();
+		$this->load->model('Users_m');
+
 	}
 
 	public function index()
 	{
-		$this->template->load('shared/index', 'dashboard');
+		$data['isdefault'] = $this->Users_m->password_is_default($this->session->userdata('id_user'));
+		$this->template->load('shared/index', 'dashboard', $data);
 	}
 }

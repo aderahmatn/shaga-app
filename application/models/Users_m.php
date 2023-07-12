@@ -80,6 +80,15 @@ class Users_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_by_id_user($id)
+    {
+        $this->db->select('*');
+        $this->db->from($this->_table);
+        $this->db->join('group_users', 'group_users.id_group_user = users.id_group_user', 'left');
+        $this->db->where('users.id_user', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
     public function add_user()
     {
         $post = $this->input->post();
@@ -134,6 +143,41 @@ class Users_m extends CI_Model
 
         $query = $this->db->get();
         return $query;
+    }
+
+    function cek_password_lama($id_user, $pwd)
+    {
+        $this->db->select('*');
+        $this->db->from($this->_table);
+        $this->db->where('id_user', $id_user);
+        $this->db->where('password', encrypt_url($pwd));
+        $query = $this->db->get();
+        return $query->row();
+    }
+    function password_is_default($id_user)
+    {
+        $this->db->select('password');
+        $this->db->from($this->_table);
+        $this->db->where('id_user', $id_user);
+        $query = $this->db->get();
+        $pwd = $query->row()->password;
+        if (decrypt_url($pwd) == 'admin123') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function ganti_password($id_user, $pwd)
+    {
+        $this->db->set('password', encrypt_url($pwd));
+        $this->db->where('id_user', $id_user);
+        $this->db->update($this->_table);
+    }
+    function aktif_nonaktif($id, $value)
+    {
+        $this->db->set('status_user', $value);
+        $this->db->where('id_user', $id);
+        $this->db->update($this->_table);
     }
 
 

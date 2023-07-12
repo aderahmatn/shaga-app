@@ -49,7 +49,7 @@
                         <table id="TabelUser" class="table table-condensed table-sm ">
                             <thead>
                                 <tr>
-                                    <th style="width: 15px">No</th>
+                                    <th>ID Group</th>
                                     <th>Group User</th>
                                     <th>Modify</th>
                                 </tr>
@@ -60,16 +60,17 @@
                                 foreach ($group_user as $key): ?>
                                     <tr>
                                         <td>
-                                            <?= $no++ ?>
+                                            <span class="badge badge-secondary">
+                                                <?= $key->id_group_user ?>
+                                            </span>
                                         </td>
                                         <td class="text-uppercase">
                                             <?= $key->group_user ?>
                                         </td>
                                         <td>
-                                            <a href="#"
-                                                onclick="deleteConfirm('<?= base_url() . 'group_users/delete/' . encrypt_url($key->id_group_user) ?>')">delete</a>
-                                            |
-                                            <a href="">detail</a>
+                                            <a href="#" class="btn btn-xs btn-danger"
+                                                onclick="deleteConfirm('<?= base_url() . 'group_users/delete/' . encrypt_url($key->id_group_user) ?>')">DELETE</a>
+
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

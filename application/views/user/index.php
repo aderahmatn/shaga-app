@@ -44,7 +44,9 @@
                                             <?= $no++ ?>
                                         </td>
                                         <td>
-                                            <?= $key->nik ?>
+                                            <a href="<?= base_url('users/detail/') . encrypt_url($key->id_user) ?>">
+                                                <?= $key->nik ?>
+                                            </a>
                                         </td>
                                         <td>
                                             <?= $key->nama_user ?>
@@ -64,10 +66,15 @@
                                                 class="badge badge-pill <?= $key->status_user == 1 ? "badge-success" : "badge-danger" ?>"><?= $key->status_user == 1 ? "yes" : "no" ?></span>
                                         </td>
                                         <td>
-                                            <a href="#"
+                                            <a href="#" class="btn btn-xs btn-danger"
                                                 onclick="deleteConfirm('<?= base_url() . 'users/delete/' . encrypt_url($key->id_user) ?>')">delete</a>
-                                            <!-- |
-                                            <a href="">detail</a> -->
+
+                                            <?php
+                                            $value = $key->status_user == 1 ? '0' : '1' ?>
+                                            <a href="<?= base_url() . 'users/aktif_nonaktif/' . encrypt_url($key->id_user) . '/' . $value ?>"
+                                                class="btn btn-xs <?= $key->status_user == 1 ? 'btn-warning' : 'btn-primary' ?>">
+                                                <?= $key->status_user == 1 ? 'NON AKTIFKAN' : 'AKTIFKAN' ?>
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
