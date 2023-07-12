@@ -1,5 +1,7 @@
 // capctha
-const captcha = new Captcha($('#canvas'));
+const captcha = new Captcha($('#canvas'), {
+  resourceType:'0'
+})
 $('#valid').on('click',function() {
   const ans = captcha.valid($('input[name="code"]').val());
   
