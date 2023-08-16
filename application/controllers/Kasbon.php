@@ -11,6 +11,7 @@ class Kasbon extends CI_Controller
         $this->load->model('Kasbon_m');
         $this->load->model('Status_kasbon_m');
         $this->load->model('Pencairan_kasbon_m');
+        $this->load->model('Kategori_keuangan_m');
         $this->load->helper('rupiah');
         $this->load->helper('status_kasbon');
 
@@ -26,10 +27,12 @@ class Kasbon extends CI_Controller
     {
 
         $kasbon = $this->Kasbon_m;
+        $kategori = $this->Kategori_keuangan_m;
         $validation = $this->form_validation;
         $validation->set_rules($kasbon->rules());
         if ($validation->run() == FALSE) {
             $data['no_urut'] = $kasbon->get_no_urut_kasbon();
+            $data['kategori_keuangan'] = $kategori->get_all_kategori_keuangan();
             $this->template->load('shared/index', 'kasbon/create', $data);
         } else {
             $post = $this->input->post(null, TRUE);
@@ -38,6 +41,24 @@ class Kasbon extends CI_Controller
             if ($this->db->affected_rows() > 0) {
                 $this->session->set_flashdata('success', 'Data pencairan berhasil disimpan!');
                 redirect('kasbon', 'refresh');
+            }
+        }
+    }
+    public function kategori_keuangan()
+    {
+
+        $kasbon = $this->Kategori_keuangan_m;
+        $validation = $this->form_validation;
+        $validation->set_rules($kasbon->rules_kategori_keuangan());
+        if ($validation->run() == FALSE) {
+            $data['kategori'] = $kasbon->get_all_kategori_keuangan();
+            $this->template->load('shared/index', 'kasbon/kategori_keuangan', $data);
+        } else {
+            $post = $this->input->post(null, TRUE);
+            $kasbon->add_kategori_keuangan($post);
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('success', 'Data kategori berhasil disimpan!');
+                redirect('kasbon/kategori_keuangan', 'refresh');
             }
         }
     }
@@ -165,6 +186,14 @@ class Kasbon extends CI_Controller
         </script>
         <?php
 
+    }
+    public function delete_kategori_keuangan($id)
+    {
+        $this->Kategori_keuangan_m->delete_kategori_keuangan(decrypt_url($id));
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Data kategori keuangan berhasil dihapus!');
+            redirect('kasbon/kategori_keuangan', 'refresh');
+        }
     }
     function show_status($id)
     {

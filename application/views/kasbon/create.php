@@ -2,12 +2,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Buat Pengajuan Kasbon</h1>
+                <h1>Buat Pengajuan Keuangan</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url('kasbon') ?>">List Kasbon</a></li>
-                    <li class="breadcrumb-item active">Buat Pengajuan Kasbon</li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('kasbon') ?>">List Pengajuan Keuangan</a></li>
+                    <li class="breadcrumb-item active">Buat Pengajuan Keuangan</li>
                 </ol>
             </div>
         </div>
@@ -65,11 +65,15 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label class="control-label" for="fkeperluan">Keperluan</label>
-                                <input type="text"
-                                    class="form-control <?= form_error('fkeperluan') ? 'is-invalid' : '' ?>"
-                                    id="fkeperluan" name="fkeperluan" placeholder="Keperluan kasbon"
-                                    value="<?= $this->input->post('fkeperluan'); ?>">
+                                <label class="control-label" for="fkeperluan">Kategori Keuangan</label>
+                                <select class="form-control <?php echo form_error('fkeperluan') ? 'is-invalid' : '' ?>"
+                                    id="fkeperluan" name="fkeperluan">
+                                    <option hidden value="" selected>Pilih Kategori Keuangan </option>
+                                    <?php foreach ($kategori_keuangan as $key): ?>
+                                        <option value="<?= $key->kategori_keuangan ?>"><?= strtoupper($key->kategori_keuangan) ?></option>
+                                    <?php endforeach ?>
+
+                                </select>
                                 <div class="invalid-feedback">
                                     <?= form_error('fkeperluan') ?>
                                 </div>

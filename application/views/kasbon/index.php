@@ -2,11 +2,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h1>List Kasbon</h1>
+                <h1>List Pengajuan Keuangan</h1>
             </div>
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
                     <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/create') ?>">Buat Pengajuan</a>
+                    <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/kategori_keuangan') ?>">Kategori
+                        Keuangan</a>
                 </div>
             </div>
         </div>
@@ -28,7 +30,7 @@
                                     <th>NAMA</th>
                                     <th>TGL PENGAJUAN</th>
                                     <th>NOMINAL</th>
-                                    <th>KEPERLUAN</th>
+                                    <th>KATEGORI</th>
                                     <th>OPSI</th>
                                 </tr>
                             </thead>

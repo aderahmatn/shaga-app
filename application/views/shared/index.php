@@ -117,7 +117,7 @@
                                     <a href="<?= base_url('kasbon') ?>"
                                         class="nav-link <?= $this->uri->segment(1) == 'kasbon' ? 'active' : '' ?>">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>KASBON</p>
+                                        <p>KEUANGAN</p>
                                     </a>
                                 </li>
                             </ul>
