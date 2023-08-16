@@ -8,7 +8,6 @@ class Users extends CI_Controller
     {
         parent::__construct();
         check_not_login();
-        check_role_administrator();
         $this->load->model('Users_m');
         $this->load->model('Group_user_m');
 
@@ -17,12 +16,14 @@ class Users extends CI_Controller
 
     public function list()
     {
+        check_role_administrator();
         $data['users'] = $this->Users_m->get_all_users();
         $this->template->load('shared/index', 'user/index', $data);
 
     }
     function create()
     {
+        check_role_administrator();
         $users = $this->Users_m;
         $validation = $this->form_validation;
         $validation->set_rules($users->rules());
@@ -35,12 +36,13 @@ class Users extends CI_Controller
             $users->add_user($post);
             if ($this->db->affected_rows() > 0) {
                 $this->session->set_flashdata('success', 'Data user berhasil disimpan!');
-                redirect('users', 'refresh');
+                redirect('users/list', 'refresh');
             }
         }
     }
     public function delete($id)
     {
+        check_role_administrator();
         $this->Users_m->delete_user(decrypt_url($id));
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data user berhasil dihapus!');
@@ -49,6 +51,7 @@ class Users extends CI_Controller
     }
     public function aktif_nonaktif($id, $value)
     {
+        check_role_administrator();
         $this->Users_m->aktif_nonaktif(decrypt_url($id), $value);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data user berhasil diupdate!');
@@ -57,17 +60,15 @@ class Users extends CI_Controller
     }
     function detail($id)
     {
+        check_role_administrator();
         $data['user'] = $this->Users_m->get_by_id_user(decrypt_url($id));
         $this->template->load('shared/index', 'user/detail', $data);
-
 
     }
     function profile()
     {
         $data['user'] = $this->Users_m->get_by_id_user($this->session->userdata('id_user'));
         $this->template->load('shared/index', 'user/profile', $data);
-
-
     }
 
 }

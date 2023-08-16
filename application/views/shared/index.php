@@ -79,9 +79,7 @@
                     </div> -->
                     <div class="info">
                         <a href="<?= base_url('users/profile') ?>" class="d-block">
-
                             <?= strtoupper($this->session->userdata('nama_user')); ?>
-
                         </a>
                         <span class="badge badge-pill badge-light">
                             <?= $this->session->userdata('nama_group') ?>
@@ -330,6 +328,6 @@
         <?php } else if ($this->session->flashdata('error')) { ?>         Toast.fire({ icon: 'error', title: '<?= $this->session->flashdata('error'); ?>' });
                                                                                                                                                                                                                        <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
-                    <?php } ?>
+        <?php } ?>
     });
 </script>
