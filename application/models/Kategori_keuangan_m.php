@@ -1,5 +1,4 @@
-<?=
-    defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Kategori_keuangan_m extends CI_Model
 {
@@ -22,7 +21,7 @@ class Kategori_keuangan_m extends CI_Model
     {
         return $this->db->get_where($this->_table, ["deleted" => 0])->result();
     }
-    public function add_kategori_keuangan()
+    public function add_group_user()
     {
         $post = $this->input->post();
         $this->kategori_keuangan = $post['fkategori_keuangan'];

@@ -25,7 +25,6 @@ class Kasbon extends CI_Controller
     }
     public function create()
     {
-
         $kasbon = $this->Kasbon_m;
         $kategori = $this->Kategori_keuangan_m;
         $validation = $this->form_validation;
@@ -46,7 +45,7 @@ class Kasbon extends CI_Controller
     }
     public function kategori_keuangan()
     {
-
+        check_role_administrator();
         $kasbon = $this->Kategori_keuangan_m;
         $validation = $this->form_validation;
         $validation->set_rules($kasbon->rules_kategori_keuangan());
@@ -189,6 +188,7 @@ class Kasbon extends CI_Controller
     }
     public function delete_kategori_keuangan($id)
     {
+        check_role_administrator();
         $this->Kategori_keuangan_m->delete_kategori_keuangan(decrypt_url($id));
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data kategori keuangan berhasil dihapus!');

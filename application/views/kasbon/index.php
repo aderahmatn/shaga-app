@@ -7,8 +7,11 @@
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
                     <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/create') ?>">Buat Pengajuan</a>
-                    <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/kategori_keuangan') ?>">Kategori
-                        Keuangan</a>
+                    <?php if ($this->session->userdata('nama_group') == 'administrator') { ?>
+                        <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/kategori_keuangan') ?>">Kategori
+                            Keuangan</a>
+                    <?php } ?>
+
                 </div>
             </div>
         </div>

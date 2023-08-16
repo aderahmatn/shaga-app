@@ -48,7 +48,6 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-black navbar-light">
             <!-- Left navbar links -->
@@ -124,60 +123,6 @@
 
                         </li>
 
-                        <!-- <li class="nav-header">TICKET MANAGEMENT</li>
-                        <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard-list"></i>
-                                <p>
-                                    Browse Ticket
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon fas fa-notes-medical"></i>
-                                <p>
-                                    Create Ticket
-                                    <span class="badge badge-info right">2</span>
-                                </p>
-                            </a>
-                        </li> -->
-                        <!-- <li class="nav-header">CUSTOMERS</li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('customer/browse') ?>" class="nav-link <?= $this->uri->segment(1) == 'customer' && $this->uri->segment(2) == 'browse' ? 'active' : '' ?>
-                            ?>active">
-                                <i class="nav-icon fas fa-user-friends"></i>
-                                <p>
-                                    Browse Customers
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('customer/create') ?>"
-                                class="nav-link <?= $this->uri->segment(1) == 'customer' && $this->uri->segment(2) == 'create' ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-user-plus"></i>
-                                <p>
-                                    New Customers
-                                </p>
-                            </a>
-                        <li class="nav-header">SERVICES MANAGEMENT</li>
-                        <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon fas fa-cubes"></i>
-                                <p>
-                                    Browse Services
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon fas fa-cube"></i>
-                                <p>
-                                    Create Services
-                                    <span class="badge badge-info right">2</span>
-                                </p>
-                            </a>
-                        </li> -->
 
                         <?php if ($this->session->userdata('group') == 1) { ?>
                             <li class="nav-header">ADMINISTRATOR</li>
