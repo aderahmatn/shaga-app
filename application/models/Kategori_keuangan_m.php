@@ -21,7 +21,7 @@ class Kategori_keuangan_m extends CI_Model
     {
         return $this->db->get_where($this->_table, ["deleted" => 0])->result();
     }
-    public function add_group_user()
+    public function add_kategori_keuangan()
     {
         $post = $this->input->post();
         $this->kategori_keuangan = $post['fkategori_keuangan'];
