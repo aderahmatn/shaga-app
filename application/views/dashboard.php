@@ -18,7 +18,6 @@
                 menu <a href="<?= base_url('pengaturan/ganti_pass') ?>" class="text-info">pengaturan/ganti_password</a>
             </div>
         <?php } ?>
-
         <div class="row">
             <!-- left column -->
             <div class="col-md-6">

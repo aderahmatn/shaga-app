@@ -18,9 +18,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <a href="<?= base_url('users') ?>" class="btn btn-default btn-xs float-right"><i
+                                <!-- <a href="<?= base_url('users') ?>" class="btn btn-default btn-xs float-right"><i
                                         class="far fa-edit"></i> EDIT DATA
-                                    PROFILE</a>
+                                    PROFILE</a> -->
                             </div>
 
                         </div>
