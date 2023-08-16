@@ -40,6 +40,31 @@ class Users extends CI_Controller
             }
         }
     }
+    function update($id = null)
+    {
+        if (!isset($id))
+            redirect('users/profile');
+        $users = $this->Users_m;
+        $validation = $this->form_validation;
+        $validation->set_rules($users->rules_update_profile());
+        if ($this->form_validation->run()) {
+            $post = $this->input->post(null, TRUE);
+            $this->Users_m->update($post);
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('success', 'User Berhasil Diupdate!');
+                redirect('users/profile', 'refresh');
+            } else {
+                $this->session->set_flashdata('warning', 'Data User Tidak Diupdate!');
+                redirect('users/profile', 'refresh');
+            }
+        }
+        $data['user'] = $this->Users_m->get_by_id_user(decrypt_url($id));
+        if (!$data['user']) {
+            $this->session->set_flashdata('error', 'Data User Tidak ditemukan!');
+            redirect('user', 'refresh');
+        }
+        $this->template->load('shared/index', 'user/update', $data);
+    }
     public function delete($id)
     {
         check_role_administrator();

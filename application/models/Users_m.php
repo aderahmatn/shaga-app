@@ -70,6 +70,31 @@ class Users_m extends CI_Model
             ],
         ];
     }
+    public function rules_update_profile()
+    {
+        return [
+            [
+                'field' => 'fname_user',
+                'label' => 'name user',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'femail_user',
+                'label' => 'email user',
+                'rules' => 'required|valid_email'
+            ],
+            [
+                'field' => 'fphone_user',
+                'label' => 'phone user',
+                'rules' => 'required|numeric'
+            ],
+            [
+                'field' => 'fno_rekening',
+                'label' => 'nomor rekening',
+                'rules' => 'numeric'
+            ],
+        ];
+    }
 
     public function get_all_users()
     {
@@ -116,12 +141,24 @@ class Users_m extends CI_Model
         $this->deleted = 0;
         $this->db->insert($this->_table, $this);
     }
+    public function update($post)
+    {
+        $post = $this->input->post();
+        $this->db->set('nama_user', $post['fname_user']);
+        $this->db->set('no_rekening', $post['fno_rekening']);
+        $this->db->set('bank', $post['fbank']);
+        $this->db->set('email_user', $post['femail_user']);
+        $this->db->set('phone_user', $post['fphone_user']);
+        $this->db->where('id_user', decrypt_url($post['fid_user']));
+        $this->db->update($this->_table);
+    }
     public function delete_user($id)
     {
         $this->db->set('deleted', 1);
         $this->db->where('id_user', $id);
         $this->db->update($this->_table);
     }
+
 
     function get_last_nik()
     {

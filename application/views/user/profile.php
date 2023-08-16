@@ -18,9 +18,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <!-- <a href="<?= base_url('users') ?>" class="btn btn-default btn-xs float-right"><i
-                                        class="far fa-edit"></i> EDIT DATA
-                                    PROFILE</a> -->
+                                <a href="<?= base_url('users/update/') . encrypt_url($this->session->userdata('id_user'))
+                                    ?>" class="btn btn-default btn-xs float-right"><i class="far fa-edit"></i> UPDATE
+                                    DATA
+                                    PROFILE</a>
                             </div>
 
                         </div>
