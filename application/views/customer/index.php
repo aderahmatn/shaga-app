@@ -2,13 +2,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Browse Customers</h1>
+                <h1>List Pelanggan</h1>
             </div>
             <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">Customers</a></li>
-                    <li class="breadcrumb-item active">Browse Customers</li>
-                </ol>
+                <div class=" float-sm-right justify-content-center">
+                    <a class="btn btn-md btn-primary " href="<?= base_url('customer/create') ?>">Tambah Pelanggan</a>
+                </div>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -25,14 +24,14 @@
                             <thead>
                                 <tr>
                                     <th style="width: 15px">No</th>
-                                    <th>ID Pelanggan</th>
-                                    <th>Nama</th>
-                                    <th>Handphone</th>
-                                    <th>No ID</th>
-                                    <th>Jenis ID</th>
-                                    <th>Alamat</th>
-                                    <th>NPWP</th>
-                                    <th>Modify</th>
+                                    <th>ID PELANGGAN</th>
+                                    <th>NAMA LENGKAP</th>
+                                    <th>TELEPON</th>
+                                    <th>NO IDENTITAS</th>
+                                    <th>JENIS IDENTITAS</th>
+                                    <th>ALAMAT</th>
+                                    <th>NO NPWP</th>
+                                    <th>OPSI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,7 +46,7 @@
                                             <?= $key->id_customer ?>
                                         </td>
                                         <td>
-                                            <?= $key->fullname ?>
+                                            <?= strtoupper($key->fullname) ?>
                                         </td>
                                         <td>
                                             <?= $key->phone_customer ?>
@@ -56,19 +55,18 @@
                                             <?= $key->no_id ?>
                                         </td>
                                         <td>
-                                            <?= $key->jenis_id ?>
+                                            <?= strtoupper($key->jenis_id) ?>
                                         </td>
                                         <td>
-                                            <?= $key->alamat_id ?>
+                                            <?= strtoupper($key->alamat_id) ?>
                                         </td>
                                         <td>
                                             <?= $key->no_npwp ?>
                                         </td>
                                         <td>
                                             <a href="#"
-                                                onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->uid_customer) ?>')">delete</a>
-                                            |
-                                            <a href="">detail</a>
+                                                onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->uid_customer) ?>')"
+                                                class="btn btn-xs btn-danger">DELETE</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

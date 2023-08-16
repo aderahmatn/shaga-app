@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>GOA | Login</title>
+    <title>GAS | Login</title>
 
 
 
@@ -35,7 +35,7 @@
         <div class="row  justify-content-center">
         </div>
         <div class="login-logo">
-            <p class="font-weight-light font">Gisaka Office Automation</p>
+            <p class="font-weight-light " style="font-size:1.9rem;">Gisaka Automation System</p>
         </div>
         <!-- /.login-logo -->
         <div class="card ">
@@ -126,17 +126,17 @@
                         icon: 'error',
                         title: '<?= $this->session->flashdata('error'); ?>'
                     });
-            <?php } else if ($this->session->flashdata('warning')) { ?>
+                <?php } else if ($this->session->flashdata('warning')) { ?>
                         Toast.fire({
                             icon: 'warning',
                             title: '<?= $this->session->flashdata('warning'); ?>'
                         });
-            <?php } else if ($this->session->flashdata('info')) { ?>
+                    <?php } else if ($this->session->flashdata('info')) { ?>
                             Toast.fire({
                                 icon: 'info',
                                 title: '<?= $this->session->flashdata('info'); ?>'
                             });
-            <?php } ?>
+                        <?php } ?>
         });
     </script>
 

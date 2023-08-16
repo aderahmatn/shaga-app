@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="<?= base_url() . 'assets/images/favicon1.png' ?>" type="image/jpeg">
 
-    <title>GOA |
+    <title>GAS |
         <?= $this->uri->segment(1) ?>
     </title>
 
@@ -60,7 +60,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <p class="m-0 text-muted text-md mr-4">Gisaka Office Automation</p>
+                    <p class="m-0 text-muted text-md mr-4">Gisaka Automation System</p>
                     </a>
                 </li>
             </ul>
@@ -78,7 +78,7 @@
                             alt="User Image">
                     </div> -->
                     <div class="info">
-                        <a href="#" class="d-block">
+                        <a href="<?= base_url('users/profile') ?>" class="d-block">
 
                             <?= strtoupper($this->session->userdata('nama_user')); ?>
 
@@ -104,6 +104,7 @@
                                 </p>
                             </a>
                         </li>
+
                         <li
                             class="nav-item <?= $this->uri->segment(1) == 'kasbon' ? 'menu-is-opening menu-open' : '' ?> ">
                             <a href="#" class="nav-link <?= $this->uri->segment(1) == 'kasbon' ? 'active' : '' ?> ">
@@ -122,7 +123,9 @@
                                     </a>
                                 </li>
                             </ul>
+
                         </li>
+
                         <!-- <li class="nav-header">TICKET MANAGEMENT</li>
                         <li class="nav-item">
                             <a href="pages/calendar.html" class="nav-link">
@@ -140,8 +143,8 @@
                                     <span class="badge badge-info right">2</span>
                                 </p>
                             </a>
-                        </li>
-                        <li class="nav-header">CUSTOMERS</li>
+                        </li> -->
+                        <!-- <li class="nav-header">CUSTOMERS</li>
                         <li class="nav-item">
                             <a href="<?= base_url('customer/browse') ?>" class="nav-link <?= $this->uri->segment(1) == 'customer' && $this->uri->segment(2) == 'browse' ? 'active' : '' ?>
                             ?>active">
@@ -177,10 +180,21 @@
                                 </p>
                             </a>
                         </li> -->
+
                         <?php if ($this->session->userdata('group') == 1) { ?>
+                            <li class="nav-header">ADMINISTRATOR</li>
                             <li class="nav-item">
-                                <a href="<?= base_url('users') ?>"
-                                    class="nav-link <?= $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
+                                <a href="<?= base_url('customer/browse') ?>"
+                                    class="nav-link <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == '' ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-user-friends"></i>
+                                    <p>
+                                        PELANGGAN
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url('users/list') ?>"
+                                    class="nav-link <?= $this->uri->segment(2) == 'create' && $this->uri->segment(1) == 'users' || $this->uri->segment(2) == 'list' && $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-user-lock"></i>
                                     <p>
                                         PENGGUNA
@@ -189,6 +203,15 @@
                             </li>
                         <?php } ?>
                         <hr>
+                        <li class="nav-item">
+                            <a href="<?= base_url('users/profile') ?>"
+                                class="nav-link <?= $this->uri->segment(2) == 'profile' ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-user-circle"></i>
+                                <p>
+                                    PROFILE
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="<?= base_url('pengaturan/ganti_pass') ?>"
                                 class="nav-link <?= $this->uri->segment(1) == 'pengaturan' ? 'active' : '' ?>">
@@ -305,8 +328,8 @@
         });
         <?php if ($this->session->flashdata('success')) { ?>         Toast.fire({ icon: 'success', title: '<?= $this->session->flashdata('success'); ?>' });
         <?php } else if ($this->session->flashdata('error')) { ?>         Toast.fire({ icon: 'error', title: '<?= $this->session->flashdata('error'); ?>' });
-                                                                                                                    <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
-                                                                                                                                                                                                                                                                                                      <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
+                                                                                                                                                                                                                       <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
                     <?php } ?>
     });
 </script>

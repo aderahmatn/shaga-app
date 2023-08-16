@@ -15,7 +15,7 @@ class Users extends CI_Controller
 
     }
 
-    public function index()
+    public function list()
     {
         $data['users'] = $this->Users_m->get_all_users();
         $this->template->load('shared/index', 'user/index', $data);
@@ -59,6 +59,13 @@ class Users extends CI_Controller
     {
         $data['user'] = $this->Users_m->get_by_id_user(decrypt_url($id));
         $this->template->load('shared/index', 'user/detail', $data);
+
+
+    }
+    function profile()
+    {
+        $data['user'] = $this->Users_m->get_by_id_user($this->session->userdata('id_user'));
+        $this->template->load('shared/index', 'user/profile', $data);
 
 
     }

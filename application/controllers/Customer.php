@@ -35,6 +35,14 @@ class Customer extends CI_Controller
         }
 
     }
+    public function delete($id)
+    {
+        $this->Customers_m->delete_customer(decrypt_url($id));
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Data pelanggan berhasil dihapus!');
+            redirect('customer/browse', 'refresh');
+        }
+    }
 
 }
 

@@ -2,14 +2,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">New Customer</h1>
+                <h1 class="m-0">Tambah Pelanggan</h1>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">Customers</li>
-                    <li class="breadcrumb-item active">New Customer</li>
-                </ol>
-            </div>
+
         </div>
     </div>
 </div>
@@ -28,7 +23,7 @@
                                 <label for="fid_customer">ID Pelanggan</label>
                                 <input type="text"
                                     class="form-control <?= form_error('fid_customer') ? 'is-invalid' : '' ?>"
-                                    id="fid_customer" name="fid_customer" placeholder="Nama lengkap"
+                                    id="fid_customer" name="fid_customer" placeholder="ID Pelanggan"
                                     value="<?= $this->input->post('fid_customer'); ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fid_customer') ?>
@@ -68,7 +63,8 @@
                                 <select class="form-control <?php echo form_error('fjenis_id') ? 'is-invalid' : '' ?>"
                                     id="fjenis_id" name="fjenis_id">
                                     <option hidden value="" selected>Pilih Identitas </option>
-                                    <option value="ktp" <?= $this->input->post('fjenis_id') == "ktp" ? "selected" : "" ?>>KTP
+                                    <option value="ktp" <?= $this->input->post('fjenis_id') == "ktp" ? "selected" : "" ?>>
+                                        KTP
                                     </option>
                                     <option value="sim" <?= $this->input->post('fjenis_id') == "sim" ? "selected" : "" ?>>
                                         SIM</option>
@@ -101,7 +97,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary float-right">Simpan</button>
-                            <a href="<?= base_url('kegiatan') ?>" class="btn btn-secondary float-left">Batal</a>
+                            <a href="<?= base_url('customer/browse') ?>" class="btn btn-secondary float-left">Batal</a>
                         </div>
                     </form>
                 </div>
