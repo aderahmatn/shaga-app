@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Gisaka Office Automation</h1> Dashboard
+                <h1>Gisaka Automation System</h1> Dashboard
 
             </div>
         </div>
