@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Group User</h1>
+                <h1 class="mt-2">GROUP USER</h1>
             </div>
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
-                    <a class="btn btn-md btn-primary " href="<?= base_url('users') ?>">Kembali</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('users/list') ?>">KEMBALI</a>
                 </div>
             </div>
         </div>

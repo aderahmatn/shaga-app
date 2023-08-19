@@ -8,14 +8,23 @@ class Customer extends CI_Controller
     {
         parent::__construct();
         check_not_login();
+        check_role_administrator();
         $this->load->model('Customers_m');
 
     }
 
     public function browse()
     {
+
         $data['customers'] = $this->Customers_m->get_all_customer();
         $this->template->load('shared/index', 'customer/index', $data);
+
+    }
+    public function onbill()
+    {
+
+        $data['customers'] = $this->Customers_m->get_all_customer();
+        $this->template->load('shared/index', 'customer/onbill', $data);
 
     }
     public function create()
@@ -24,13 +33,35 @@ class Customer extends CI_Controller
         $validation = $this->form_validation;
         $validation->set_rules($customers->rules());
         if ($validation->run() == FALSE) {
-            $this->template->load('shared/index', 'customer/create');
+            $data['id_cust'] = $this->Customers_m->get_id_customer();
+            $this->template->load('shared/index', 'customer/create', $data);
         } else {
             $post = $this->input->post(null, TRUE);
             $customers->add_customer($post);
             if ($this->db->affected_rows() > 0) {
                 $this->session->set_flashdata('success', 'Data customer berhasil disimpan!');
                 redirect('customer/create', 'refresh');
+            }
+        }
+
+    }
+    public function edit($id = null)
+    {
+        $customers = $this->Customers_m;
+        $validation = $this->form_validation;
+        $validation->set_rules($customers->rules());
+        if ($validation->run() == FALSE) {
+            $data['cust'] = $this->Customers_m->get_cust_by_id(decrypt_url($id));
+            $this->template->load('shared/index', 'customer/edit', $data);
+        } else {
+            $post = $this->input->post(null, TRUE);
+            $customers->edit_customer($post, decrypt_url($id));
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('success', 'Data customer berhasil disimpan!');
+                redirect('customer/browse', 'refresh');
+            } else {
+                $this->session->set_flashdata('warning', 'Batal edit data pelanggan');
+                redirect('customer/browse', 'refresh');
             }
         }
 

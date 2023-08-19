@@ -2,7 +2,10 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Tambah Pelanggan</h1>
+                <h1 class="m-0">Edit Pelanggan</h1>
+                <p>
+                    <?= $cust->id_customer ?>
+                </p>
             </div>
 
         </div>
@@ -20,53 +23,54 @@
                             value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                         <div class="card-body">
                             <div class="form-group required">
-                                <label for="fid_customer" class="control-label">ID Pelanggan</label>
+                                <label class="control-label" for="fid_customer">ID Pelanggan</label>
                                 <input type="text"
                                     class="form-control <?= form_error('fid_customer') ? 'is-invalid' : '' ?>"
                                     id="fid_customer" name="fid_customer" placeholder="ID Pelanggan"
-                                    value="<?= $id_cust ?>" readonly>
+                                    value="<?= $cust->id_customer ?>" readonly>
                                 <div class="invalid-feedback">
                                     <?= form_error('fid_customer') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label for="ffullname" class="control-label">Nama Lengkap</label>
+                                <label class="control-label" for="ffullname">Nama Lengkap</label>
                                 <input type="text"
                                     class="form-control <?= form_error('ffullname') ? 'is-invalid' : '' ?>"
                                     id="ffullname" name="ffullname" placeholder="Nama lengkap"
-                                    value="<?= $this->input->post('ffullname'); ?>">
+                                    value="<?= $cust->fullname ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('ffullname') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label for="fphone_customer" class="control-label">Nomor Handphone</label>
+                                <label class="control-label" for="fphone_customer">Nomor Handphone</label>
                                 <input type="text"
                                     class="form-control <?= form_error('fphone_customer') ? 'is-invalid' : '' ?>"
                                     id="fphone_customer" name="fphone_customer" placeholder="Nomor handphone"
-                                    value="<?= $this->input->post('fphone_customer'); ?>">
+                                    value="<?= $cust->phone_customer ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fphone_customer') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label for="fno_id" class="control-label">No. Identitas</label>
+                                <label class="control-label" for="fno_id">No. Identitas</label>
                                 <input type="text" class="form-control <?= form_error('fno_id') ? 'is-invalid' : '' ?>"
                                     id="fno_id" name="fno_id" placeholder="Nomor identitas (KTP/SIM)"
-                                    value="<?= $this->input->post('fno_id'); ?>">
+                                    value="<?= $cust->no_id ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fno_id') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label for="fjenis_id" class="control-label">Jenis Indentitas</label>
+                                <label class="control-label" for="fjenis_id">Jenis Indentitas</label>
                                 <select class="form-control <?php echo form_error('fjenis_id') ? 'is-invalid' : '' ?>"
                                     id="fjenis_id" name="fjenis_id">
                                     <option hidden value="" selected>Pilih Identitas </option>
-                                    <option value="ktp" <?= $this->input->post('fjenis_id') == "ktp" ? "selected" : "" ?>>
+                                    <?php $jenis = $this->input->post('fjenis_id') ? $this->input->post('fjenis_id') : $cust->jenis_id ?>
+                                    <option value="ktp" <?= $jenis == "ktp" ? "selected" : "" ?>>
                                         KTP
                                     </option>
-                                    <option value="sim" <?= $this->input->post('fjenis_id') == "sim" ? "selected" : "" ?>>
+                                    <option value="sim" <?= $jenis == "sim" ? "selected" : "" ?>>
                                         SIM</option>
                                 </select>
                                 <div class="invalid-feedback">
@@ -74,11 +78,11 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label for="falamat_id" class="control-label">Alamat Lengkap</label>
+                                <label class="control-label" for="falamat_id">Alamat Lengkap</label>
                                 <textarea name="falamat_id"
                                     class="form-control <?= form_error('falamat_id') ? 'is-invalid' : '' ?> "
                                     id="falamat_id"
-                                    placeholder="Alamat sesuai kartu identitas"><?= $this->input->post('falamat_id'); ?></textarea>
+                                    placeholder="Alamat sesuai kartu identitas"><?= $cust->alamat_id ?></textarea>
                                 <div class="invalid-feedback">
                                     <?= form_error('falamat_id') ?>
                                 </div>
@@ -87,8 +91,7 @@
                                 <label for="fno_npwp">No. NPWP</label>
                                 <input type="text"
                                     class="form-control <?= form_error('fno_npwp') ? 'is-invalid' : '' ?>" id="fno_npwp"
-                                    name="fno_npwp" placeholder="Nomor NPWP"
-                                    value="<?= $this->input->post('fno_npwp'); ?>">
+                                    name="fno_npwp" placeholder="Nomor NPWP" value="<?= $cust->no_npwp ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fno_npwp') ?>
                                 </div>

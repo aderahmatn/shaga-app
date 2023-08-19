@@ -2,13 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Detail User</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url('users') ?>">Users</a></li>
-                    <li class="breadcrumb-item active">Tambah User</li>
-                </ol>
+                <h1>DETAIL PENGGUNA</h1>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -67,7 +61,8 @@
                                 <input type="text" class="form-control" value="<?= strtoupper($user->group_user) ?>"
                                     disabled>
                             </div>
-                            <a href="<?= base_url('users') ?>" class="btn btn-secondary float-left mt-2">Kembali</a>
+                            <a href="<?= base_url('users/list') ?>"
+                                class="btn btn-secondary float-left mt-2">Kembali</a>
                         </form>
                     </div>
                 </div>

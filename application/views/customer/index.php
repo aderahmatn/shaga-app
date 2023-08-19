@@ -2,11 +2,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>List Pelanggan</h1>
+                <h1 class="mt-2">LIST PELANGGAN</h1>
             </div>
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
-                    <a class="btn btn-md btn-primary " href="<?= base_url('customer/create') ?>">Tambah Pelanggan</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('customer/create') ?>">TAMBAH
+                        PELANGGAN</a>
                 </div>
             </div>
         </div>
@@ -67,6 +68,8 @@
                                             <a href="#"
                                                 onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->uid_customer) ?>')"
                                                 class="btn btn-xs btn-danger">DELETE</a>
+                                            <a href="<?= base_url() . 'customer/edit/' . encrypt_url($key->uid_customer) ?>"
+                                                class="btn btn-xs btn-primary">EDIT</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

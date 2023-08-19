@@ -1,13 +1,16 @@
-<section class="content-header align-content-center">
+<section class="content-header">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="mt-2">LIST PENGGUNA</h1>
+                <h1 class='mt-2'>LAYANAN ON-BILL</h1>
             </div>
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
-                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('users/create') ?>">TAMBAH USER</a>
-                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('group_users') ?>">GROUP USER</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('customer/create') ?>">TAMBAH
+                        BERLANGGANAN</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('profile_layanan') ?>">PROFILE
+                        LAYANAN</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('wilayah') ?>">WILAYAH</a>
                 </div>
             </div>
         </div>
@@ -21,64 +24,59 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
-
-                        <table id="tableUSer" class="display nowrap " style="width:100%">
+                        <table id="tableCustomers" class="display nowrap " style="width:100%">
                             <thead>
                                 <tr>
                                     <th style="width: 15px">No</th>
-                                    <th>NIK</th>
-                                    <th>NAMA</th>
-                                    <th>EMAIL</th>
-                                    <th>PHONE</th>
-                                    <th>GROUP</th>
-                                    <th>AKTIF</th>
+                                    <th>ID PELANGGAN</th>
+                                    <th>NAMA LENGKAP</th>
+                                    <th>TELEPON</th>
+                                    <th>NO IDENTITAS</th>
+                                    <th>JENIS IDENTITAS</th>
+                                    <th>ALAMAT</th>
+                                    <th>NO NPWP</th>
                                     <th>OPSI</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($users as $key): ?>
-                                    <tr class="text-uppercase">
+                                foreach ($customers as $key): ?>
+                                    <tr>
                                         <td>
                                             <?= $no++ ?>
                                         </td>
                                         <td>
-                                            <a href="<?= base_url('users/detail/') . encrypt_url($key->id_user) ?>">
-                                                <?= $key->nik ?>
-                                            </a>
+                                            <?= $key->id_customer ?>
                                         </td>
                                         <td>
-                                            <?= $key->nama_user ?>
+                                            <?= strtoupper($key->fullname) ?>
                                         </td>
                                         <td>
-                                            <?= $key->email_user ?>
+                                            <?= $key->phone_customer ?>
                                         </td>
                                         <td>
-                                            <?= $key->phone_user ?>
+                                            <?= $key->no_id ?>
                                         </td>
                                         <td>
-                                            <?= $key->group_user ?>
+                                            <?= strtoupper($key->jenis_id) ?>
                                         </td>
                                         <td>
-
-                                            <span
-                                                class="badge badge-pill <?= $key->status_user == 1 ? "badge-success" : "badge-danger" ?>"><?= $key->status_user == 1 ? "Y" : "N" ?></span>
+                                            <?= strtoupper($key->alamat_id) ?>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-xs btn-danger"
-                                                onclick="deleteConfirm('<?= base_url() . 'users/delete/' . encrypt_url($key->id_user) ?>')">delete</a>
-
-                                            <?php
-                                            $value = $key->status_user == 1 ? '0' : '1' ?>
-                                            <a href="<?= base_url() . 'users/aktif_nonaktif/' . encrypt_url($key->id_user) . '/' . $value ?>"
-                                                class="btn btn-xs <?= $key->status_user == 1 ? 'btn-warning' : 'btn-primary' ?>">
-                                                <?= $key->status_user == 1 ? 'NON AKTIFKAN' : 'AKTIFKAN' ?>
-                                            </a>
+                                            <?= $key->no_npwp ?>
+                                        </td>
+                                        <td>
+                                            <a href="#"
+                                                onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->uid_customer) ?>')"
+                                                class="btn btn-xs btn-danger">DELETE</a>
+                                            <a href="<?= base_url() . 'customer/edit/' . encrypt_url($key->uid_customer) ?>"
+                                                class="btn btn-xs btn-primary">EDIT</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
-                            </tbody>
+
                         </table>
                     </div>
                 </div>

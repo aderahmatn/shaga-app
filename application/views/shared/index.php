@@ -126,14 +126,35 @@
 
                         <?php if ($this->session->userdata('group') == 1) { ?>
                             <li class="nav-header">ADMINISTRATOR</li>
-                            <li class="nav-item">
-                                <a href="<?= base_url('customer/browse') ?>"
-                                    class="nav-link <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == '' ? 'active' : '' ?>">
-                                    <i class="nav-icon fas fa-user-friends"></i>
+                            <li
+                                class="nav-item <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'menu-is-opening menu-open' : '' ?> ">
+                                <a href="#"
+                                    class="nav-link <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'active' : '' ?> ">
+                                    <i class="nav-icon fas fa-file-alt"></i>
                                     <p>
-                                        PELANGGAN
+                                        DATA BERLANGGANAN
+                                        <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('customer/browse') ?>"
+                                            class="nav-link <?= $this->uri->segment(1) == 'customer' && $this->uri->segment(2) == 'browse' ? 'active' : '' ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>PELANGGAN</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('customer/onbill') ?>"
+                                            class="nav-link <?= $this->uri->segment(2) == 'onbill' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'active' : '' ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>LAYANAN ON-BILL</p>
+                                        </a>
+                                    </li>
+                                </ul>
+
                             </li>
                             <li class="nav-item">
                                 <a href="<?= base_url('users/list') ?>"

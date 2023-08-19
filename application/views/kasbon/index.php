@@ -2,14 +2,14 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h1>List Pengajuan Keuangan</h1>
+                <h1 class="mt-2">LIST PENGAJUAN KEUANGAN</h1>
             </div>
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
-                    <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/create') ?>">Buat Pengajuan</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('kasbon/create') ?>">BUAT PENGAJUAN</a>
                     <?php if ($this->session->userdata('nama_group') == 'administrator') { ?>
-                        <a class="btn btn-md btn-primary " href="<?= base_url('kasbon/kategori_keuangan') ?>">Kategori
-                            Keuangan</a>
+                        <a class="btn btn-md btn-primary mt-2" href="<?= base_url('kasbon/kategori_keuangan') ?>">KATEGORI
+                            KEUANGAN</a>
                     <?php } ?>
 
                 </div>

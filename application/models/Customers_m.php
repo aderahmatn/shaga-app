@@ -20,7 +20,7 @@ class Customers_m extends CI_Model
             [
                 'field' => 'fid_customer',
                 'label' => 'ID pelanggan',
-                'rules' => 'required|is_unique[customers.id_customer]'
+                'rules' => 'required'
             ],
             [
                 'field' => 'ffullname',
@@ -50,9 +50,24 @@ class Customers_m extends CI_Model
             [
                 'field' => 'fno_npwp',
                 'label' => 'nomor NPWP',
-                'rules' => 'required|numeric'
+                'rules' => 'numeric|min_length[16]'
             ],
         ];
+    }
+    function get_id_customer()
+    {
+        $q = $this->db->query("SELECT MAX(RIGHT(id_customer,4)) AS id_max FROM customers WHERE DATE(created_date)=CURDATE()");
+        $kd = "";
+        if ($q->num_rows() > 0) {
+            foreach ($q->result() as $k) {
+                $tmp = ((int) $k->id_max) + 1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        } else {
+            $kd = "0001";
+        }
+        date_default_timezone_set('Asia/Jakarta');
+        return date('dmy') . $kd;
     }
     public function get_all_customer()
     {
@@ -61,6 +76,15 @@ class Customers_m extends CI_Model
         $this->db->where('customers.deleted', 0);
         $query = $this->db->get();
         return $query->result();
+    }
+    public function get_cust_by_id($id)
+    {
+        $this->db->select('*');
+        $this->db->from($this->_table);
+        $this->db->where('customers.deleted', 0);
+        $this->db->where('customers.uid_customer', $id);
+        $query = $this->db->get();
+        return $query->row();
     }
     public function add_customer()
     {
@@ -74,6 +98,18 @@ class Customers_m extends CI_Model
         $this->no_npwp = $post['fno_npwp'];
         $this->deleted = 0;
         $this->db->insert($this->_table, $this);
+    }
+    public function edit_customer($post, $id)
+    {
+        $post = $this->input->post();
+        $this->db->set('fullname', $post['ffullname']);
+        $this->db->set('phone_customer', $post['fphone_customer']);
+        $this->db->set('no_id', $post['fno_id']);
+        $this->db->set('jenis_id', $post['fjenis_id']);
+        $this->db->set('alamat_id', $post['falamat_id']);
+        $this->db->set('no_npwp', $post['fno_npwp']);
+        $this->db->where('uid_customer', $id);
+        $this->db->update($this->_table);
     }
     public function delete_customer($id)
     {

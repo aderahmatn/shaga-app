@@ -61,7 +61,7 @@ class Users extends CI_Controller
         $data['user'] = $this->Users_m->get_by_id_user(decrypt_url($id));
         if (!$data['user']) {
             $this->session->set_flashdata('error', 'Data User Tidak ditemukan!');
-            redirect('user', 'refresh');
+            redirect('users/profile', 'refresh');
         }
         $this->template->load('shared/index', 'user/update', $data);
     }
@@ -71,7 +71,7 @@ class Users extends CI_Controller
         $this->Users_m->delete_user(decrypt_url($id));
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data user berhasil dihapus!');
-            redirect('users', 'refresh');
+            redirect('users/list', 'refresh');
         }
     }
     public function aktif_nonaktif($id, $value)
@@ -80,7 +80,7 @@ class Users extends CI_Controller
         $this->Users_m->aktif_nonaktif(decrypt_url($id), $value);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data user berhasil diupdate!');
-            redirect('users', 'refresh');
+            redirect('users/list', 'refresh');
         }
     }
     function detail($id)
