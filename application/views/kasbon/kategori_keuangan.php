@@ -24,8 +24,8 @@
                         <form role="form" method="POST" action="" autocomplete="off">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
-                            <div class="form-group">
-                                <label for="fkategori_keuangan">Tambah Kategori Keuangan</label>
+                            <div class="form-group required">
+                                <label class="control-label" for="fkategori_keuangan">Tambah Kategori Keuangan</label>
                                 <input type="text"
                                     class="form-control <?= form_error('fkategori_keuangan') ? 'is-invalid' : '' ?>"
                                     id="fkategori_keuangan" name="fkategori_keuangan" placeholder="Kategori keuangan"
@@ -33,6 +33,22 @@
                                 <div class="invalid-feedback">
                                     <?= form_error('fkategori_keuangan') ?>
                                 </div>
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label" for="fnominal">Nominal</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input type="text"
+                                        class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>"
+                                        id="fnominal" name="fnominal" placeholder="Nominal" value="0">
+                                    <div class=" invalid-feedback">
+                                        <?= form_error('fnominal') ?>
+                                    </div>
+
+                                </div>
+                                <div class="form-text small text-muted mt-n2">Isi 0 jika tidak ada nominal default</div>
                             </div>
 
                             <button type="submit" class="btn btn-primary float-right">Tambah</button>
@@ -49,9 +65,10 @@
                         <table id="TabelUser" class="table table-condensed table-sm ">
                             <thead>
                                 <tr>
-                                    <th>ID Kategori</th>
-                                    <th>Kategori Keuangan</th>
-                                    <th>Modify</th>
+                                    <th>ID KATEGORI</th>
+                                    <th>KATEGORI KEUANGAN</th>
+                                    <th>DEFAULT NOMINAL</th>
+                                    <th>OPSI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,6 +83,9 @@
                                         </td>
                                         <td class="text-uppercase">
                                             <?= $key->kategori_keuangan ?>
+                                        </td>
+                                        <td class="text-uppercase">
+                                            <?= rupiah($key->default_nominal) ?>
                                         </td>
                                         <td>
                                             <a href="#" class="btn btn-xs btn-danger"
@@ -115,4 +135,28 @@
         $('#btn-delete').attr('href', url);
         $('#deleteModal').modal();
     }
+
+    //form field rupiah
+    var tanpa_rupiah = document.getElementById('fnominal');
+    tanpa_rupiah.addEventListener('keyup', function (e) {
+        tanpa_rupiah.value = formatRupiah(this.value);
+    });
+
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+
 </script>

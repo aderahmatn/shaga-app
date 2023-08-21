@@ -16,7 +16,11 @@ class Kasbon extends CI_Controller
         $this->load->helper('status_kasbon');
 
     }
-
+    function get_default_nominal($id)
+    {
+        $nominal = $this->Kategori_keuangan_m->get_default_nominal($id);
+        echo $nominal;
+    }
     public function index()
     {
         $data['kasbon'] = $this->Kasbon_m->get_all_kasbon();

@@ -64,7 +64,7 @@
                                     id="fkeperluan" name="fkeperluan">
                                     <option hidden value="" selected>Pilih Kategori Keuangan </option>
                                     <?php foreach ($kategori_keuangan as $key): ?>
-                                        <option value="<?= $key->kategori_keuangan ?>"><?= strtoupper($key->kategori_keuangan) ?></option>
+                                        <option value="<?= $key->id_kategori_keuangan ?>"><?= strtoupper($key->kategori_keuangan) ?></option>
                                     <?php endforeach ?>
 
                                 </select>
@@ -126,5 +126,27 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
+
+    $(document).ready(function () {
+        $('#fkeperluan').change(function () {
+
+            var id = $(this).val();
+            $.ajax({
+                url: "<?= base_url() . 'kasbon/get_default_nominal/' ?>" + id,
+                method: "GET",
+                async: false,
+                success: function (data) {
+                    console.log(data)
+                    $('#fnominal').val(formatRupiah(data))
+                    if (data != 0) {
+                        $('#fnominal').prop('readonly', true)
+                    } else {
+                        $('#fnominal').prop('readonly', false)
+
+                    }
+                }
+            });
+        });
+    });
 
 </script>

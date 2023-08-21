@@ -74,6 +74,8 @@ class Customers_m extends CI_Model
         $this->db->select('*');
         $this->db->from($this->_table);
         $this->db->where('customers.deleted', 0);
+        $this->db->order_by('uid_customer', 'desc');
+
         $query = $this->db->get();
         return $query->result();
     }

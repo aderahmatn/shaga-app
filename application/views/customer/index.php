@@ -21,7 +21,7 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
-                        <table id="tableCustomers" class="display nowrap " style="width:100%">
+                        <table id="tableUSer" class="display" style="width:100%">
                             <thead>
                                 <tr>
                                     <th style="width: 15px">No</th>

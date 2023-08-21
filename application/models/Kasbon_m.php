@@ -23,7 +23,7 @@ class Kasbon_m extends CI_Model
             [
                 'field' => 'fnominal',
                 'label' => 'nominal',
-                'rules' => 'required'
+                'rules' => 'required|min_length[3]'
             ],
             [
                 'field' => 'fcara_pencairan',
@@ -47,9 +47,10 @@ class Kasbon_m extends CI_Model
     }
     public function get_all_kasbon()
     {
-        $this->db->select('kasbon.*, users.nama_user, users.nik');
+        $this->db->select('kasbon.*, users.nama_user, users.nik, kategori_keuangan.kategori_keuangan');
         $this->db->from($this->_table);
         $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
+        $this->db->join('kategori_keuangan', 'kategori_keuangan.id_kategori_keuangan = kasbon.keperluan', 'left');
         if ($this->session->userdata('group') != 1) {
             $this->db->where('kasbon.id_user', $this->session->userdata('id_user'));
         }

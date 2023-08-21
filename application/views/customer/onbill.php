@@ -24,60 +24,7 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
-                        <table id="tableCustomers" class="display nowrap " style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th style="width: 15px">No</th>
-                                    <th>ID PELANGGAN</th>
-                                    <th>NAMA LENGKAP</th>
-                                    <th>TELEPON</th>
-                                    <th>NO IDENTITAS</th>
-                                    <th>JENIS IDENTITAS</th>
-                                    <th>ALAMAT</th>
-                                    <th>NO NPWP</th>
-                                    <th>OPSI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $no = 1;
-                                foreach ($customers as $key): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $no++ ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->id_customer ?>
-                                        </td>
-                                        <td>
-                                            <?= strtoupper($key->fullname) ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->phone_customer ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->no_id ?>
-                                        </td>
-                                        <td>
-                                            <?= strtoupper($key->jenis_id) ?>
-                                        </td>
-                                        <td>
-                                            <?= strtoupper($key->alamat_id) ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->no_npwp ?>
-                                        </td>
-                                        <td>
-                                            <a href="#"
-                                                onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->uid_customer) ?>')"
-                                                class="btn btn-xs btn-danger">DELETE</a>
-                                            <a href="<?= base_url() . 'customer/edit/' . encrypt_url($key->uid_customer) ?>"
-                                                class="btn btn-xs btn-primary">EDIT</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
 
-                        </table>
                     </div>
                 </div>
                 <!-- /.card -->

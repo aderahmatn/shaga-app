@@ -42,7 +42,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css" />
 
-
+    <!-- jQuery -->
+    <script src="<?= base_url() . 'assets/plugins/jquery/jquery.min.js' ?>"></script>
 
 </head>
 
@@ -229,8 +230,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="<?= base_url() . 'assets/plugins/jquery/jquery.min.js' ?>"></script>
+
     <!-- jQuery UI 1.11.4 -->
     <script src="<?= base_url() . 'assets/plugins/jquery-ui/jquery-ui.min.js' ?>"></script>
 

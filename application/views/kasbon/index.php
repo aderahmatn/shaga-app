@@ -11,7 +11,6 @@
                         <a class="btn btn-md btn-primary mt-2" href="<?= base_url('kasbon/kategori_keuangan') ?>">KATEGORI
                             KEUANGAN</a>
                     <?php } ?>
-
                 </div>
             </div>
         </div>
@@ -62,7 +61,7 @@
                                             <?= rupiah($key->nominal) ?>
                                         </td>
                                         <td>
-                                            <?= $key->keperluan ?>
+                                            <?= $key->kategori_keuangan ?>
                                         </td>
                                         <td>
                                             <?php if ($this->session->userdata('group') == 1) { ?>
