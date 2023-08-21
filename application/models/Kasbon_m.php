@@ -55,7 +55,7 @@ class Kasbon_m extends CI_Model
             $this->db->where('kasbon.id_user', $this->session->userdata('id_user'));
         }
         $this->db->where('kasbon.deleted', 0);
-        $this->db->order_by('created_date', 'desc');
+        $this->db->order_by('id_kasbon', 'desc');
 
         $query = $this->db->get();
         return $query->result();
