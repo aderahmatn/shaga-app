@@ -44,6 +44,20 @@
                                 </div>
                             </div>
                             <div class="form-group required">
+                                <label class="control-label" for="fkeperluan">Kategori Keuangan</label>
+                                <select class="form-control <?php echo form_error('fkeperluan') ? 'is-invalid' : '' ?>"
+                                    id="fkeperluan" name="fkeperluan">
+                                    <option hidden value="" selected>Pilih Kategori Keuangan </option>
+                                    <?php foreach ($kategori_keuangan as $key): ?>
+                                        <option value="<?= $key->id_kategori_keuangan ?>"><?= strtoupper($key->kategori_keuangan) ?></option>
+                                    <?php endforeach ?>
+
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= form_error('fkeperluan') ?>
+                                </div>
+                            </div>
+                            <div class="form-group required">
                                 <label class="control-label" for="fnominal">Nominal</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -58,20 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group required">
-                                <label class="control-label" for="fkeperluan">Kategori Keuangan</label>
-                                <select class="form-control <?php echo form_error('fkeperluan') ? 'is-invalid' : '' ?>"
-                                    id="fkeperluan" name="fkeperluan">
-                                    <option hidden value="" selected>Pilih Kategori Keuangan </option>
-                                    <?php foreach ($kategori_keuangan as $key): ?>
-                                        <option value="<?= $key->id_kategori_keuangan ?>"><?= strtoupper($key->kategori_keuangan) ?></option>
-                                    <?php endforeach ?>
 
-                                </select>
-                                <div class="invalid-feedback">
-                                    <?= form_error('fkeperluan') ?>
-                                </div>
-                            </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fcara_pencairan">Cara Pencairan</label>
                                 <select
