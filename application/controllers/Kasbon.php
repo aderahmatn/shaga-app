@@ -163,9 +163,9 @@ class Kasbon extends CI_Controller
                 </p>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Keperluan</strong>
+                <strong>Kategori</strong>
                 <p class="mb-0">
-                    <?= $data->keperluan ?>
+                    <?= $data->kategori_keuangan ?>
                 </p>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
