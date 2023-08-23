@@ -125,7 +125,7 @@
                         </li>
 
 
-                        <?php if ($this->session->userdata('group') == 1) { ?>
+                        <?php if ($this->session->userdata('group') == 1 || $this->session->userdata('group') == 11) { ?>
                             <li class="nav-header">ADMINISTRATOR</li>
                             <li
                                 class="nav-item <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'menu-is-opening menu-open' : '' ?> ">
@@ -157,6 +157,8 @@
                                 </ul>
 
                             </li>
+                        <?php } ?>
+                        <?php if ($this->session->userdata('group') == 1) { ?>
                             <li class="nav-item">
                                 <a href="<?= base_url('users/list') ?>"
                                     class="nav-link <?= $this->uri->segment(2) == 'create' && $this->uri->segment(1) == 'users' || $this->uri->segment(2) == 'list' && $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
@@ -168,12 +170,16 @@
                             </li>
                         <?php } ?>
                         <hr>
-                        <li class="nav-item">
+
+
+
+                        <li class="nav-item mt-5">
                             <a href="<?= base_url('users/profile') ?>"
                                 class="nav-link <?= $this->uri->segment(2) == 'profile' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-user-circle"></i>
                                 <p>
                                     PROFILE
+
                                 </p>
                             </a>
                         </li>

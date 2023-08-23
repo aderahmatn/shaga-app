@@ -8,7 +8,7 @@ class Customer extends CI_Controller
     {
         parent::__construct();
         check_not_login();
-        check_role_administrator();
+        check_role_administrator_and_admin_officer();
         $this->load->model('Customers_m');
 
     }

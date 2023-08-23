@@ -28,6 +28,15 @@ function check_role_administrator()
         redirect('dashboard', 'refresh');
     }
 }
+function check_role_administrator_and_admin_officer()
+{
+    $CI = &get_instance();
+    $user_session = $CI->session->userdata('group');
+    if ($user_session != '1' && $user_session != '11') {
+        $CI->session->set_flashdata('error', 'Halaman tidak ditemukan');
+        redirect('dashboard', 'refresh');
+    }
+}
 
 // function check_role_admin()
 // {
