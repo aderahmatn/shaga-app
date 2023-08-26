@@ -14,16 +14,50 @@ class Kasbon extends CI_Controller
         $this->load->model('Kategori_keuangan_m');
         $this->load->helper('rupiah');
         $this->load->helper('status_kasbon');
+        $this->load->model('Users_m');
+        $this->load->model('Kategori_keuangan_m');
+
+
 
     }
-    function get_default_nominal($id)
+
+    public function index($bln = null)
     {
-        $nominal = $this->Kategori_keuangan_m->get_default_nominal($id);
-        echo $nominal;
+
+        if ($bln == null) {
+            $data['bulan'] = date('m');
+            $data['karyawan'] = $this->Users_m->get_all_users();
+            $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
+            $data['total'] = $this->Kasbon_m->get_total_pengajuan_keuangan($data['bulan']);
+            $data['approved'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'approved');
+            $data['rejected'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'rejected');
+            $data['closed'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'closed');
+            $data['kasbon'] = $this->Kasbon_m->get_all_kasbon($data['bulan']);
+            $this->template->load('shared/index', 'kasbon/index', $data);
+        } else {
+            $data['bulan'] = $bln;
+            $data['karyawan'] = $this->Users_m->get_all_users();
+            $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
+            $data['rejected'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'rejected');
+            $data['approved'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'approved');
+            $data['closed'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'closed');
+            $data['total'] = $this->Kasbon_m->get_total_pengajuan_keuangan($data['bulan']);
+            $data['kasbon'] = $this->Kasbon_m->get_all_kasbon($data['bulan']);
+            $this->template->load('shared/index', 'kasbon/index', $data);
+        }
     }
-    public function index()
+    public function filter($karyawan = null, $tgl_awal = null, $tgl_akhir = null, $kategori = null)
     {
-        $data['kasbon'] = $this->Kasbon_m->get_all_kasbon();
+
+        check_role_administrator();
+        $data['bulan'] = date('m');
+        $data['karyawan'] = $this->Users_m->get_all_users();
+        $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
+        $data['total'] = $this->Kasbon_m->get_total_pengajuan_keuangan_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
+        $data['approved'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'approved');
+        $data['rejected'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'rejected');
+        $data['closed'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'closed');
+        $data['kasbon'] = $this->Kasbon_m->get_all_kasbon_by_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
         $this->template->load('shared/index', 'kasbon/index', $data);
 
     }

@@ -38,6 +38,27 @@ function bulanindoSQL($month)
     //return $indo_month[$month];
     return array_search($month, $indo_month);
 }
+function bulanindo($month)
+{
+
+    $indo_month = array(
+        'Januari' => '01',
+        'Februari' => '02',
+        'Maret' => '03',
+        'April' => '04',
+        'Mei' => '05',
+        'Juni' => '06',
+        'Juli' => '07',
+        'Agustus' => '08',
+        'September' => '09',
+        'Oktober' => '10',
+        'November' => '11',
+        'Desember' => '12'
+    );
+
+    //return $indo_month[$month];
+    return array_search($month, $indo_month);
+}
 
 //Iki helper import data gae konvert format (TGL indo 24 Januari 2014 > SQL YYYY-MM-DD)
 function indoSQL($date)
