@@ -92,17 +92,18 @@
         </div>
         <!-- FILTER DATA -->
         <?php if ($this->session->userdata('group') == 1) { ?>
-            <div class="card collapsed-card">
+            <div class="card <?= $this->uri->segment(2) == 'filter' ? '' : 'collapsed-card' ?>">
                 <div class="card-header">
                     <h3 class="card-title mt-1">FILTER DATA</h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                class="fas fa-<?= $this->uri->segment(2) == 'filter' ? 'minus' : 'plus' ?>"></i>
                         </button>
                     </div>
 
                 </div>
 
-                <div class="card-body" style="display: none;">
+                <div class="card-body" style="display: <?= $this->uri->segment(2) == 'filter' ? 'block;' : 'none;' ?>">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group ">
@@ -110,24 +111,35 @@
                                 <select class="form-control form-control-sm bg-default" id="fkaryawan" name="fkaryawan">
                                     <option value="all">SEMUA KARYAWAN</option>
                                     <?php foreach ($karyawan as $key): ?>
-                                        <option value="<?= $key->id_user ?>"><?= $key->nik . ' - ' . strtoupper($key->nama_user) ?></option>
+                                        <option value="<?= $key->id_user ?>" <?= $this->uri->segment(3) == $key->id_user ? 'selected' : '' ?>><?= $key->nik . ' - ' . strtoupper($key->nama_user) ?></option>
                                     <?php endforeach ?>
 
                                 </select>
                             </div>
                         </div>
+                        <?php ?>
                         <div class="col-md-3">
+                            <?php
+                            $is_tgl_awal = $this->uri->segment(2) == 'filter' ? $this->uri->segment(4) : 'null';
+                            $day = new DateTime('first day of this month');
+                            $first_day = $day->format('Y-m-d');
+                            ?>
                             <div class="form-group">
                                 <label for="ftgl_awal">Tanggal Awal</label>
                                 <input type="date" class="form-control form-control-sm bg-default" id="ftgl_awal"
-                                    name="ftgl_awal">
+                                    name="ftgl_awal"
+                                    value="<?= strlen($is_tgl_awal) < 10 ? $first_day : $this->uri->segment(4) ?>">
                             </div>
                         </div>
                         <div class="col-md-3">
+                            <?php $is_tgl_akhir = $this->uri->segment(2) == 'filter' ? $this->uri->segment(5) : 'null';
+                            $day = new DateTime('last day of this month');
+                            $last_day = $day->format('Y-m-d'); ?>
                             <div class="form-group">
                                 <label for="ftgl_akhir">Tanggal Akhir</label>
                                 <input type="date" class="form-control form-control-sm bg-default" id="ftgl_akhir"
-                                    name="ftgl_akhir">
+                                    name="ftgl_akhir"
+                                    value="<?= strlen($is_tgl_akhir) < 10 ? $last_day : $this->uri->segment(5) ?>">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -136,7 +148,8 @@
                                 <select class="form-control form-control-sm bg-default" id="fkategori" name="fkategori">
                                     <option value="all">SEMUA KATEGORI</option>
                                     <?php foreach ($kategori as $key): ?>
-                                        <option value="<?= $key->id_kategori_keuangan ?>"><?= strtoupper($key->kategori_keuangan) ?>
+                                        <option value="<?= $key->id_kategori_keuangan ?>"
+                                            <?= $this->uri->segment(6) == $key->id_kategori_keuangan ? 'selected' : '' ?>><?= strtoupper($key->kategori_keuangan) ?>
                                         </option>
                                     <?php endforeach ?>
                                 </select>
@@ -144,7 +157,11 @@
                         </div>
                     </div>
                     <div class="form-group ">
-                        <button class="btn bg-primary float-right" id="btnFilter" onclick="filter()">FILTER DATA</button>
+
+                        <button class="btn btn-sm bg-primary float-right" id="btnFilter" onclick="filter()">FILTER
+                            DATA</button>
+                        <a class="btn btn-sm btn-light float-right mr-2" id="btnFilter"
+                            href="<?= base_url('kasbon') ?>">RESET FILTER</a>
                     </div>
                 </div>
 
@@ -217,7 +234,7 @@
                                                 href="#modal_status" class="btn btn-primary btn-xs">
                                                 LIHAT STATUS
                                             </a>
-                                            <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20KASBON%0ANo.%20Dokumen%20%3A%20<?= $key->no_dokumen ?>%0ANama%20PIC%20%3A%20<?= strtoupper($key->nama_user) ?>%0ANIK%20%3A%20<?= strtoupper($key->nik) ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('kasbon') ?>"
+                                            <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20KEUANGAN%0ANo.%20Dokumen%20%3A%20<?= $key->no_dokumen ?>%0ANama%20PIC%20%3A%20<?= strtoupper($key->nama_user) ?>%0ANIK%20%3A%20<?= strtoupper($key->nik) ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('kasbon') ?>"
                                                 class="btn btn-xs btn-success" target="_blank"><i
                                                     class="fab fa-whatsapp"></i> KIRIM WA</a>
                                         </td>
@@ -282,8 +299,7 @@
         $tgl_awal = $('#ftgl_awal').val()
         $tgl_akhir = $('#ftgl_akhir').val()
         $kat = $('#fkategori').val()
-        $stat = $('#fstatus').val()
-        window.location = "<?= base_url('kasbon/filter/') ?>" + $kar + "/" + $tgl_awal + "/" + $tgl_akhir + "/" + $kat + "/" + $stat;
+        window.location = "<?= base_url('kasbon/filter/') ?>" + $kar + "/" + $tgl_awal + "/" + $tgl_akhir + "/" + $kat;
 
     }
     function deleteConfirm(url) {

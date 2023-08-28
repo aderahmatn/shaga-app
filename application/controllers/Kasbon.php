@@ -114,14 +114,14 @@ class Kasbon extends CI_Controller
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('fbukti_pencairan')) {
             $this->session->set_flashdata('error', $this->upload->display_errors());
-            redirect('kasbon', 'refresh');
+            redirect($_SERVER['HTTP_REFERER']);
         } else {
             $pencairan = $this->Pencairan_kasbon_m;
             $validation = $this->form_validation;
             $validation->set_rules($pencairan->rules());
             if ($validation->run() == FALSE) {
                 $this->session->set_flashdata('error', form_error('ftgl_pencairan'));
-                redirect('kasbon', 'refresh');
+                redirect($_SERVER['HTTP_REFERER']);
             } else {
                 $post = $this->input->post(null, TRUE);
                 $file = $this->upload->data("file_name");
@@ -130,7 +130,8 @@ class Kasbon extends CI_Controller
                     $this->Status_kasbon_m->add_status_closed_kasbon($post);
                     if ($this->db->affected_rows() > 0) {
                         $this->session->set_flashdata('success', 'Data kasbon berhasil diajukan!');
-                        redirect('kasbon', 'refresh');
+                        redirect($_SERVER['HTTP_REFERER']);
+
                     }
                 }
             }
@@ -147,7 +148,7 @@ class Kasbon extends CI_Controller
         $this->Status_kasbon_m->add_status_approve_kasbon($post);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data kasbon berhasil disetujui!');
-            redirect('kasbon', 'refresh');
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
     function process_reject()
@@ -158,7 +159,7 @@ class Kasbon extends CI_Controller
         $this->Status_kasbon_m->add_status_reject_kasbon($post);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data kasbon berhasil ditolak!');
-            redirect('kasbon', 'refresh');
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
     function detail($id)
