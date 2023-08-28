@@ -46,6 +46,11 @@ class Kasbon extends CI_Controller
             $this->template->load('shared/index', 'kasbon/index', $data);
         }
     }
+    function get_default_nominal($id)
+    {
+        $nominal = $this->Kategori_keuangan_m->get_default_nominal($id);
+        echo $nominal;
+    }
     public function filter($karyawan = null, $tgl_awal = null, $tgl_akhir = null, $kategori = null)
     {
 
