@@ -24,12 +24,13 @@ class Telegram extends CI_Controller
         $apiURL = "https://api.telegram.org/bot$TOKEN";
         $update = json_decode($content, TRUE);
         $chatID = $update["message"]["chat"]["id"];
+        $chatID_ade = 959036270;
         $message = $update["message"]["text"];
         $txtok = urlencode("SELAMAT DATANG DI GISAKA AUTOMATION SYSTEM");
-        file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=$txtok.&parse_mode=HTML");
+        file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID_ade . "&text=$txtok.&parse_mode=HTML");
         if ($message) {
             $txtok = urlencode("SELAMAT DATANG DI GISAKA AUTOMATION SYSTEM");
-            file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=$txtok.&parse_mode=HTML");
+            file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID_ade . "&text=$txtok.&parse_mode=HTML");
         }
 
     }
