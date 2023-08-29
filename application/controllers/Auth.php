@@ -9,6 +9,8 @@ class auth extends CI_Controller
         $this->load->model('Users_m');
         $this->load->helper('captcha');
         $this->load->helper('telegram');
+        $this->load->helper('string');
+
 
 
     }
@@ -23,37 +25,41 @@ class auth extends CI_Controller
     public function process()
     {
         $post = $this->input->post(null, TRUE);
-        $query = $this->Users_m->login($post);
-        if ($post['flock'] == "true") {
-            if ($query->num_rows() > 0) {
-                $row = $query->row();
-                if ($row->chat_id == 0) {
-                    redirect('telegram/verify', 'refresh');
+        if ($post) {
+            $query = $this->Users_m->login($post);
+            if ($post['flock'] == "true") {
+                if ($query->num_rows() > 0) {
+                    $row = $query->row();
+                    if ($row->chat_id == 0) {
+                        $data['code'] = $row->verify_code;
+                        $this->load->view('telegram/verify', $data);
+                    } else {
+                        $params = array(
+                            'id_user' => $row->id_user,
+                            'email' => $row->email_user,
+                            'nik' => $row->nik,
+                            'group' => $row->id_group_user,
+                            'nama_group' => $row->group_user,
+                            'username' => $row->username,
+                            'nama_user' => $row->nama_user,
+                            'status' => 'login'
+                        );
+                        $this->session->set_userdata($params);
+                        telegram_notif_login($params);
+                        redirect('dashboard', 'refresh');
+                    }
                 } else {
-                    $params = array(
-                        'id_user' => $row->id_user,
-                        'email' => $row->email_user,
-                        'nik' => $row->nik,
-                        'group' => $row->id_group_user,
-                        'nama_group' => $row->group_user,
-                        'username' => $row->username,
-                        'nama_user' => $row->nama_user,
-                        'status' => 'login'
-                    );
-                    $this->session->set_userdata($params);
-                    telegram_notif_login($params);
-                    redirect('dashboard', 'refresh');
+                    $this->session->set_flashdata('error', 'username / password salah');
+                    redirect('auth/login', 'refresh');
                 }
             } else {
-                $this->session->set_flashdata('error', 'username / password salah');
+                $this->session->set_flashdata('error', 'Captcha tidak cocok');
                 redirect('auth/login', 'refresh');
+
             }
         } else {
-            $this->session->set_flashdata('error', 'Captcha tidak cocok');
             redirect('auth/login', 'refresh');
-
         }
-
     }
     public function logout()
     {

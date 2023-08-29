@@ -18,6 +18,7 @@ class Users_m extends CI_Model
     public $username;
     public $password;
     public $chat_id;
+    public $verify_code;
     public $deleted;
 
     public function rules()
@@ -124,6 +125,7 @@ class Users_m extends CI_Model
         $this->tgl_join = $post['ftgl_join'];
         $this->email_user = $post['femail_user'];
         $this->phone_user = $post['fphone_user'];
+        $this->phone_user = random_string('numeric', 6);
         $this->chat_id = 0;
         $this->status_user = 1;
         $tgl_join = preg_replace("/[^0-9]/", "", $post['ftgl_join']);

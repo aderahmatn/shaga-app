@@ -42,20 +42,21 @@
             <div class="card-body login-card-body ">
                 <p class="H-1 text-center">KODE VERIFIKASI TELEGRAM</p>
                 <p class="text-xl text-bold text-center alert alert-info" style="letter-spacing: 5px;">
-                    <?= random_string('numeric', 6) ?>
+                    <?= $code ?>
                 </p>
                 <hr>
                 <p class="text-bold pt-3">Langkah - Langkah Verifikasi Akun :</p>
                 <ol>
                     <li>Buka aplikasi Telegram.</li>
                     <li>Cari <b>@GAS_NotificationBot</b> atau klik link berikut <a
-                            href="https://t.me/GAS_NotificationBot">https://t.me/GAS_NotificationBot</a></li>
-                    <img class="img mb-2" src="<?= base_url('assets/images/gas_bot.png') ?>" alt="Photo" height="100px">
+                            href="https://t.me/GAS_NotificationBot" target="_blank">https://t.me/GAS_NotificationBot</a>
+                    </li>
+                    <!-- <img class="img mb-2" src="<?= base_url('assets/images/gas_bot.png') ?>" alt="Photo" height="100px"> -->
                     <li>
                         Mulai chat dengan <b>@GAS_NotificationBot</b>.
                     </li>
                     <li>Masukan <b>Kode Verifikasi Telegram</b> dan kirim.</li>
-                    <li>Setelah <b>berhasil</b> melakukan verifikasi pada telegram, silahkan anda login kembali pada
+                    <li>Setelah <b>berhasil</b> melakukan verifikasi pada telegram, silahkan login kembali pada
                         <a href="https://gas.gisaka.net/">gas.gisaka.net</a>
                     </li>
                     <li>Jika terjadi masalah dalam verifikasi, silahkan hubungi administrator dengan klik link berikut
