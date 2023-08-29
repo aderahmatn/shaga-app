@@ -50,6 +50,8 @@ function get_client_browser()
         $browser = 'Opera';
     else if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
         $browser = 'Internet Explorer';
+    else if (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari'))
+        $browser = 'Safari';
     else
         $browser = 'Other';
     return $browser;
