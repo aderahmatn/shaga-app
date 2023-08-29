@@ -8,6 +8,8 @@ class auth extends CI_Controller
         parent::__construct();
         $this->load->model('Users_m');
         $this->load->helper('captcha');
+        $this->load->helper('telegram');
+
 
     }
 
@@ -36,6 +38,7 @@ class auth extends CI_Controller
                     'status' => 'login'
                 );
                 $this->session->set_userdata($params);
+                telegram_notif_login($params);
                 redirect('dashboard', 'refresh');
             } else {
                 $this->session->set_flashdata('error', 'username / password salah');
