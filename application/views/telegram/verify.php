@@ -55,7 +55,9 @@
                     <li>
                         Mulai chat dengan <b>@GAS_NotificationBot</b>.
                     </li>
-                    <li>Masukan <b>Kode Verifikasi Telegram</b> dan kirim.</li>
+                    <li>Masukan <b>Kode Verifikasi Telegram</b> dengan format
+                        <code> /verify [spasi] kode verifikasi</code>.
+                    </li>
                     <li>Setelah <b>berhasil</b> melakukan verifikasi pada telegram, silahkan login kembali pada
                         <a href="https://gas.gisaka.net/">gas.gisaka.net</a>
                     </li>
