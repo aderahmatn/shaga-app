@@ -27,19 +27,23 @@ class auth extends CI_Controller
         if ($post['flock'] == "true") {
             if ($query->num_rows() > 0) {
                 $row = $query->row();
-                $params = array(
-                    'id_user' => $row->id_user,
-                    'email' => $row->email_user,
-                    'nik' => $row->nik,
-                    'group' => $row->id_group_user,
-                    'nama_group' => $row->group_user,
-                    'username' => $row->username,
-                    'nama_user' => $row->nama_user,
-                    'status' => 'login'
-                );
-                $this->session->set_userdata($params);
-                telegram_notif_login($params);
-                redirect('dashboard', 'refresh');
+                if ($row->chat_id == 0) {
+                    redirect('telegram/verify', 'refresh');
+                } else {
+                    $params = array(
+                        'id_user' => $row->id_user,
+                        'email' => $row->email_user,
+                        'nik' => $row->nik,
+                        'group' => $row->id_group_user,
+                        'nama_group' => $row->group_user,
+                        'username' => $row->username,
+                        'nama_user' => $row->nama_user,
+                        'status' => 'login'
+                    );
+                    $this->session->set_userdata($params);
+                    telegram_notif_login($params);
+                    redirect('dashboard', 'refresh');
+                }
             } else {
                 $this->session->set_flashdata('error', 'username / password salah');
                 redirect('auth/login', 'refresh');
