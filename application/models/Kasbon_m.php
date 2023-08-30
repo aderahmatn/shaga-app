@@ -32,6 +32,7 @@ class Kasbon_m extends CI_Model
             ],
         ];
     }
+
     public function add_kasbon()
     {
         $post = $this->input->post();
@@ -179,6 +180,16 @@ class Kasbon_m extends CI_Model
         $this->db->where('kasbon.id_kasbon', $id);
         $query = $this->db->get();
         return $query->row();
+    }
+    public function get_chat_id_by_id_kasbon($id_kasbon)
+    {
+        $this->db->select('kasbon.*, users.chat_id');
+        $this->db->from($this->_table);
+        $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
+        $this->db->where('kasbon.deleted', 0);
+        $this->db->where('kasbon.id_kasbon', $id_kasbon);
+        $query = $this->db->get();
+        return $query->row()->chat_id;
     }
     function get_no_urut_kasbon()
     {

@@ -97,7 +97,15 @@ class Users_m extends CI_Model
             ],
         ];
     }
-
+    function get_chat_id_by_no_dokumen($no_dokumen)
+    {
+        $this->db->select('kasbon.*, users.chat_id');
+        $this->db->join('kasbon', 'users.id_user = kasbon.id_user', 'left');
+        $this->db->where('no_dokumen', $no_dokumen);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->row();
+    }
     public function get_all_users()
     {
         $this->db->select('*');

@@ -16,6 +16,7 @@ class Kasbon extends CI_Controller
         $this->load->helper('status_kasbon');
         $this->load->model('Users_m');
         $this->load->model('Kategori_keuangan_m');
+        $this->load->helper('telegram');
 
 
 
@@ -133,8 +134,9 @@ class Kasbon extends CI_Controller
                 $pencairan->add_pencairan_kasbon($file);
                 if ($this->db->affected_rows() > 0) {
                     $this->Status_kasbon_m->add_status_closed_kasbon($post);
+                    telegram_notif_status_kasbon($post, 'cair', 'Pengajuan Keuangan Telah Selesai');
                     if ($this->db->affected_rows() > 0) {
-                        $this->session->set_flashdata('success', 'Data kasbon berhasil diajukan!');
+                        $this->session->set_flashdata('success', 'Data kasbon berhasil diselesaikan!');
                         redirect($_SERVER['HTTP_REFERER']);
 
                     }
@@ -152,7 +154,8 @@ class Kasbon extends CI_Controller
         $post = $this->input->post(null, TRUE);
         $this->Status_kasbon_m->add_status_approve_kasbon($post);
         if ($this->db->affected_rows() > 0) {
-            $this->session->set_flashdata('success', 'Data kasbon berhasil disetujui!');
+            telegram_notif_status_kasbon($post, 'approved', 'Pengajuan Keuangan Telah disetujui');
+            $this->session->set_flashdata('success', 'Data pengajuan berhasil disetujui!');
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
@@ -163,6 +166,7 @@ class Kasbon extends CI_Controller
         $post = $this->input->post(null, TRUE);
         $this->Status_kasbon_m->add_status_reject_kasbon($post);
         if ($this->db->affected_rows() > 0) {
+            telegram_notif_status_kasbon($post, 'rejected', 'Pengajuan Keuangan Telah ditolak');
             $this->session->set_flashdata('success', 'Data kasbon berhasil ditolak!');
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -307,6 +311,7 @@ class Kasbon extends CI_Controller
                 value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
             <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>"
                 style="display: none">
+            <input type="hidden" name="fid_kasbon" value="<?= encrypt_url($data->id_kasbon) ?>" style="display: none">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group required">
@@ -356,6 +361,7 @@ class Kasbon extends CI_Controller
                 value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
             <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>"
                 style="display: none">
+            <input type="hidden" name="fid_kasbon" value="<?= encrypt_url($data->id_kasbon) ?>" style="display: none">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group required">

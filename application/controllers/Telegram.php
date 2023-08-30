@@ -8,13 +8,31 @@ class Telegram extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('string');
+        $this->load->model('Users_m');
+        $this->load->model('Kasbon_m');
 
     }
 
-    function verify()
+    function verify($id_kasbon, $pesan)
     {
-        $this->load->view('telegram/verify');
 
+        $CI = get_instance();
+        $CI->load->model('Kasbon_m');
+        $chat_id = $CI->Kasbon_m->get_chat_id_by_id_kasbon($id_kasbon);
+
+        // create curl resource 
+        $ch = curl_init();
+        $txt = urlencode("LOG : $pesan \n");
+        $TOKEN = "6259502863:AAEsTD1linSz1FbX4Hs7SH5U238u_ftIRZU";
+        $apiURL = "https://api.telegram.org/bot$TOKEN";
+        // set url 
+        curl_setopt($ch, CURLOPT_URL, $apiURL . "/sendmessage?chat_id=$chat_id/&text=$txt");
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // $output contains the output string 
+        $output = curl_exec($ch);
+        // close curl resource to free up system resources 
+        curl_close($ch);
     }
 
     public function index()

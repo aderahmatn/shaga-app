@@ -77,4 +77,34 @@ function telegram_notif_login($nama)
     // close curl resource to free up system resources 
     curl_close($ch);
 }
+function telegram_notif_status_kasbon($post, $status, $pesan)
+{
+    $CI = get_instance();
+    $CI->load->model('Kasbon_m');
+    $chat_id = $CI->Kasbon_m->get_chat_id_by_id_kasbon(decrypt_url($post['fid_kasbon']));
+    $no_dokumen = $post['fno_dokumen'];
+    $pic = $CI->session->userdata('nama_user');
+    $time = date("d-m-Y h:i:sa");
+    $msg = strtoupper($pesan);
+    if ($status == 'approved') {
+        $stat = 'DISETUJUI';
+    } elseif ($status == 'rejected') {
+        $stat = 'DITOLAK';
+    } else {
+        $stat = 'DISELESAIKAN';
+    }
+    // create curl resource 
+    $ch = curl_init();
+    $txt = urlencode("LOG : $msg \nNO DOKUMEN : $no_dokumen \n$stat OLEH : $pic \nWAKTU : $time");
+    $TOKEN = "6259502863:AAEsTD1linSz1FbX4Hs7SH5U238u_ftIRZU";
+    $apiURL = "https://api.telegram.org/bot$TOKEN";
+    // set url 
+    curl_setopt($ch, CURLOPT_URL, $apiURL . "/sendmessage?chat_id=$chat_id/&text=$txt");
+    //return the transfer as a string 
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    // $output contains the output string 
+    $output = curl_exec($ch);
+    // close curl resource to free up system resources 
+    curl_close($ch);
+}
 ?>

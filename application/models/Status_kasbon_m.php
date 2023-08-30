@@ -32,6 +32,7 @@ class Status_kasbon_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
     public function add_status_approve_kasbon()
     {
         $post = $this->input->post();
