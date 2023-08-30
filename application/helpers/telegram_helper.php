@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Jakarta');
 function get_client_ip()
 {
     $ipaddress = '';
