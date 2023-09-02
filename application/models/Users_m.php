@@ -97,6 +97,15 @@ class Users_m extends CI_Model
             ],
         ];
     }
+    function get_chat_id_administrator()
+    {
+        $this->db->select('users.chat_id');
+        $this->db->where('id_group_user', 1);
+        $this->db->where('status_user', 1);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->result();
+    }
     function get_chat_id_by_no_dokumen($no_dokumen)
     {
         $this->db->select('kasbon.*, users.chat_id');

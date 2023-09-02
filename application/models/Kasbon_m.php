@@ -181,6 +181,17 @@ class Kasbon_m extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    public function get_by_no_dokumen($no_dokumen)
+    {
+        $this->db->select('kasbon.*, users.nama_user, users.nik, kategori_keuangan.kategori_keuangan');
+        $this->db->from($this->_table);
+        $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
+        $this->db->join('kategori_keuangan', 'kategori_keuangan.id_kategori_keuangan = kasbon.keperluan', 'left');
+        $this->db->where('kasbon.deleted', 0);
+        $this->db->where('kasbon.no_dokumen', $no_dokumen);
+        $query = $this->db->get();
+        return $query->row();
+    }
     public function get_chat_id_by_id_kasbon($id_kasbon)
     {
         $this->db->select('kasbon.*, users.chat_id');

@@ -82,6 +82,7 @@ class Kasbon extends CI_Controller
             $kasbon->add_kasbon($post);
             $this->Status_kasbon_m->add_status_created_kasbon($post);
             if ($this->db->affected_rows() > 0) {
+                telegram_notif_pengajuan_keuangan($post);
                 $this->session->set_flashdata('success', 'Data pencairan berhasil disimpan!');
                 redirect('kasbon', 'refresh');
             }

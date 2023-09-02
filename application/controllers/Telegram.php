@@ -12,6 +12,18 @@ class Telegram extends CI_Controller
         $this->load->model('Kasbon_m');
 
     }
+    function test()
+    {
+        // $data = $this->Users_m->get_chat_id_administrator();
+        // echo json_encode($data);
+
+        // foreach ($data as $key) {
+        //     echo $key->chat_id;
+        // }
+        $no_dok = '0002/KBN/2/2023';
+        $data = $this->Kasbon_m->get_by_no_dokumen($no_dok);
+        echo json_encode($data);
+    }
 
     // function verify($id_kasbon, $pesan)
     // {

@@ -108,4 +108,34 @@ function telegram_notif_status_kasbon($post, $status, $pesan)
     // close curl resource to free up system resources 
     curl_close($ch);
 }
+function telegram_notif_pengajuan_keuangan($post)
+{
+    $CI = get_instance();
+    $CI->load->model('Users_m');
+    $CI->load->model('Kasbon_m');
+    $no_dok = $post['fno_dokumen'];
+    $time = date("d-m-Y h:i:sa");
+    $kasbon = $CI->Kasbon_m->get_by_no_dokumen($no_dok);
+    $admin = $CI->Users_m->get_chat_id_administrator();
+    $nominal = rupiah($kasbon->nominal);
+    $kategori = strtoupper($kasbon->kategori_keuangan);
+    $user = strtoupper($kasbon->nama_user);
+    $note = strtoupper($kasbon->note);
+    $ch = curl_init();
+
+
+    $txt = urlencode("LOG : PENGAJUAN KEUANGAN \nNO DOKUMEN : $kasbon->no_dokumen \nCREATED BY : $user \nKATEGORI : $kategori \nNOMINAL : $nominal \nWAKTU : $time \nNOTE : $note \n\n INFO LEBIH LANJUT : https://gas.gisaka.net/");
+    $TOKEN = "6259502863:AAEsTD1linSz1FbX4Hs7SH5U238u_ftIRZU";
+    $apiURL = "https://api.telegram.org/bot$TOKEN";
+
+    foreach ($admin as $key) {
+        curl_setopt($ch, CURLOPT_URL, $apiURL . "/sendmessage?chat_id=$key->chat_id/&text=$txt");
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // $output contains the output string 
+        $output = curl_exec($ch);
+        // close curl resource to free up system resources 
+        curl_close($ch);
+    }
+}
 ?>
