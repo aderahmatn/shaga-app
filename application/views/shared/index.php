@@ -104,8 +104,9 @@
                         </li>
 
                         <li
-                            class="nav-item <?= $this->uri->segment(1) == 'kasbon' ? 'menu-is-opening menu-open' : '' ?> ">
-                            <a href="#" class="nav-link <?= $this->uri->segment(1) == 'kasbon' ? 'active' : '' ?> ">
+                            class="nav-item <?= $this->uri->segment(1) == 'kasbon' || $this->uri->segment(1) == 'pembelian' ? 'menu-is-opening menu-open' : '' ?> ">
+                            <a href="#"
+                                class="nav-link <?= $this->uri->segment(1) == 'kasbon' || $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?> ">
                                 <i class="nav-icon fas fa-file-alt"></i>
                                 <p>
                                     PENGAJUAN
@@ -120,6 +121,15 @@
                                         <p>KEUANGAN</p>
                                     </a>
                                 </li>
+                                <?php if ($this->session->userdata('group') == 1) { ?>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('pembelian') ?>"
+                                            class="nav-link <?= $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>PEMBELIAN</p>
+                                        </a>
+                                    </li>
+                                <?php } ?>
                             </ul>
 
                         </li>
@@ -160,6 +170,15 @@
                         <?php } ?>
                         <?php if ($this->session->userdata('group') == 1) { ?>
                             <li class="nav-item">
+                                <a href="<?= base_url('project') ?>"
+                                    class="nav-link <?= $this->uri->segment(1) == 'project' ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-briefcase"></i>
+                                    <p>
+                                        DATA PROJECT
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="<?= base_url('users/list') ?>"
                                     class="nav-link <?= $this->uri->segment(2) == 'create' && $this->uri->segment(1) == 'users' || $this->uri->segment(2) == 'list' && $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-user-lock"></i>
@@ -168,6 +187,7 @@
                                     </p>
                                 </a>
                             </li>
+
                         <?php } ?>
                         <hr>
 
