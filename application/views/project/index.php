@@ -30,7 +30,7 @@
                                     <th>OWNER</th>
                                     <th>DEADLINE</th>
                                     <th>VALUE</th>
-                                    <th>CREATED BY</th>
+                                    <th>PROJECT MANAGER</th>
                                     <th>OPSI</th>
                                 </tr>
                             </thead>

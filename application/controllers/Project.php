@@ -9,6 +9,7 @@ class Project extends CI_Controller
         parent::__construct();
         check_role_administrator();
         $this->load->model('Project_m');
+        $this->load->model('Users_m');
         $this->load->helper('rupiah');
 
     }
@@ -26,7 +27,8 @@ class Project extends CI_Controller
         $validation = $this->form_validation;
         $validation->set_rules($project->rules());
         if ($validation->run() == FALSE) {
-            $this->template->load('shared/index', 'project/create');
+            $data['user'] = $this->Users_m->get_all_users();
+            $this->template->load('shared/index', 'project/create', $data);
         } else {
             $post = $this->input->post(null, TRUE);
             $project->add_project($post);
@@ -60,6 +62,7 @@ class Project extends CI_Controller
             $this->session->set_flashdata('error', 'Data Project Tidak ditemukan!');
             redirect('project', 'refresh');
         }
+        $data['user'] = $this->Users_m->get_all_users();
         $this->template->load('shared/index', 'project/update', $data);
     }
     public function delete($id)

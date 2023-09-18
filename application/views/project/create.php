@@ -40,6 +40,23 @@
                                 </div>
                             </div>
                             <div class="form-group required">
+                                <label class="control-label" for="fproject_manager">Project Manager</label>
+                                <select
+                                    class="form-control <?php echo form_error('fproject_manager') ? 'is-invalid' : '' ?>"
+                                    id="fproject_manager" name="fproject_manager">
+                                    <option hidden value="" selected>PILIH USER</option>
+                                    <?php foreach ($user as $key): ?>
+                                        <option value="<?= $key->id_user ?>"
+                                            <?= $this->input->post('fproject_manager') == $key->id_user ? 'selected' : '' ?>>
+                                            <?= strtoupper($key->nama_user) ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= form_error('fproject_manager') ?>
+                                </div>
+                            </div>
+                            <div class="form-group required">
                                 <label class="control-label" for="fproject_owner">Project Owner</label>
                                 <input type="text"
                                     class="form-control <?= form_error('fproject_owner') ? 'is-invalid' : '' ?> text-uppercase"

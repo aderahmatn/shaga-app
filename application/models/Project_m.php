@@ -12,6 +12,7 @@ class Project_m extends CI_Model
     public $project_value;
     public $project_location;
     public $created_date;
+    public $project_manager;
     public $created_by;
     public $deleted;
     public function rules()
@@ -30,6 +31,11 @@ class Project_m extends CI_Model
             [
                 'field' => 'fproject_owner',
                 'label' => 'project owner',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'fproject_manager',
+                'label' => 'project manager',
                 'rules' => 'required'
             ],
             [
@@ -53,8 +59,19 @@ class Project_m extends CI_Model
     {
         $this->db->select('*, users.nama_user');
         $this->db->from($this->_table);
-        $this->db->join('users', 'users.id_user = project.created_by', 'left');
+        $this->db->join('users', 'users.id_user = project.project_manager', 'left');
         $this->db->where('project.deleted', 0);
+        $this->db->order_by('project_id', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function get_all_project_for_pembelian()
+    {
+        $this->db->select('*, users.nama_user');
+        $this->db->from($this->_table);
+        $this->db->join('users', 'users.id_user = project.project_manager', 'left');
+        $this->db->where('project.deleted', 0);
+        $this->db->where('project.project_deadline !=', date('Y-m-d'));
         $this->db->order_by('project_id', 'desc');
         $query = $this->db->get();
         return $query->result();
@@ -76,6 +93,7 @@ class Project_m extends CI_Model
         $this->nomor_spk = $post['fno_spk'];
         $this->project_owner = $post['fproject_owner'];
         $this->project_deadline = $post['fproject_deadline'];
+        $this->project_manager = $post['fproject_manager'];
         $this->project_location = $post['fproject_location'];
         $this->project_value = str_replace(".", "", $post['fproject_value']);
         $this->created_by = $this->session->userdata('id_user');
@@ -88,6 +106,7 @@ class Project_m extends CI_Model
         $this->db->set('nama_project', $post['fnama_project']);
         $this->db->set('nomor_spk', $post['fno_spk']);
         $this->db->set('project_owner', $post['fproject_owner']);
+        $this->db->set('project_manager', $post['fproject_manager']);
         $this->db->set('project_deadline', $post['fproject_deadline']);
         $this->db->set('project_location', $post['fproject_location']);
         $this->db->set('project_value', str_replace(".", "", $post['fproject_value']));

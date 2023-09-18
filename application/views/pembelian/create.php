@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>BUAT PENGAJUAN PEMBELIAN dev</h1>
+                <h1>BUAT PENGAJUAN PEMBELIAN</h1>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -16,21 +16,22 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body">
-
+                        <h5>DATA DOKUMEN</h5>
+                        <hr>
                         <form role="form" method="POST" action="" autocomplete="off">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                             <input type="hidden" name="ftotal_item" id="ftotal_item" value="1" style="display: none">
                             <input type="hidden" name="fid_project" id="fid_project" style="display: none">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-3">
                                     <div class="form-group required">
                                         <label class="control-label" for="ftgl_pengajuan">No. Pembelian</label>
                                         <input type="text" class="form-control" id="fno_pembelian" name="fno_pembelian"
                                             value="<?= $no_pembelian ?>" readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-3">
                                     <div class="form-group required">
                                         <label class="control-label" for="ftgl_pengajuan">Tanggal
                                             Pengajuan</label>
@@ -38,16 +39,14 @@
                                             name="ftgl_pengajuan" value="<?= date('d-m-Y') ?>" readonly>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-3">
                                     <div class="form-group required">
                                         <label class="control-label" for="fnik">NIK</label>
                                         <input type="text" class="form-control" id="fnik" name="fnik"
                                             value="<?= strtoupper($this->session->userdata('nik')) ?>" readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-3">
                                     <div class="form-group required">
                                         <label class="control-label" for="fname_user">Nama Lengkap</label>
                                         <input type="text"
@@ -57,30 +56,65 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group required">
-                                <label class="control-label" for="fproject">Nama Project</label>
-                                <div class="input-group ">
-                                    <input type="text"
-                                        class="text-uppercase form-control <?php echo form_error('fproject') ? 'is-invalid' : '' ?>"
-                                        id="fproject" name="fproject" onfocus="onFocus()" placeholder="Pilih project">
-                                    <span class="input-group-append">
-                                        <button type="button" class="btn btn-default " data-toggle="modal"
-                                            data-target="#modal_project"><i class="fas fa-search"></i></button>
-                                    </span>
-                                </div>
-                                <div class="invalid-feedback">
-                                    <?= form_error('fproject') ?>
-                                </div>
-                            </div>
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <div class="form-group required">
+                                        <label class="control-label" for="fdeadline_pembelian">Deadline
+                                            Pembelian</label>
+                                        <input type="date"
+                                            class="form-control <?= form_error('fdeadline_pembelian') ? 'is-invalid' : '' ?>"
+                                            id="fdeadline_pembelian" name="fdeadline_pembelian"
+                                            placeholder="Tanggal join"
+                                            value="<?= $this->input->post('fdeadline_pembelian'); ?>">
+                                        <div class="invalid-feedback">
+                                            <?= form_error('fdeadline_pembelian') ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group ">
+                                        <label for="fcatatan">Catatan</label>
+                                        <textarea name="fcatatan"
+                                            class="form-control <?= form_error('fcatatan') ? 'is-invalid' : '' ?> "
+                                            id="fcatatan" placeholder="Catatan"
+                                            height="1"><?= $this->input->post('fcatatan'); ?></textarea>
+                                        <div class="invalid-feedback">
+                                            <?= form_error('fcatatan') ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <h5 class="mt-3">DATA PROJECT</h5>
+                            <hr>
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group required">
+                                        <label class="control-label" for="fproject">Nama Project</label>
+                                        <div class="input-group ">
+                                            <input type="text"
+                                                class="text-uppercase form-control <?php echo form_error('fproject') ? 'is-invalid' : '' ?>"
+                                                id="fproject" name="fproject" onfocus="onFocus()"
+                                                placeholder="Pilih project">
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-default " data-toggle="modal"
+                                                    data-target="#modal_project"><i class="fas fa-search"></i></button>
+                                            </span>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <?= form_error('fproject') ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group required">
                                         <label class="control-label " for="fdeadline">Deadline Project</label>
                                         <input type="text" class="form-control text-uppercase " id="fdeadline"
                                             name="fdeadline" value="-" readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-3">
                                     <div class="form-group required">
                                         <label class="control-label" for="fowner">Project Owner</label>
                                         <input type="text"
@@ -88,17 +122,16 @@
                                             id="fowner" name="fowner" value="-" readonly>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group ">
-                                <label for="fcatatan">Catatan</label>
-                                <textarea name="fcatatan"
-                                    class="form-control <?= form_error('fcatatan') ? 'is-invalid' : '' ?> "
-                                    id="fcatatan"
-                                    placeholder="Catatan"><?= $this->input->post('fcatatan'); ?></textarea>
-                                <div class="invalid-feedback">
-                                    <?= form_error('fcatatan') ?>
+                                <div class="col-md-3">
+                                    <div class="form-group required">
+                                        <label class="control-label" for="fmanager">Project Manager</label>
+                                        <input type="text"
+                                            class="text-uppercase form-control <?= form_error('fmanager') ? 'is-invalid' : '' ?>"
+                                            id="fmanager" name="fmanager" value="-" readonly>
+                                    </div>
                                 </div>
                             </div>
+
                             <hr>
                             <div class="row ">
                                 <div class="col-md-6">
@@ -111,7 +144,7 @@
                                         ITEM</button>
                                 </div>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id='tblbarang'>
                                 <thead>
                                     <tr>
                                         <th scope="col">Nama Barang</th>
@@ -138,8 +171,8 @@
                                         </td>
                                         <td class="p-1" style="width:100px">
                                             <input type="number"
-                                                class="form-control <?= form_error('fqty[]') ? 'is-invalid' : '' ?>"
-                                                id="fqty[]" name="fqty[]" placeholder="Qty" min="1">
+                                                class="form-control <?= form_error('fqty[]') ? 'is-invalid' : '' ?> qty"
+                                                id="fqty1" name="fqty[]" placeholder="Qty" min="1">
                                         </td>
                                         <td class="p-1">
                                             <input type="text" class="form-control " id="ftotal_harga[]"
@@ -175,7 +208,7 @@
 </section>
 <!-- Modal -->
 <div class="modal fade" id="modal_project">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <p class="modal-title text-bold">PILIH PROJECT</p>
@@ -193,7 +226,7 @@
                                 <th>PROJECT</th>
                                 <th>OWNER</th>
                                 <th>DEADLINE</th>
-                                <th>VALUE</th>
+                                <th>PROJECT MANAGER</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -202,6 +235,7 @@
                                     <td><button class="btn btn-primary btn-sm" id="select" data-id="<?= $key->project_id ?>"
                                             data-project="<?= $key->nama_project ?>" data-owner="<?= $key->project_owner ?>"
                                             data-value="<?= rupiah($key->project_value) ?>"
+                                            data-manager="<?= $key->nama_user ?>"
                                             data-deadline="<?= TanggalIndo($key->project_deadline) ?>">
                                             <i class="fa fa-check"></i> Pilih
                                         </button>
@@ -216,7 +250,7 @@
                                         <?= TanggalIndo($key->project_deadline) ?>
                                     </td>
                                     <td>
-                                        <?= rupiah($key->project_value) ?>
+                                        <?= strtoupper($key->nama_user) ?>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
@@ -243,7 +277,7 @@
                 '<input type="text" class="form-control" id="fharga_satuan' + i + '" name="fharga_satuan[]" placeholder="Harga satuan">' +
                 '</td>' +
                 '<td class="p-1" style="width:100px">' +
-                '<input type="number" class="form-control" id="fqty' + i + '" name="fqty[]" placeholder="Qty" min="1">' +
+                '<input type="number" class="form-control qty" id="fqty' + i + '" name="fqty[]" placeholder="Qty" min="1">' +
                 '</td>' +
                 '<td class="p-1">' +
                 '<input type="text" class="form-control" id="ftotal_harga' + i + '" name="ftotal_harga[]" placeholder="Total harga">' +
@@ -276,16 +310,48 @@
             var project_id = $(this).data('id');
             var project = $(this).data('project');
             var deadline = $(this).data('deadline');
+            var manager = $(this).data('manager');
             var owner = $(this).data('owner');
             $('#fdeadline').val(deadline)
             $('#fid_project').val(project_id)
             $('#fowner').val(owner)
+            $('#fmanager').val(manager)
             $('#fproject').val(project)
             $('#modal_project').modal('hide')
         })
+
+
     })
 
 
+    $(function () {
 
+        var $tblrows = $("#tblbarang tbody tr");
+
+        $tblrows.each(function (index) {
+            var $tblrow = $(this);
+
+            $tblrow.find('.qty').on('change', function () {
+
+                var qty = $tblrow.find("[name=number]").val();
+                alert(qty)
+                // var price = $tblrow.find("[name=price]").val();
+                // var subTotal = parseInt(qty, 10) * parseFloat(price);
+
+                // if (!isNaN(subTotal)) {
+
+                //     $tblrow.find('.subtot').val(subTotal.toFixed(2));
+                //     var grandTotal = 0;
+
+                //     $(".subtot").each(function () {
+                //         var stval = parseFloat($(this).val());
+                //         grandTotal += isNaN(stval) ? 0 : stval;
+                //     });
+
+                //     $('.grdtot').val(grandTotal.toFixed(2));
+                // }
+            });
+        });
+    });
 
 </script>

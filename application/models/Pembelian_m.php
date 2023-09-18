@@ -9,6 +9,7 @@ class Pembelian_m extends CI_Model
     public $id_user;
     public $project_id;
     public $note_pembelian;
+    public $deadline_pembelian;
     public $created_date;
     public $deleted;
     public function rules()
@@ -22,6 +23,11 @@ class Pembelian_m extends CI_Model
             [
                 'field' => 'fno_pembelian',
                 'label' => 'nomor pembelian',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'fdeadline_pembelian',
+                'label' => 'deadline pembelian',
                 'rules' => 'required'
             ],
             [
@@ -68,6 +74,7 @@ class Pembelian_m extends CI_Model
         $post = $this->input->post();
         $this->note_pembelian = $post['fcatatan'];
         $this->no_pembelian = $post['fno_pembelian'];
+        $this->deadline_pembelian = $post['fdeadline_pembelian'];
         $this->id_user = $this->session->userdata('id_user');
         $this->project_id = $post['fid_project'];
         $this->deleted = 0;
