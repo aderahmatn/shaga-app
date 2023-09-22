@@ -38,7 +38,7 @@ class Pembelian_m extends CI_Model
             [
                 'field' => 'fharga_satuan[]',
                 'label' => 'item',
-                'rules' => 'required'
+                'rules' => 'required|numeric'
             ],
             [
                 'field' => 'fqty[]',
@@ -65,6 +65,9 @@ class Pembelian_m extends CI_Model
         $this->db->join('users', 'users.id_user = pembelian.id_user', 'left');
         $this->db->join('project', 'project.project_id = pembelian.project_id', 'left');
         $this->db->where('pembelian.deleted', 0);
+        if ($this->session->userdata('group') != 1) {
+            $this->db->where('pembelian.id_user', $this->session->userdata('id_user'));
+        }
         $this->db->order_by('pembelian.id_pembelian', 'desc');
         $query = $this->db->get();
         return $query->result();
@@ -94,6 +97,17 @@ class Pembelian_m extends CI_Model
         }
         date_default_timezone_set('Asia/Jakarta');
         return date('dmy') . $kd;
+    }
+    public function get_by_id_pembelian($id)
+    {
+        $this->db->select('pembelian.*, users.nama_user, users.nik, project.*');
+        $this->db->join('users', 'users.id_user = pembelian.id_user', 'left');
+        $this->db->join('project', 'project.project_id = pembelian.project_id', 'left');
+        $this->db->where('pembelian.deleted', 0);
+        $this->db->where('pembelian.id_pembelian', $id);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->row();
     }
 
 }

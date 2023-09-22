@@ -121,15 +121,14 @@
                                         <p>KEUANGAN</p>
                                     </a>
                                 </li>
-                                <?php if ($this->session->userdata('group') == 1) { ?>
-                                    <li class="nav-item">
-                                        <a href="<?= base_url('pembelian') ?>"
-                                            class="nav-link <?= $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?>">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>PEMBELIAN</p>
-                                        </a>
-                                    </li>
-                                <?php } ?>
+
+                                <li class="nav-item">
+                                    <a href="<?= base_url('pembelian') ?>"
+                                        class="nav-link <?= $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>PEMBELIAN</p>
+                                    </a>
+                                </li>
                             </ul>
 
                         </li>

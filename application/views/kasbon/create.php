@@ -49,7 +49,9 @@
                                     id="fkeperluan" name="fkeperluan">
                                     <option hidden value="" selected>Pilih Kategori Keuangan </option>
                                     <?php foreach ($kategori_keuangan as $key): ?>
-                                        <option value="<?= $key->id_kategori_keuangan ?>"><?= strtoupper($key->kategori_keuangan) ?></option>
+                                        <option value="<?= $key->id_kategori_keuangan ?>">
+                                            <?= strtoupper($key->kategori_keuangan) ?>
+                                        </option>
                                     <?php endforeach ?>
 
                                 </select>

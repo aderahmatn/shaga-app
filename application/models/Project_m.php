@@ -71,7 +71,7 @@ class Project_m extends CI_Model
         $this->db->from($this->_table);
         $this->db->join('users', 'users.id_user = project.project_manager', 'left');
         $this->db->where('project.deleted', 0);
-        $this->db->where('project.project_deadline !=', date('Y-m-d'));
+        $this->db->where('project.project_deadline >', date('Y-m-d'));
         $this->db->order_by('project_id', 'desc');
         $query = $this->db->get();
         return $query->result();
@@ -85,6 +85,16 @@ class Project_m extends CI_Model
         $this->db->where('project.deleted', 0);
         $query = $this->db->get();
         return $query->row();
+    }
+    public function get_project_manager_by_id_project($id)
+    {
+        $this->db->select('*, users.nama_user');
+        $this->db->from($this->_table);
+        $this->db->join('users', 'users.id_user = project.project_manager', 'left');
+        $this->db->where('project.project_id', $id);
+        $this->db->where('project.deleted', 0);
+        $query = $this->db->get();
+        return $query->row()->nama_user;
     }
     public function add_project()
     {

@@ -27,6 +27,14 @@ class Item_pembelian_m extends CI_Model
 
 
     }
+    public function get_item_by_no_pembelian($no_pembelian)
+    {
+        $this->db->select('item_pembelian.*');
+        $this->db->where('no_pembelian', $no_pembelian);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
 }
 

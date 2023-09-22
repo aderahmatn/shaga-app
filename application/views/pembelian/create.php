@@ -135,7 +135,7 @@
                             <hr>
                             <div class="row ">
                                 <div class="col-md-6">
-                                    <h4 class="mb-0">List Barang</h4>
+                                    <h5 class="mb-0">DATA BARANG</h5>
                                     <p class=" text-sm" id="count">Total Item : 1</p>
                                 </div>
                                 <div class="col-md-6">
@@ -150,7 +150,7 @@
                                         <th scope="col">Nama Barang</th>
                                         <th scope="col">Harga Satuan</th>
                                         <th scope="col">Qty</th>
-                                        <th scope="col">Total Harga</th>
+                                        <!-- <th scope="col">Total Harga</th> -->
                                         <th scope="col">Spesifikasi</th>
                                         <th scope="col">Note</th>
                                         <th scope="col">Act</th>
@@ -165,8 +165,8 @@
                                                 id="fnama_barang[]" name="fnama_barang[]" placeholder="Nama barang">
                                         </td>
                                         <td class="p-1">
-                                            <input type="text"
-                                                class="form-control <?= form_error('fharga_satuan[]') ? 'is-invalid' : '' ?>"
+                                            <input type="number"
+                                                class="form-control <?= form_error('fharga_satuan[]') ? 'is-invalid' : '' ?> harga"
                                                 id="fharga_satuan[]" name="fharga_satuan[]" placeholder="Harga satuan">
                                         </td>
                                         <td class="p-1" style="width:100px">
@@ -174,10 +174,10 @@
                                                 class="form-control <?= form_error('fqty[]') ? 'is-invalid' : '' ?> qty"
                                                 id="fqty1" name="fqty[]" placeholder="Qty" min="1">
                                         </td>
-                                        <td class="p-1">
+                                        <!-- <td class="p-1">
                                             <input type="text" class="form-control " id="ftotal_harga[]"
                                                 name="ftotal_harga[]" placeholder="Total harga">
-                                        </td>
+                                        </td> -->
                                         <td class="p-1">
                                             <input type="text"
                                                 class="form-control <?= form_error('fspesifikasi[]') ? 'is-invalid' : '' ?>"
@@ -274,14 +274,14 @@
                 '<input type="text" class="form-control" id="fnama_barang' + i + '" name="fnama_barang[]" placeholder="Nama barang">' +
                 '</td>' +
                 '<td class="p-1">' +
-                '<input type="text" class="form-control" id="fharga_satuan' + i + '" name="fharga_satuan[]" placeholder="Harga satuan">' +
+                '<input type="number" class="form-control harga" id="fharga_satuan[]" name="fharga_satuan[]" placeholder="Harga satuan">' +
                 '</td>' +
                 '<td class="p-1" style="width:100px">' +
                 '<input type="number" class="form-control qty" id="fqty' + i + '" name="fqty[]" placeholder="Qty" min="1">' +
                 '</td>' +
-                '<td class="p-1">' +
-                '<input type="text" class="form-control" id="ftotal_harga' + i + '" name="ftotal_harga[]" placeholder="Total harga">' +
-                '</td>' +
+                // '<td class="p-1">' +
+                // '<input type="text" class="form-control" id="ftotal_harga' + i + '" name="ftotal_harga[]" placeholder="Total harga">' +
+                // '</td>' +
                 '<td class="p-1">' +
                 '<input type="text" class="form-control" id="fspesifikasi' + i + '" name="fspesifikasi[]" placeholder="Spesifikasi">' +
                 '</td>' +
@@ -292,7 +292,11 @@
                 '<button class="btn btn-md btn-danger btn_remove" type="button" id="' + i + '" name="del"><i class="fa fa-trash"></i>' +
                 '</button>' +
                 '</td>' +
-                '</tr>';
+                '</tr>'
+            var tanpa_rupiah = document.getElementById('fharga_satuan[]');
+            tanpa_rupiah.addEventListener('keyup', function (e) {
+                tanpa_rupiah.value = formatRupiah(this.value);
+            });
             $(row).appendTo('#tbody_item');
             $('#ftotal_item').val(i);
             $('#count').html('Total Item : ' + i);
@@ -324,34 +328,6 @@
     })
 
 
-    $(function () {
 
-        var $tblrows = $("#tblbarang tbody tr");
-
-        $tblrows.each(function (index) {
-            var $tblrow = $(this);
-
-            $tblrow.find('.qty').on('change', function () {
-
-                var qty = $tblrow.find("[name=number]").val();
-                alert(qty)
-                // var price = $tblrow.find("[name=price]").val();
-                // var subTotal = parseInt(qty, 10) * parseFloat(price);
-
-                // if (!isNaN(subTotal)) {
-
-                //     $tblrow.find('.subtot').val(subTotal.toFixed(2));
-                //     var grandTotal = 0;
-
-                //     $(".subtot").each(function () {
-                //         var stval = parseFloat($(this).val());
-                //         grandTotal += isNaN(stval) ? 0 : stval;
-                //     });
-
-                //     $('.grdtot').val(grandTotal.toFixed(2));
-                // }
-            });
-        });
-    });
 
 </script>
