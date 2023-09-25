@@ -41,9 +41,7 @@
                                             <?= $no++ ?>
                                         </td>
                                         <td>
-
                                             <?= $key->no_pembelian ?>
-
                                         </td>
                                         <td>
                                             <?= TanggalIndo($key->created_date) ?>
@@ -92,9 +90,7 @@
                         </table>
                     </div>
                 </div>
-                <!-- /.card -->
             </div>
-
         </div>
     </div>
 </section>

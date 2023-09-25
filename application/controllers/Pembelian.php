@@ -7,14 +7,9 @@ class Pembelian extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model(['Pembelian_m', 'Project_m', 'Item_pembelian_m', 'Status_pembelian_m']);
         $this->load->helper(['Rupiah', 'formatdate', 'pembelian', 'project', 'Status_pembelian']);
-
-
     }
-
-
     public function index()
     {
         $data['pembelian'] = $this->Pembelian_m->get_all_pembelian();
@@ -75,6 +70,7 @@ class Pembelian extends CI_Controller
     {
         $data = $this->Pembelian_m->get_by_id_pembelian($id);
         $item = $this->Item_pembelian_m->get_item_by_no_pembelian($data->no_pembelian);
+        $status = $this->Status_pembelian_m->get_status_by_no_pembelian($data->no_pembelian);
         ?>
         <div class="row">
             <div class="col-md-6">
@@ -196,6 +192,50 @@ class Pembelian extends CI_Controller
                             </tr>
                         <?php endforeach ?>
                     </tbody>
+                    <tfoot class="bg-secondary">
+                        <tr>
+                            <th colspan="5" class="text-center">TOTAL PEMBELIAN :</th>
+                            <th colspan="2">
+                                <?= rupiah(get_total_pembelian_by_no_pembelian($key->no_pembelian)) ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5 class="text-success">STATUS PENGAJUAN</h5>
+                <table class="table table-sm mb-5 text-uppercase">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th scope="col">STATUS</th>
+                            <th scope="col">TGL CLOSED</th>
+                            <th scope="col">PIC</th>
+                            <th scope="col">NOTE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($status as $key):
+                            ?>
+                            <tr
+                                class="text-uppercase <?= $key->status_pembelian == 'created' ? 'table-warning' : '' ?><?= $key->status_pembelian == 'approvedprojectmanager' ? 'table-success' : '' ?><?= $key->status_pembelian == 'rejectedprojectmanager' ? 'table-danger' : '' ?><?= $key->status_pembelian == 'rejectedadministrator' ? 'table-danger' : '' ?><?= $key->status_pembelian == 'approvedadministrator' ? 'table-info' : '' ?>">
+                                <td>
+                                    <?= $key->status_pembelian ?>
+                                </td>
+                                <td>
+                                    <?= $key->created_date ?>
+                                </td>
+                                <td>
+                                    <?= $key->nama_user ?>
+                                </td>
+                                <td>
+                                    <?= $key->note_status_pembelian ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -216,7 +256,6 @@ class Pembelian extends CI_Controller
                     $('#modal_Detail').modal('hide');
                 });
             });
-
         </script>
         <?php
 
@@ -447,15 +486,6 @@ class Pembelian extends CI_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
-    // function test($id, $stat)
-    // {
-    //     $data = $this->Status_pembelian_m->cek_status($id, $stat);
-    //     if (!$data) {
-    //         echo 0;
-    //     } else {
-    //         echo 1;
-    //     }
-    // }
 }
 
 /* End of file Pembelian.php */

@@ -72,6 +72,18 @@ class Pembelian_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_all_by_project_manager($id_user)
+    {
+        $this->db->select('*, users.nama_user, project.nama_project, pembelian.created_date');
+        $this->db->join('project', 'project.project_id = pembelian.project_id', 'left');
+        $this->db->join('users', 'users.id_user = project.project_manager', 'left');
+        $this->db->where('pembelian.deleted', 0);
+        $this->db->where('project.project_manager', $id_user);
+        $this->db->order_by('pembelian.id_pembelian', 'desc');
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->result();
+    }
     public function add_pembelian()
     {
         $post = $this->input->post();

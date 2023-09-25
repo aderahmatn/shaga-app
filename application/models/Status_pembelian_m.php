@@ -62,7 +62,7 @@ class Status_pembelian_m extends CI_Model
         $this->note_status_pembelian = $post['fnote'];
         $this->db->insert($this->_table, $this);
     }
-    function cek_status($no_pembelian, $no_status)
+    public function cek_status($no_pembelian, $no_status)
     {
         $this->db->select('*');
         $this->db->where('no_pembelian', $no_pembelian);
@@ -71,6 +71,17 @@ class Status_pembelian_m extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    public function get_status_by_no_pembelian($no_pembelian)
+    {
+        $this->db->select('status_pembelian.*, users.nama_user');
+        $this->db->where('no_pembelian', $no_pembelian);
+        $this->db->join('users', 'users.id_user = status_pembelian.id_user', 'left');
+        $this->db->order_by('id_status_pembelian', 'desc');
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 
 }
 
