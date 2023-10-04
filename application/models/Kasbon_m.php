@@ -210,10 +210,36 @@ class Kasbon_m extends CI_Model
         $this->db->limit(1);
         $query = $this->db->get();
         return $query->row()->no_urut_kasbon + 1;
-
     }
-
-
+    public function get_total_kasbon_gaji_by_bulan_by_user($bulan, $tahun, $id_user)
+    {
+        $this->db->select_sum('nominal');
+        $this->db->join('status_kasbon', 'status_kasbon.no_dokumen = kasbon.no_dokumen');
+        $this->db->where('kasbon.deleted', 0);
+        $this->db->where('kasbon.keperluan', 9);
+        $this->db->where('kasbon.id_user', $id_user);
+        $this->db->where('status_kasbon.status_kasbon', 'closed');
+        $this->db->where('month(kasbon.created_date)', $bulan);
+        $this->db->where('year(kasbon.created_date)', $tahun);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->row()->nominal;
+    }
+    public function get_kasbon_gaji_by_bulan_by_user($bulan, $tahun, $id_user)
+    {
+        $this->db->select('*');
+        $this->db->join('status_kasbon', 'status_kasbon.no_dokumen = kasbon.no_dokumen');
+        $this->db->join('kategori_keuangan', 'kategori_keuangan.id_kategori_keuangan = kasbon.keperluan');
+        $this->db->where('kasbon.deleted', 0);
+        $this->db->where('kasbon.keperluan', 9);
+        $this->db->where('kasbon.id_user', $id_user);
+        $this->db->where('status_kasbon.status_kasbon', 'closed');
+        $this->db->where('month(kasbon.created_date)', $bulan);
+        $this->db->where('year(kasbon.created_date)', $tahun);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 
 /* End of file Kasbon_m.php */

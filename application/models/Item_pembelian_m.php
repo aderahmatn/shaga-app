@@ -10,6 +10,8 @@ class Item_pembelian_m extends CI_Model
     public $nama_barang;
     public $harga_satuan;
     public $total_harga;
+    public $qty;
+    public $satuan;
     public $spesifikasi;
     public $note;
     public $created_date;
@@ -24,8 +26,6 @@ class Item_pembelian_m extends CI_Model
         $this->db->from($this->_table);
         $query = $this->db->get();
         return $query->row()->total_harga;
-
-
     }
     public function get_item_by_no_pembelian($no_pembelian)
     {
@@ -35,7 +35,6 @@ class Item_pembelian_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-
 }
 
 /* End of file Item_pembelian_m.php */

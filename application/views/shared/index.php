@@ -11,15 +11,13 @@
     </title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/fontawesome-free/css/all.min.css' ?>">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet"
-        href="<?= base_url() . 'assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' ?>">
+    <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' ?>">
     <!-- iCheck -->
     <link rel="stylesheet" href="<?= base_url() . 'assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css' ?>">
     <!-- JQVMap -->
@@ -91,11 +89,9 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="<?= base_url('dashboard') ?>"
-                                class="nav-link <?= $this->uri->segment(1) == 'dashboard' || $this->uri->segment(1) == '' ? 'active' : '' ?>">
+                            <a href="<?= base_url('dashboard') ?>" class="nav-link <?= $this->uri->segment(1) == 'dashboard' || $this->uri->segment(1) == '' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     DASHBOARD
@@ -103,10 +99,8 @@
                             </a>
                         </li>
 
-                        <li
-                            class="nav-item <?= $this->uri->segment(1) == 'kasbon' || $this->uri->segment(1) == 'pembelian' ? 'menu-is-opening menu-open' : '' ?> ">
-                            <a href="#"
-                                class="nav-link <?= $this->uri->segment(1) == 'kasbon' || $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?> ">
+                        <li class="nav-item <?= $this->uri->segment(1) == 'kasbon' || $this->uri->segment(1) == 'pembelian' ? 'menu-is-opening menu-open' : '' ?> ">
+                            <a href="#" class="nav-link <?= $this->uri->segment(1) == 'kasbon' || $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?> ">
                                 <i class="nav-icon fas fa-file-alt"></i>
                                 <p>
                                     PENGAJUAN
@@ -115,16 +109,14 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= base_url('kasbon') ?>"
-                                        class="nav-link <?= $this->uri->segment(1) == 'kasbon' ? 'active' : '' ?>">
+                                    <a href="<?= base_url('kasbon') ?>" class="nav-link <?= $this->uri->segment(1) == 'kasbon' ? 'active' : '' ?>">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>KEUANGAN</p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="<?= base_url('pembelian') ?>"
-                                        class="nav-link <?= $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?>">
+                                    <a href="<?= base_url('pembelian') ?>" class="nav-link <?= $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?>">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>PEMBELIAN</p>
                                     </a>
@@ -136,10 +128,8 @@
 
                         <?php if ($this->session->userdata('group') == 1 || $this->session->userdata('group') == 11) { ?>
                             <li class="nav-header">ADMINISTRATOR</li>
-                            <li
-                                class="nav-item <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'menu-is-opening menu-open' : '' ?> ">
-                                <a href="#"
-                                    class="nav-link <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'active' : '' ?> ">
+                            <li class="nav-item <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'menu-is-opening menu-open' : '' ?> ">
+                                <a href="#" class="nav-link <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'active' : '' ?> ">
                                     <i class="nav-icon fas fa-file-alt"></i>
                                     <p>
                                         DATA BERLANGGANAN
@@ -148,8 +138,7 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="<?= base_url('customer/browse') ?>"
-                                            class="nav-link <?= $this->uri->segment(1) == 'customer' && $this->uri->segment(2) == 'browse' ? 'active' : '' ?>">
+                                        <a href="<?= base_url('customer/browse') ?>" class="nav-link <?= $this->uri->segment(1) == 'customer' && $this->uri->segment(2) == 'browse' ? 'active' : '' ?>">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>PELANGGAN</p>
                                         </a>
@@ -157,8 +146,7 @@
                                 </ul>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="<?= base_url('customer/onbill') ?>"
-                                            class="nav-link <?= $this->uri->segment(2) == 'onbill' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'active' : '' ?>">
+                                        <a href="<?= base_url('customer/onbill') ?>" class="nav-link <?= $this->uri->segment(2) == 'onbill' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'active' : '' ?>">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>LAYANAN ON-BILL</p>
                                         </a>
@@ -169,20 +157,27 @@
                         <?php } ?>
                         <?php if ($this->session->userdata('group') == 1) { ?>
                             <li class="nav-item">
-                                <a href="<?= base_url('project') ?>"
-                                    class="nav-link <?= $this->uri->segment(1) == 'project' ? 'active' : '' ?>">
+                                <a href="<?= base_url('project') ?>" class="nav-link <?= $this->uri->segment(1) == 'project' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-briefcase"></i>
                                     <p>
                                         DATA PROJECT
                                     </p>
                                 </a>
                             </li>
+
                             <li class="nav-item">
-                                <a href="<?= base_url('users/list') ?>"
-                                    class="nav-link <?= $this->uri->segment(2) == 'create' && $this->uri->segment(1) == 'users' || $this->uri->segment(2) == 'list' && $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
+                                <a href="<?= base_url('users/list') ?>" class="nav-link <?= $this->uri->segment(2) == 'create' && $this->uri->segment(1) == 'users' || $this->uri->segment(2) == 'list' && $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-user-lock"></i>
                                     <p>
                                         PENGGUNA
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url('payroll') ?>" class="nav-link <?= $this->uri->segment(1) == 'payroll' ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                                    <p>
+                                        PAYROLL
                                     </p>
                                 </a>
                             </li>
@@ -193,8 +188,7 @@
 
 
                         <li class="nav-item mt-5">
-                            <a href="<?= base_url('users/profile') ?>"
-                                class="nav-link <?= $this->uri->segment(2) == 'profile' ? 'active' : '' ?>">
+                            <a href="<?= base_url('users/profile') ?>" class="nav-link <?= $this->uri->segment(2) == 'profile' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-user-circle"></i>
                                 <p>
                                     PROFILE
@@ -203,8 +197,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('pengaturan/ganti_pass') ?>"
-                                class="nav-link <?= $this->uri->segment(1) == 'pengaturan' ? 'active' : '' ?>">
+                            <a href="<?= base_url('pengaturan/ganti_pass') ?>" class="nav-link <?= $this->uri->segment(1) == 'pengaturan' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>
                                     PENGATURAN
@@ -236,10 +229,8 @@
                 <strong>Copyright &copy; 2023 </strong> -
                 All rights reserved.
                 <div class="float-right d-none d-sm-inline-block text-sm text-muted">
-                    Made with <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="grey"
-                        class="bi bi-heart-fill mx-0" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                    Made with <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="grey" class="bi bi-heart-fill mx-0" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                     </svg>
                     for <a href="https://gisaka.net/" class="text-muted" target="_blank">Gisaka Media</a>
                 </div>
@@ -275,8 +266,7 @@
     <script src="<?= base_url() . 'assets/plugins/moment/moment.min.js' ?>"></script>
     <script src="<?= base_url() . 'assets/plugins/daterangepicker/daterangepicker.js' ?>"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script
-        src="<?= base_url() . 'assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' ?>"></script>
+    <script src="<?= base_url() . 'assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' ?>"></script>
     <!-- Summernotassets/e -->
     <script src="<?= base_url() . 'assets/plugins/summernote/summernote-bs4.min.js' ?>"></script>
     <!-- overlayScrollbars -->
@@ -303,22 +293,33 @@
 
 </html>
 <script>
-
-    $(function () {
+    $(function() {
         bsCustomFileInput.init();
     });
 
-    $(function () {
+    $(function() {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 10000
         });
-        <?php if ($this->session->flashdata('success')) { ?>         Toast.fire({ icon: 'success', title: '<?= $this->session->flashdata('success'); ?>' });
-        <?php } else if ($this->session->flashdata('error')) { ?>         Toast.fire({ icon: 'error', title: '<?= $this->session->flashdata('error'); ?>' });
-                                                                                                                                                                                                                       <?php } else if ($this->session->flashdata('warning')) { ?>         Toast.fire({ icon: 'warning', title: '<?= $this->session->flashdata('warning'); ?>' });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <?php } else if ($this->session->flashdata('info')) { ?>         Toast.fire({ icon: 'info', title: '<?= $this->session->flashdata('info'); ?>' });
+        <?php if ($this->session->flashdata('success')) { ?> Toast.fire({
+                icon: 'success',
+                title: '<?= $this->session->flashdata('success'); ?>'
+            });
+        <?php } else if ($this->session->flashdata('error')) { ?> Toast.fire({
+                icon: 'error',
+                title: '<?= $this->session->flashdata('error'); ?>'
+            });
+        <?php } else if ($this->session->flashdata('warning')) { ?> Toast.fire({
+                icon: 'warning',
+                title: '<?= $this->session->flashdata('warning'); ?>'
+            });
+        <?php } else if ($this->session->flashdata('info')) { ?> Toast.fire({
+                icon: 'info',
+                title: '<?= $this->session->flashdata('info'); ?>'
+            });
         <?php } ?>
     });
 </script>

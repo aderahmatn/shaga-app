@@ -117,16 +117,26 @@ class Users_m extends CI_Model
     }
     public function get_all_users()
     {
+        $this->db->select('users.id_user, users.nama_user, users.email_user, users.id_group_user, users.username, users.nik, users.phone_user, users.status_user, users.bank, users.no_rekening, users.tgl_join, group_users.group_user');
+        $this->db->join('group_users', 'group_users.id_group_user = users.id_group_user', 'left');
+        $this->db->where('users.deleted', 0);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function get_all_users_active()
+    {
         $this->db->select('*');
         $this->db->from($this->_table);
         $this->db->join('group_users', 'group_users.id_group_user = users.id_group_user', 'left');
         $this->db->where('users.deleted', 0);
+        $this->db->where('users.status_user', 1);
         $query = $this->db->get();
         return $query->result();
     }
     public function get_by_id_user($id)
     {
-        $this->db->select('*');
+        $this->db->select('users.id_user, users.nama_user, users.email_user, users.id_group_user, users.username, users.nik, users.phone_user, users.status_user, users.bank, users.no_rekening, users.tgl_join, group_users.group_user');
         $this->db->from($this->_table);
         $this->db->join('group_users', 'group_users.id_group_user = users.id_group_user', 'left');
         $this->db->where('users.id_user', $id);
@@ -189,7 +199,6 @@ class Users_m extends CI_Model
         $this->db->from($this->_table);
         $query = $this->db->get();
         return $query->row()->nik;
-
     }
     public function login($post)
     {
@@ -199,7 +208,6 @@ class Users_m extends CI_Model
         $this->db->where('status_user', 1);
         $this->db->where('password', encrypt_url($post['fpassword']));
         $this->db->join('group_users', 'group_users.id_group_user = users.id_group_user', 'left');
-
         $query = $this->db->get();
         return $query;
     }
@@ -238,8 +246,6 @@ class Users_m extends CI_Model
         $this->db->where('id_user', $id);
         $this->db->update($this->_table);
     }
-
-
 }
 
 /* End of file Users_m.php */

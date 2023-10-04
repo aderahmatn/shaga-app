@@ -19,6 +19,7 @@ class Status_pembelian_m extends CI_Model
         $this->no_pembelian = $post['fno_pembelian'];
         $this->status_pembelian = 'created';
         $this->note_status_pembelian = 'document has created';
+        $this->note_status_pembelian = 'document has created';
         $this->no_status = 0;
         $this->db->insert($this->_table, $this);
     }
@@ -81,8 +82,6 @@ class Status_pembelian_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-
-
 }
 
 /* End of file Status_pembelian_m.php */

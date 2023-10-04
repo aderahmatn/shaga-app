@@ -17,9 +17,6 @@ class Kasbon extends CI_Controller
         $this->load->model('Users_m');
         $this->load->model('Kategori_keuangan_m');
         $this->load->helper('telegram');
-
-
-
     }
 
     public function index($bln = null)
@@ -65,7 +62,6 @@ class Kasbon extends CI_Controller
         $data['closed'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'closed');
         $data['kasbon'] = $this->Kasbon_m->get_all_kasbon_by_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
         $this->template->load('shared/index', 'kasbon/index', $data);
-
     }
     public function create()
     {
@@ -83,7 +79,7 @@ class Kasbon extends CI_Controller
             if ($this->db->affected_rows() > 0) {
                 $this->Status_kasbon_m->add_status_created_kasbon($post);
                 telegram_notif_pengajuan_keuangan($post);
-                $this->session->set_flashdata('success', 'Data pencairan berhasil disimpan!');
+                $this->session->set_flashdata('success', 'Data pengajuan berhasil disimpan!');
                 redirect('kasbon', 'refresh');
             }
         }
@@ -139,14 +135,10 @@ class Kasbon extends CI_Controller
                     if ($this->db->affected_rows() > 0) {
                         $this->session->set_flashdata('success', 'Data kasbon berhasil diselesaikan!');
                         redirect($_SERVER['HTTP_REFERER']);
-
                     }
                 }
             }
-
         }
-
-
     }
     function process_approve()
     {
@@ -175,7 +167,7 @@ class Kasbon extends CI_Controller
     function detail($id)
     {
         $data = $this->Kasbon_m->get_by_id_kasbon($id);
-        ?>
+?>
         <ul class="list-group list-group-flush text-uppercase">
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <strong>No. Dokumen</strong>
@@ -225,14 +217,13 @@ class Kasbon extends CI_Controller
             </li>
         </ul>
         <script>
-            $(document).ready(function () {
-                $('#closemodal').click(function () {
+            $(document).ready(function() {
+                $('#closemodal').click(function() {
                     $('#modal_Detail').modal('hide');
                 });
             });
-
         </script>
-        <?php
+    <?php
 
     }
     public function delete_kategori_keuangan($id)
@@ -247,7 +238,7 @@ class Kasbon extends CI_Controller
     function show_status($id)
     {
         $data = $this->Status_kasbon_m->get_all_status_kasbon_by_id($id);
-        ?>
+    ?>
 
         <div class="d-flex align-items-center mb-3">
             <strong>NO DOKUMEN : </strong>
@@ -265,10 +256,9 @@ class Kasbon extends CI_Controller
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data as $key): ?>
+                <?php foreach ($data as $key) : ?>
 
-                    <tr
-                        class="<?= $key->status_kasbon == 'created' ? 'table-warning' : '' ?><?= $key->status_kasbon == 'approved' ? 'table-success' : '' ?><?= $key->status_kasbon == 'rejected' ? 'table-danger' : '' ?><?= $key->status_kasbon == 'closed' ? 'table-info' : '' ?>">
+                    <tr class="<?= $key->status_kasbon == 'created' ? 'table-warning' : '' ?><?= $key->status_kasbon == 'approved' ? 'table-success' : '' ?><?= $key->status_kasbon == 'rejected' ? 'table-danger' : '' ?><?= $key->status_kasbon == 'closed' ? 'table-info' : '' ?>">
                         <th scope="row">
                             <?= $key->status_kasbon ?>
                         </th>
@@ -292,55 +282,48 @@ class Kasbon extends CI_Controller
         <?php } ?>
         <button class="btn btn-primary float-right" id="closemodal">TUTUP</button>
         <script>
-            $(document).ready(function () {
-                $('#closemodal').click(function () {
+            $(document).ready(function() {
+                $('#closemodal').click(function() {
                     $('#modal_status').modal('hide');
                 });
             });
-
         </script>
-        <?php
+    <?php
     }
     function approve($id)
     {
         // HANYA ADMIN
         check_role_administrator();
         $data = $this->Kasbon_m->get_by_id_kasbon($id);
-        ?>
+    ?>
         <form role="form" method="POST" action="<?= base_url('kasbon/process_approve') ?>" autocomplete="off">
-            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
-            <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>"
-                style="display: none">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+            <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>" style="display: none">
             <input type="hidden" name="fid_kasbon" value="<?= encrypt_url($data->id_kasbon) ?>" style="display: none">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="fno_dokumen">No. Dokumen</label>
-                        <input type="text" class="form-control <?= form_error('fno_dokumen') ? 'is-invalid' : '' ?>"
-                            id="fno_dokumen" name="fno_dokumen" value="<?= $data->no_dokumen ?>" readonly>
+                        <input type="text" class="form-control <?= form_error('fno_dokumen') ? 'is-invalid' : '' ?>" id="fno_dokumen" name="fno_dokumen" value="<?= $data->no_dokumen ?>" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="ftgl_approve">Tanggal Disetujui</label>
-                        <input type="text" class="form-control <?= form_error('ftgl_approve') ? 'is-invalid' : '' ?>"
-                            id="ftgl_approve" name="ftgl_approve" value="<?= date('d/m/Y') ?>" readonly>
+                        <input type="text" class="form-control <?= form_error('ftgl_approve') ? 'is-invalid' : '' ?>" id="ftgl_approve" name="ftgl_approve" value="<?= date('d/m/Y') ?>" readonly>
                     </div>
                 </div>
             </div>
 
             <div class="form-group required">
                 <label class="control-label" for="fname_user">Disetujui Oleh</label>
-                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user"
-                    name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
+                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user" name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
             </div>
 
             </div>
             <div class="form-group ">
                 <label for="fnote">Catatan</label>
-                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase"
-                    id="fnote"><?= $this->input->post('fnote'); ?></textarea>
+                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase" id="fnote"><?= $this->input->post('fnote'); ?></textarea>
                 <div class="invalid-feedback">
                     <?= form_error('fnote') ?>
                 </div>
@@ -348,7 +331,7 @@ class Kasbon extends CI_Controller
             <button type="submit" class="btn btn-success float-right mt-2">SETUJUI</button>
             <a href="<?= base_url('kasbon') ?>" class="btn btn-primary">TUTUP</a>
         </form>
-        <?php
+    <?php
 
     }
     function reject($id)
@@ -356,41 +339,35 @@ class Kasbon extends CI_Controller
         // HANYA ADMIN
         check_role_administrator();
         $data = $this->Kasbon_m->get_by_id_kasbon($id);
-        ?>
+    ?>
         <form role="form" method="POST" action="<?= base_url('kasbon/process_reject') ?>" autocomplete="off">
-            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
-            <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>"
-                style="display: none">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+            <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>" style="display: none">
             <input type="hidden" name="fid_kasbon" value="<?= encrypt_url($data->id_kasbon) ?>" style="display: none">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="fno_dokumen">No. Dokumen</label>
-                        <input type="text" class="form-control <?= form_error('fno_dokumen') ? 'is-invalid' : '' ?>"
-                            id="fno_dokumen" name="fno_dokumen" value="<?= $data->no_dokumen ?>" readonly>
+                        <input type="text" class="form-control <?= form_error('fno_dokumen') ? 'is-invalid' : '' ?>" id="fno_dokumen" name="fno_dokumen" value="<?= $data->no_dokumen ?>" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="ftgl_approve">Tanggal ditolak</label>
-                        <input type="text" class="form-control <?= form_error('ftgl_approve') ? 'is-invalid' : '' ?>"
-                            id="ftgl_approve" name="ftgl_approve" value="<?= date('d/m/Y') ?>" readonly>
+                        <input type="text" class="form-control <?= form_error('ftgl_approve') ? 'is-invalid' : '' ?>" id="ftgl_approve" name="ftgl_approve" value="<?= date('d/m/Y') ?>" readonly>
                     </div>
                 </div>
             </div>
 
             <div class="form-group required">
                 <label class="control-label" for="fname_user">ditolak Oleh</label>
-                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user"
-                    name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
+                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user" name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
             </div>
 
             </div>
             <div class="form-group ">
                 <label for="fnote">Catatan</label>
-                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase"
-                    id="fnote"><?= $this->input->post('fnote'); ?></textarea>
+                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase" id="fnote"><?= $this->input->post('fnote'); ?></textarea>
                 <div class="invalid-feedback">
                     <?= form_error('fnote') ?>
                 </div>
@@ -398,7 +375,7 @@ class Kasbon extends CI_Controller
             <button type="submit" class="btn btn-danger float-right mt-2">TOLAK</button>
             <a href="<?= base_url('kasbon') ?>" class="btn btn-primary">TUTUP</a>
         </form>
-        <?php
+    <?php
 
     }
     function pencairan($id)
@@ -406,27 +383,22 @@ class Kasbon extends CI_Controller
         // HANYA ADMIN
         check_role_administrator();
         $data = $this->Kasbon_m->get_by_id_kasbon($id);
-        ?>
-        <form role="form" method="POST" action="<?= base_url('kasbon/process_pencairan') ?>" autocomplete="off"
-            enctype="multipart/form-data">
-            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
-            <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>"
-                style="display: none">
+    ?>
+        <form role="form" method="POST" action="<?= base_url('kasbon/process_pencairan') ?>" autocomplete="off" enctype="multipart/form-data">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+            <input type="hidden" name="fid_user" value="<?= encrypt_url($this->session->userdata('id_user')) ?>" style="display: none">
             <input type="hidden" name="fid_kasbon" value="<?= encrypt_url($data->id_kasbon) ?>" style="display: none">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="fno_dokumen">No. Dokumen</label>
-                        <input type="text" class="form-control <?= form_error('fno_dokumen') ? 'is-invalid' : '' ?>"
-                            id="fno_dokumen" name="fno_dokumen" value="<?= $data->no_dokumen ?>" readonly>
+                        <input type="text" class="form-control <?= form_error('fno_dokumen') ? 'is-invalid' : '' ?>" id="fno_dokumen" name="fno_dokumen" value="<?= $data->no_dokumen ?>" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="ftgl_pencairan">Tanggal pencairan</label>
-                        <input type="date" class="form-control <?= form_error('ftgl_pencairan') ? 'is-invalid' : '' ?>"
-                            id="ftgl_pencairan" name="ftgl_pencairan" placeholder="Tanggal pencairan">
+                        <input type="date" class="form-control <?= form_error('ftgl_pencairan') ? 'is-invalid' : '' ?>" id="ftgl_pencairan" name="ftgl_pencairan" placeholder="Tanggal pencairan">
                     </div>
                 </div>
             </div>
@@ -434,35 +406,30 @@ class Kasbon extends CI_Controller
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="fnominal">Nominal</label>
-                        <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal"
-                            name="fnominal" value="<?= rupiah($data->nominal) ?>" readonly>
+                        <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" value="<?= rupiah($data->nominal) ?>" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="ftgl_approve">Jenis pencairan</label>
-                        <input type="text" class="form-control <?= form_error('ftgl_approve') ? 'is-invalid' : '' ?>"
-                            id="ftgl_approve" name="ftgl_approve" value="<?= strtoupper($data->cara_bayar) ?>" readonly>
+                        <input type="text" class="form-control <?= form_error('ftgl_approve') ? 'is-invalid' : '' ?>" id="ftgl_approve" name="ftgl_approve" value="<?= strtoupper($data->cara_bayar) ?>" readonly>
                     </div>
                 </div>
             </div>
 
             <div class="form-group required">
                 <label class="control-label" for="fname_user">Pencairan oleh</label>
-                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user"
-                    name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
+                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user" name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
             </div>
             <div class="form-group required">
                 <label class="control-label" for="fbukti_pencairan">Bukti pencairan</label>
-                <input type="file" class="pb-4 form-control <?= form_error('fbukti_pencairan') ? 'is-invalid' : '' ?>"
-                    id="fbukti_pencairan" name="fbukti_pencairan">
+                <input type="file" class="pb-4 form-control <?= form_error('fbukti_pencairan') ? 'is-invalid' : '' ?>" id="fbukti_pencairan" name="fbukti_pencairan">
                 <small id="fbukti_pencairan" class="form-text text-muted">Format file harus .pdf .png .jpg .jpeg, ukuran
                     maksimal 2Mb </small>
             </div>
             <div class="form-group ">
                 <label for="fnote">Catatan</label>
-                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase"
-                    id="fnote"><?= $this->input->post('fnote'); ?></textarea>
+                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase" id="fnote"><?= $this->input->post('fnote'); ?></textarea>
                 <div class="invalid-feedback">
                     <?= form_error('fnote') ?>
                 </div>
@@ -470,10 +437,9 @@ class Kasbon extends CI_Controller
             <button type="submit" class="btn btn-success float-right mt-2">SIMPAN</button>
             <a href="<?= base_url('kasbon') ?>" class="btn btn-primary">TUTUP</a>
         </form>
-        <?php
+<?php
 
     }
-
 }
 
 /* End of file Kasbon.php */

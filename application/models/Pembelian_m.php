@@ -84,19 +84,21 @@ class Pembelian_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-    public function add_pembelian()
+    public function add_pembelian($no_pembelian, $post)
     {
         $post = $this->input->post();
         $this->note_pembelian = $post['fcatatan'];
-        $this->no_pembelian = $post['fno_pembelian'];
+        $this->no_pembelian = $no_pembelian;
         $this->deadline_pembelian = $post['fdeadline_pembelian'];
         $this->id_user = $this->session->userdata('id_user');
         $this->project_id = $post['fid_project'];
+        $this->created_date = Date('Y-m-d h:i:s');
         $this->deleted = 0;
         $this->db->insert($this->_table, $this);
     }
     function get_no_pembelian()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $q = $this->db->query("SELECT MAX(RIGHT(id_pembelian,4)) AS id_max FROM pembelian WHERE DATE(created_date)=CURDATE()");
         $kd = "";
         if ($q->num_rows() > 0) {
@@ -107,12 +109,11 @@ class Pembelian_m extends CI_Model
         } else {
             $kd = "0001";
         }
-        date_default_timezone_set('Asia/Jakarta');
         return date('dmy') . $kd;
     }
     public function get_by_id_pembelian($id)
     {
-        $this->db->select('pembelian.*, users.nama_user, users.nik, project.*');
+        $this->db->select('pembelian.*, users.nama_user, users.nik, project.nama_project, project.project_owner, project.project_deadline, project.project_location');
         $this->db->join('users', 'users.id_user = pembelian.id_user', 'left');
         $this->db->join('project', 'project.project_id = pembelian.project_id', 'left');
         $this->db->where('pembelian.deleted', 0);
@@ -121,7 +122,6 @@ class Pembelian_m extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
-
 }
 
 /* End of file Pembelian_m.php */

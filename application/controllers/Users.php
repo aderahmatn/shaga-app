@@ -10,8 +10,6 @@ class Users extends CI_Controller
         check_not_login();
         $this->load->model('Users_m');
         $this->load->model('Group_user_m');
-
-
     }
 
     public function list()
@@ -19,7 +17,6 @@ class Users extends CI_Controller
         check_role_administrator();
         $data['users'] = $this->Users_m->get_all_users();
         $this->template->load('shared/index', 'user/index', $data);
-
     }
     function create()
     {
@@ -87,15 +84,19 @@ class Users extends CI_Controller
     {
         check_role_administrator();
         $data['user'] = $this->Users_m->get_by_id_user(decrypt_url($id));
-        $this->template->load('shared/index', 'user/detail', $data);
+        if (!$data['user']) {
 
+            $this->session->set_flashdata('warning', 'Data user tidak ditemukan!');
+            redirect('users/list', 'refresh');
+        } else {
+            $this->template->load('shared/index', 'user/detail', $data);
+        }
     }
     function profile()
     {
         $data['user'] = $this->Users_m->get_by_id_user($this->session->userdata('id_user'));
         $this->template->load('shared/index', 'user/profile', $data);
     }
-
 }
 
 /* End of file User.php */
