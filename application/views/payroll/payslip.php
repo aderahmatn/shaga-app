@@ -91,7 +91,7 @@
                                         <div class="col-md-4">
                                             <img src="<?= base_url('/assets/images/logogisaka.png') ?>" alt="logo gisaka" class="mb-2" height="50px">
                                         </div>
-                                        <div class="col-md-7 ml-n3">
+                                        <div class="col-md-7 ml-md-n3">
                                             <p class="mb-0 text-bold">SLIP GAJI</p>
                                             <p class="mt-n2 mb-0 text-bold">PT. GIANDRA SAKA MEDIA</p>
                                             <p class="mt-n2"><b>GISAKA MEDIA |</b> <i class="text-lowercase">Connecting</i> <i>NICE</i> <i class="text-lowercase">Peoples!</i></p>
@@ -105,7 +105,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4 text-uppercase text-right">
+                                <div class="col-md-4 text-uppercase text-md-right">
                                     <b>NO. </b> <?= $post['fbulan'] . $post['ftahun'] . $selectedUser->nik ?><br>
                                     <b>BULAN : </b> <?= bulanindo($post['fbulan']) ?> <?= $post['ftahun'] ?>
                                 </div>
@@ -174,8 +174,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <a class="btn btn-success btn-md float-right" href="<?= base_url('pdf/payslip_pdf/') . $post['fkaryawan'] . '/' . $post['fbulan'] . '/' . $post['ftahun'] ?>" target="_blank">DOWNLOAD PDF</a>
                                 </div>
                             </div>
                         <?php    } ?>

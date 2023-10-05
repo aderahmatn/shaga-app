@@ -8,7 +8,6 @@ class Payroll extends CI_Controller
     {
         parent::__construct();
         check_not_login();
-        check_role_administrator();
         $this->load->model(['Users_m', 'Payroll_m', 'Kasbon_m']);
         $this->load->helper(['Rupiah']);
     }
@@ -16,11 +15,13 @@ class Payroll extends CI_Controller
 
     public function index()
     {
+        check_role_administrator();
         $data['users'] = $this->Users_m->get_all_users_active();
         $this->template->load('shared/index', 'payroll/index', $data);
     }
     public function set_benefit($id_user = null)
     {
+        check_role_administrator();
         $payroll = $this->Payroll_m;
         $validation = $this->form_validation;
         $validation->set_rules($payroll->rules_set_benefit());
@@ -39,6 +40,7 @@ class Payroll extends CI_Controller
     }
     public function delete_benefit($id)
     {
+        check_role_administrator();
         $this->Payroll_m->delete_benefit(decrypt_url($id));
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data benefit berhasil dihapus!');
@@ -47,6 +49,7 @@ class Payroll extends CI_Controller
     }
     public function payslip()
     {
+        check_role_administrator();
         $payroll = $this->Payroll_m;
         $validation = $this->form_validation;
         $validation->set_rules($payroll->rules_payslip());
