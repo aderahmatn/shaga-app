@@ -7,6 +7,7 @@
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
                     <a class="btn btn-md btn-primary mt-2" href="<?= base_url('payroll/payslip') ?>">SLIP GAJI</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('payroll/archive') ?>">ARSIP SLIP GAJI</a>
                 </div>
             </div>
         </div><!-- /.container-fluid -->

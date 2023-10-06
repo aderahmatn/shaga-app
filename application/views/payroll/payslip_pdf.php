@@ -102,5 +102,5 @@ $pdf->SetXY(10, 123);
 $pdf->SetFont('Arial', 'I', 8);
 $pdf->Cell(55, 6, '*Dokumen ini dicetak melalui gisaka automation system pada tanggal ' . Date('d/m/Y'), 0, 0, 'l');
 
-
+$pdf->output('uploads/payslip/' . $bulan . $tahun . $selectedUser->nik . '.pdf', 'F');
 $pdf->Output('', "SLIP GAJI BULAN " . strtoupper(bulanindo($bulan)) . ' ' . $tahun . ' - ' . strtoupper($selectedUser->nama_user) . '.pdf');

@@ -9,15 +9,21 @@ class Payroll extends CI_Controller
         parent::__construct();
         check_not_login();
         $this->load->model(['Users_m', 'Payroll_m', 'Kasbon_m']);
-        $this->load->helper(['Rupiah']);
+        $this->load->helper(['Rupiah', 'directory']);
     }
-
 
     public function index()
     {
         check_role_administrator();
+        $data['arsip'] = directory_map('./uploads/payslip/');
         $data['users'] = $this->Users_m->get_all_users_active();
         $this->template->load('shared/index', 'payroll/index', $data);
+    }
+    public function archive()
+    {
+        check_role_administrator();
+        $data['arsip'] = directory_map('./uploads/payslip/');
+        $this->template->load('shared/index', 'payroll/archive', $data);
     }
     public function set_benefit($id_user = null)
     {
@@ -47,6 +53,7 @@ class Payroll extends CI_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
+
     public function payslip()
     {
         check_role_administrator();

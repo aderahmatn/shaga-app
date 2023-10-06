@@ -26,9 +26,7 @@
                     <p>Saat ini sistem <i> Gisaka Office Automation sedang dalam masa percobaan</i>,<br> Silahkan
                         sampaikan
                         kendala
-                        / bug atau masukan ke <a
-                            href="https://wa.me/6287776451664/?text=Hallo%20Administrator%20GOA%2C%20%0A"
-                            target="_blank" class="text-info">wa.me/administrator</a>
+                        / bug atau masukan ke <a href="https://wa.me/6287776451664/?text=Hallo%20Administrator%20GOA%2C%20%0A" target="_blank" class="text-info">wa.me/administrator</a>
                     </p>
                 </div>
             </div>
@@ -60,7 +58,7 @@
                                         <tbody>
                                             <?php
                                             $no = 1;
-                                            foreach ($pembelian as $key): ?>
+                                            foreach ($pembelian as $key) : ?>
                                                 <tr class="text-uppercase">
                                                     <td>
                                                         <?= $no++ ?>
@@ -79,36 +77,24 @@
                                                     </td>
                                                     <td>
                                                         <?php if ($key->project_manager === $this->session->userdata('id_user')) { ?>
-                                                            <a data-toggle="modal" onclick="approveActPm(<?= $key->id_pembelian ?>)"
-                                                                href="#modal_status"
-                                                                class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 1 ? 'btn-secondary disabled' : 'btn-success' ?>">
+                                                            <a data-toggle="modal" onclick="approveActPm(<?= $key->id_pembelian ?>)" href="#modal_status" class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 1 ? 'btn-secondary disabled' : 'btn-success' ?>">
                                                                 SETUJUI
                                                             </a>
-                                                            <a data-toggle="modal" onclick="rejectActPm(<?= $key->id_pembelian ?>)"
-                                                                href="#modal_status"
-                                                                class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 1 ? 'btn-secondary disabled' : 'btn-danger' ?>">
+                                                            <a data-toggle="modal" onclick="rejectActPm(<?= $key->id_pembelian ?>)" href="#modal_status" class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 1 ? 'btn-secondary disabled' : 'btn-danger' ?>">
                                                                 TOLAK
                                                             </a>
                                                         <?php } ?>
                                                         <?php if ($this->session->userdata('group') == 1) { ?>
-                                                            <a data-toggle="modal"
-                                                                onclick="approveActAdm(<?= $key->id_pembelian ?>)"
-                                                                href="#modal_status"
-                                                                class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 0 || cek_status_pembelian($key->no_pembelian, 2) === 1 ? 'btn-secondary disabled' : 'btn-success' ?>">
+                                                            <a data-toggle="modal" onclick="approveActAdm(<?= $key->id_pembelian ?>)" href="#modal_status" class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 0 || cek_status_pembelian($key->no_pembelian, 2) === 1 ? 'btn-secondary disabled' : 'btn-success' ?>">
                                                                 SETUJUI
                                                             </a>
-                                                            <a data-toggle="modal" onclick="rejectActAdm(<?= $key->id_pembelian ?>)"
-                                                                href="#modal_status"
-                                                                class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 0 || cek_status_pembelian($key->no_pembelian, 2) === 1 ? 'btn-secondary disabled' : 'btn-danger' ?>">
+                                                            <a data-toggle="modal" onclick="rejectActAdm(<?= $key->id_pembelian ?>)" href="#modal_status" class="btn btn-xs <?= cek_status_pembelian($key->no_pembelian, 1) === 0 || cek_status_pembelian($key->no_pembelian, 2) === 1 ? 'btn-secondary disabled' : 'btn-danger' ?>">
                                                                 TOLAK
                                                             </a>
                                                         <?php } ?>
-                                                        <a data-toggle="modal" onclick="getDetail(<?= $key->id_pembelian ?>)"
-                                                            href="#modal_Detail" class="btn btn-primary btn-xs">
+                                                        <a data-toggle="modal" onclick="getDetail(<?= $key->id_pembelian ?>)" href="#modal_Detail" class="btn btn-primary btn-xs">
                                                             LIHAT DETAIL</a>
-                                                        <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20PEMBELIAN%0ANo.%20Dokumen%20%3A%20<?= $key->no_pembelian ?>%0ADibuat%20Oleh%20%3A%20<?= strtoupper($key->nama_user) ?>%0ADeadline%20Pembelian%20%3A%20<?= $key->deadline_pembelian ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('pembelian') ?>"
-                                                            class="btn btn-xs btn-success" target="_blank"><i
-                                                                class="fab fa-whatsapp"></i> KIRIM WA</a>
+                                                        <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20PEMBELIAN%0ANo.%20Dokumen%20%3A%20<?= $key->no_pembelian ?>%0ADibuat%20Oleh%20%3A%20<?= strtoupper($key->nama_user) ?>%0ADeadline%20Pembelian%20%3A%20<?= $key->deadline_pembelian ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('pembelian') ?>" class="btn btn-xs btn-success" target="_blank"><i class="fab fa-whatsapp"></i> KIRIM WA</a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -149,30 +135,58 @@
             url: "<?= site_url('pembelian/approve_pm/'); ?>" + id,
             // data: "id=" + id,
             dataType: "html",
-            success: function (response) {
+            success: function(response) {
                 $('#bodymodal_status').empty();
                 $('#bodymodal_status').append(response);
             }
         });
     }
+
     function rejectActPm(id) {
         $.ajax({
             type: "get",
             url: "<?= site_url('pembelian/reject_pm/'); ?>" + id,
             // data: "id=" + id,
             dataType: "html",
-            success: function (response) {
+            success: function(response) {
                 $('#bodymodal_status').empty();
                 $('#bodymodal_status').append(response);
             }
         });
     }
+
+    function approveActAdm(id) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('pembelian/approve_adm/'); ?>" + id,
+            // data: "id=" + id,
+            dataType: "html",
+            success: function(response) {
+                $('#bodymodal_status').empty();
+                $('#bodymodal_status').append(response);
+            }
+        });
+    }
+
+    function rejectActAdm(id) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('pembelian/reject_adm/'); ?>" + id,
+            // data: "id=" + id,
+            dataType: "html",
+            success: function(response) {
+                $('#bodymodal_status').empty();
+                $('#bodymodal_status').append(response);
+            }
+        });
+    }
+
     function getDetail(id) {
         $.ajax({
             type: "get",
             url: "<?= site_url('pembelian/detail/'); ?>" + id,
             dataType: "html",
-            success: function (response) {
+            success: function(response) {
                 $('#bodymodal_Detail').empty();
                 $('#bodymodal_Detail').append(response);
             }
