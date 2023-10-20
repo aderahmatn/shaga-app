@@ -164,7 +164,14 @@
                                     </p>
                                 </a>
                             </li>
-
+                            <li class="nav-item">
+                                <a href="<?= base_url('inventory') ?>" class="nav-link <?= $this->uri->segment(1) == 'inventory'  ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-boxes"></i>
+                                    <p>
+                                        DATA INVENTORY
+                                    </p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="<?= base_url('users/list') ?>" class="nav-link <?= $this->uri->segment(2) == 'create' && $this->uri->segment(1) == 'users' || $this->uri->segment(2) == 'list' && $this->uri->segment(1) == 'users' || $this->uri->segment(1) == 'group_users' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-user-lock"></i>
@@ -173,6 +180,7 @@
                                     </p>
                                 </a>
                             </li>
+
                             <li class="nav-item">
                                 <a href="<?= base_url('payroll') ?>" class="nav-link <?= $this->uri->segment(1) == 'payroll' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-file-invoice-dollar"></i>

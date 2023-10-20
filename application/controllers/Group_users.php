@@ -8,8 +8,7 @@ class Group_users extends CI_Controller
     {
         parent::__construct();
         check_not_login();
-        $this->load->model('Group_user_m');
-
+        $this->load->model(['Group_user_m', 'Log_m']);
     }
 
     public function index()
@@ -24,21 +23,21 @@ class Group_users extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $group_user->add_group_user($post);
             if ($this->db->affected_rows() > 0) {
+                $this->Log_m->create_log('insert group user ' . $post['fgroup_user']);
                 $this->session->set_flashdata('success', 'Data group user berhasil disimpan!');
                 redirect('group_users', 'refresh');
             }
         }
-
     }
     public function delete($id)
     {
         $this->Group_user_m->delete_group_user(decrypt_url($id));
         if ($this->db->affected_rows() > 0) {
+            $this->Log_m->create_log('delete group user id ' . decrypt_url($id));
             $this->session->set_flashdata('success', 'Data group user berhasil dihapus!');
             redirect('group_users', 'refresh');
         }
     }
-
 }
 
 /* End of file Group_user.php */

@@ -7,12 +7,10 @@ class auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Users_m');
+        $this->load->model('Log_m');
         $this->load->helper('captcha');
         $this->load->helper('telegram');
         $this->load->helper('string');
-
-
-
     }
 
     public function login()
@@ -20,7 +18,6 @@ class auth extends CI_Controller
         check_already_login();
 
         $this->load->view('auth/login');
-
     }
     public function process()
     {
@@ -46,6 +43,7 @@ class auth extends CI_Controller
                         );
                         $this->session->set_userdata($params);
                         telegram_notif_login($params);
+                        $this->Log_m->create_log('login username ' . $row->username);
                         redirect('dashboard', 'refresh');
                     }
                 } else {
@@ -55,7 +53,6 @@ class auth extends CI_Controller
             } else {
                 $this->session->set_flashdata('error', 'Captcha tidak cocok');
                 redirect('auth/login', 'refresh');
-
             }
         } else {
             redirect('auth/login', 'refresh');
@@ -68,7 +65,6 @@ class auth extends CI_Controller
         $this->session->unset_userdata($params);
         redirect('auth/login', 'refresh');
     }
-
 }
 
 /* End of file auth.php */
