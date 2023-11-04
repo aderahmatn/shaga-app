@@ -75,7 +75,7 @@
                                         <td>
                                             <a href="<?= base_url('inventory/edit/') . encrypt_url($key->id_inventory) ?>" class="btn btn-xs btn-primary">EDIT DATA</a>
                                             <a href="<?= base_url('inventory/barcode/') . $key->nomor_registrasi ?>" class="btn btn-xs btn-success" target="_blank">BARCODE</a>
-                                            <a href="#" class="btn btn-xs btn-danger" onclick="deleteConfirm('<?= base_url() . 'inventory/delete_inventory/' . encrypt_url($key->id_inventory) ?>')" <?= $this->session->userdata('group') !== '1' ? 'disabled' : '' ?>>DELETE</a>
+                                            <a href="#" class="btn btn-xs btn-danger" onclick="deleteConfirm('<?= base_url() . 'inventory/delete_inventory/' . encrypt_url($key->id_inventory) ?>')">DELETE</a>
 
                                         </td>
                                     </tr>

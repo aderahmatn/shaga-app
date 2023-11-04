@@ -154,6 +154,14 @@
                                 </ul>
 
                             </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url('inventory') ?>" class="nav-link <?= $this->uri->segment(1) == 'inventory'  ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-boxes"></i>
+                                    <p>
+                                        DATA INVENTORY
+                                    </p>
+                                </a>
+                            </li>
                         <?php } ?>
                         <?php if ($this->session->userdata('group') == 1) { ?>
                             <li class="nav-item">
@@ -161,14 +169,6 @@
                                     <i class="nav-icon fas fa-briefcase"></i>
                                     <p>
                                         DATA PROJECT
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= base_url('inventory') ?>" class="nav-link <?= $this->uri->segment(1) == 'inventory'  ? 'active' : '' ?>">
-                                    <i class="nav-icon fas fa-boxes"></i>
-                                    <p>
-                                        DATA INVENTORY
                                     </p>
                                 </a>
                             </li>
