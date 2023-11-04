@@ -67,13 +67,13 @@
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                             <div class="form-group required">
                                 <label class="control-label" for="fkode_merek">Kode Tipe</label>
-                                <input type="text" class="form-control <?= form_error('fkode_tipe') ? 'is-invalid' : '' ?>" id="fkode_tipe" name="fkode_tipe" placeholder="Kode barang" value="<?= $this->input->post('fkode_tipe'); ?>">
+                                <input type="text" class="form-control <?= form_error('fkode_tipe') ? 'is-invalid' : '' ?>" id="fkode_tipe" name="fkode_tipe" placeholder="Kode barang" value="<?= 'TP' . sprintf("%04d", $no_urut) ?>" readonly>
                                 <div class="invalid-feedback">
                                     <?= form_error('fkode_tipe') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label class="control-label" for="fbank">Merek</label>
+                                <label class="control-label" for="fmerek">Merek</label>
                                 <select class="form-control <?php echo form_error('fmerek') ? 'is-invalid' : '' ?>" id="fmerek" name="fmerek">
                                     <option hidden value="" selected>Pilih Merek </option>
                                     <?php foreach ($master_merek as $key) : ?>

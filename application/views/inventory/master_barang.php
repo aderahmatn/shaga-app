@@ -62,7 +62,7 @@
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                             <div class="form-group required">
                                 <label class="control-label" for="fkode_barang">Kode Barang</label>
-                                <input type="text" class="form-control <?= form_error('fkode_barang') ? 'is-invalid' : '' ?>" id="fkode_barang" name="fkode_barang" placeholder="Kode barang" value="<?= $this->input->post('fkode_barang'); ?>">
+                                <input type="text" class="form-control <?= form_error('fkode_barang') ? 'is-invalid' : '' ?>" id="fkode_barang" name="fkode_barang" placeholder="Kode barang" value="<?= 'BRG' . sprintf("%04d", $no_urut) ?>" readonly>
                                 <div class="invalid-feedback">
                                     <?= form_error('fkode_barang') ?>
                                 </div>

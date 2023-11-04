@@ -6,6 +6,7 @@ class Master_tipe_m extends CI_Model
     private $_table = 'master_tipe';
     public $kode_tipe;
     public $id_master_merek;
+    public $no_urut_tipe;
     public $spesifikasi;
     public $deleted;
     public function rules_master_tipe()
@@ -33,7 +34,6 @@ class Master_tipe_m extends CI_Model
         $this->db->select('*');
         $this->db->join('master_merek', 'master_merek.id_master_merek= master_tipe.id_master_merek', 'left');
         $this->db->where('master_tipe.deleted', 0);
-
         $this->db->from($this->_table, $this);
         $query = $this->db->get();
         return $query->result();
@@ -41,7 +41,8 @@ class Master_tipe_m extends CI_Model
     public function add_master_tipe()
     {
         $post = $this->input->post();
-        $this->kode_tipe = $post['fkode_tipe'];
+        $this->kode_tipe = 'TP' . sprintf("%04d", $this->get_no_urut_tipe());
+        $this->no_urut_tipe = $this->get_no_urut_tipe();
         $this->id_master_merek = $post['fmerek'];
         $this->spesifikasi = $post['fspesifikasi'];
         $this->deleted = 0;
@@ -52,6 +53,15 @@ class Master_tipe_m extends CI_Model
         $this->db->set('deleted', 1);
         $this->db->where('id_master_tipe', $id);
         $this->db->update($this->_table);
+    }
+    function get_no_urut_tipe()
+    {
+        $this->db->select('no_urut_tipe');
+        $this->db->from($this->_table);
+        $this->db->order_by('id_master_tipe', 'desc');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->row()->no_urut_tipe + 1;
     }
 }
 

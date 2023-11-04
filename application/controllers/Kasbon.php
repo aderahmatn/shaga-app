@@ -398,7 +398,7 @@ class Kasbon extends CI_Controller
                 <div class="col-md-6">
                     <div class="form-group required">
                         <label class="control-label" for="ftgl_pencairan">Tanggal pencairan</label>
-                        <input type="date" class="form-control <?= form_error('ftgl_pencairan') ? 'is-invalid' : '' ?>" id="ftgl_pencairan" name="ftgl_pencairan" placeholder="Tanggal pencairan">
+                        <input type="date" class="form-control <?= form_error('ftgl_pencairan') ? 'is-invalid' : '' ?>" id="ftgl_pencairan" name="ftgl_pencairan" placeholder="Tanggal pencairan" value="<?= date('Y-m-d'); ?>">
                     </div>
                 </div>
             </div>

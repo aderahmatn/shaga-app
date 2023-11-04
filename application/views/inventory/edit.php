@@ -74,6 +74,7 @@
                                         </td>
                                         <td>
                                             <a href="<?= base_url('inventory/edit/') . encrypt_url($key->id_inventory) ?>" class="btn btn-xs btn-primary">EDIT DATA</a>
+
                                             <a href="<?= base_url('inventory/barcode/') . $key->nomor_registrasi ?>" class="btn btn-xs btn-success" target="_blank">BARCODE</a>
                                             <a href="#" class="btn btn-xs btn-danger" onclick="deleteConfirm('<?= base_url() . 'inventory/delete_inventory/' . encrypt_url($key->id_inventory) ?>')" <?= $this->session->userdata('group') !== '1' ? 'disabled' : '' ?>>DELETE</a>
 
@@ -91,17 +92,21 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body">
-                        <h5 class="text-primary">TAMBAH DATA INVENTORY</h5>
+                        <div class="d-flex justify-content-between ">
+                            <h5 class="text-warning ">EDIT DATA INVENTORY [<?= $data->nomor_registrasi ?>]</h5>
+                            <a href="<?= base_url('inventory') ?>" class="btn btn-sm btn-default float-right">Batal</a>
+                        </div>
                         <hr>
                         <form role="form" method="POST" action="" autocomplete="off">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
-                            <input type="hidden" name="fid_tipe" id="fid_tipe" style="display: none">
+                            <input type="hidden" name="fid_tipe" id="fid_tipe" style="display: none" value="<?= $data->id_master_tipe ?>">
+                            <input type="hidden" name="fno_registrasi" id="fno_registrasi" style="display: none" value="<?= $data->nomor_registrasi ?>">
                             <div class="form-group required">
                                 <label class="control-label" for="fbarang">Nama Barang</label>
                                 <select class="form-control <?php echo form_error('fbarang') ? 'is-invalid' : '' ?>" id="fbarang" name="fbarang">
                                     <option hidden value="" selected>Pilih Barang </option>
                                     <?php foreach ($master_barang as $key) : ?>
-                                        <option value="<?= $key->kode_barang     ?>"><?= $key->kode_barang . ' - ' . strtoupper($key->nama_barang) ?></option>
+                                        <option value="<?= $key->kode_barang     ?>" <?= $key->kode_barang == $data->kode_barang ? 'selected' : '' ?>><?= $key->kode_barang . ' - ' . strtoupper($key->nama_barang) ?></option>
                                     <?php endforeach ?>
                                 </select>
                                 <div class="invalid-feedback">
@@ -111,7 +116,7 @@
                             <div class="form-group required">
                                 <label class="control-label" for="ftipe">Merek Barang</label>
                                 <div class="input-group ">
-                                    <input type="text" class=" form-control <?php echo form_error('ftipe') ? 'is-invalid' : '' ?>" id="ftipe" name="ftipe" onfocus="onFocus()" placeholder="Pilih merek barang" value="<?= $this->input->post('ftipe'); ?>">
+                                    <input type="text" class=" form-control <?php echo form_error('ftipe') ? 'is-invalid' : '' ?>" id="ftipe" name="ftipe" onfocus="onFocus()" placeholder="Pilih merek barang" value="<?= strtoupper($data->nama_merek) ?>">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-default " data-toggle="modal" data-target="#modal_tipe_barang"><i class="fas fa-search"></i></button>
                                     </span>
@@ -123,35 +128,35 @@
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fspesifikasi">Spesifikasi</label>
-                                <input type="text" class="form-control <?= form_error('fspesifikasi') ? 'is-invalid' : '' ?>" id="fspesifikasi" name="fspesifikasi" placeholder="Spesifikasi barang" value="<?= $this->input->post('fspesifikasi'); ?>" readonly>
+                                <input type="text" class="form-control <?= form_error('fspesifikasi') ? 'is-invalid' : '' ?>" id="fspesifikasi" name="fspesifikasi" placeholder="Spesifikasi barang" value="<?= strtoupper($data->spesifikasi) ?>" readonly>
                                 <div class="invalid-feedback">
                                     <?= form_error('fspesifikasi') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fserial_number">Serial Number</label>
-                                <input type="text" class="form-control <?= form_error('fserial_number') ? 'is-invalid' : '' ?>" id="fserial_number" name="fserial_number" placeholder="Serial number" value="<?= $this->input->post('fserial_number'); ?>">
+                                <input type="text" class="form-control <?= form_error('fserial_number') ? 'is-invalid' : '' ?>" id="fserial_number" name="fserial_number" placeholder="Serial number" value="<?= $data->serial_number ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fserial_number') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fmac_address">Mac Address</label>
-                                <input type="text" class="form-control <?= form_error('fmac_address') ? 'is-invalid' : '' ?>" id="fmac_address" name="fmac_address" placeholder="Mac address" value="<?= $this->input->post('fmac_address'); ?>">
+                                <input type="text" class="form-control <?= form_error('fmac_address') ? 'is-invalid' : '' ?>" id="fmac_address" name="fmac_address" placeholder="Mac address" value="<?= $data->mac_address ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fmac_address') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="ftgl_registrasi">Tanggal Registrasi</label>
-                                <input type="date" class="form-control <?= form_error('ftgl_registrasi') ? 'is-invalid' : '' ?>" id="ftgl_registrasi" name="ftgl_registrasi" placeholder="Mac address" value="<?= date('Y-m-d'); ?>">
+                                <input type="date" class="form-control <?= form_error('ftgl_registrasi') ? 'is-invalid' : '' ?>" id="ftgl_registrasi" name="ftgl_registrasi" placeholder="Mac address" value="<?= $data->tgl_registrasi ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('ftgl_registrasi') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fsuplyer">Supplier</label>
-                                <input type="text" class="form-control <?= form_error('fsuplyer') ? 'is-invalid' : '' ?>" id="fsuplyer" name="fsuplyer" placeholder="Supplier" value="<?= $this->input->post('fsuplyer'); ?>">
+                                <input type="text" class="form-control <?= form_error('fsuplyer') ? 'is-invalid' : '' ?>" id="fsuplyer" name="fsuplyer" placeholder="Supplier" value="<?= $data->suplyer ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fsuplyer') ?>
                                 </div>
@@ -160,8 +165,8 @@
                                 <label class="control-label" for="fstatus_barang">Status Barang</label>
                                 <select class="form-control <?php echo form_error('fstatus_barang') ? 'is-invalid' : '' ?>" id="fstatus_barang" name="fstatus_barang">
                                     <option hidden value="" selected>Pilih Status Barang </option>
-                                    <option value="sewa" <?= $this->input->post('fstatus_barang') == 'sewa' ? 'selected' : '' ?>>SEWA </option>
-                                    <option value="beli" <?= $this->input->post('fstatus_barang') == 'beli' ? 'selected' : '' ?>>BELI </option>
+                                    <option value="sewa" <?= $data->status_barang == 'sewa' ? 'selected' : '' ?>>SEWA </option>
+                                    <option value="beli" <?= $data->status_barang == 'beli' ? 'selected' : '' ?>>BELI </option>
                                 </select>
                                 <div class="invalid-feedback">
                                     <?= form_error('fstatus_barang') ?>
@@ -171,8 +176,8 @@
                                 <label class="control-label" for="fjenis_barang">Jenis Barang</label>
                                 <select class="form-control <?php echo form_error('fjenis_barang') ? 'is-invalid' : '' ?>" id="fjenis_barang" name="fjenis_barang">
                                     <option hidden value="" selected>Pilih Jenis Barang </option>
-                                    <option value="habis pakai" <?= $this->input->post('fjenis_barang') == 'habis pakai' ? 'selected' : '' ?>>HABIS PAKAI </option>
-                                    <option value="non habis pakai" <?= $this->input->post('fjenis_barang') == 'non habis pakai' ? 'selected' : '' ?>>NON HABIS PAKAI </option>
+                                    <option value="habis pakai" <?= $data->jenis_barang == 'habis pakai' ? 'selected' : '' ?>>HABIS PAKAI </option>
+                                    <option value="non habis pakai" <?= $data->jenis_barang == 'non habis pakai' ? 'selected' : '' ?>>NON HABIS PAKAI </option>
                                 </select>
                                 <div class="invalid-feedback">
                                     <?= form_error('fjenis_barang') ?>
@@ -184,7 +189,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rp</span>
                                     </div>
-                                    <input type="text" class="form-control <?= form_error('fharga_barang') ? 'is-invalid' : '' ?>" id="fharga_barang" name="fharga_barang" placeholder="Harga barang" value="<?= $this->input->post('fharga_barang'); ?>">
+                                    <input type="text" class="form-control <?= form_error('fharga_barang') ? 'is-invalid' : '' ?>" id="fharga_barang" name="fharga_barang" placeholder="Harga barang" value="<?= rupiah_no_rp($data->harga_barang)  ?>">
                                     <div class=" invalid-feedback">
                                         <?= form_error('fharga_barang') ?>
                                     </div>
@@ -192,12 +197,12 @@
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fkondisi_barang">Kondisi Barang</label>
-                                <input type="text" class="form-control <?= form_error('fkondisi_barang') ? 'is-invalid' : '' ?>" id="fkondisi_barang" name="fkondisi_barang" placeholder="Kondisi barang" value="<?= $this->input->post('fkondisi_barang'); ?>">
+                                <input type="text" class="form-control <?= form_error('fkondisi_barang') ? 'is-invalid' : '' ?>" id="fkondisi_barang" name="fkondisi_barang" placeholder="Kondisi barang" value="<?= $data->kondisi_barang ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fkondisi_barang') ?>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary float-right">Tambah</button>
+                            <button type="submit" class="btn btn-primary float-right">Update</button>
 
                         </form>
                     </div>
