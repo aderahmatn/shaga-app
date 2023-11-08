@@ -162,6 +162,14 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url('mutasi') ?>" class="nav-link <?= $this->uri->segment(1) == 'mutasi'  ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-truck-loading"></i>
+                                    <p>
+                                        MUTASI INVENTORY
+                                    </p>
+                                </a>
+                            </li>
                         <?php } ?>
                         <?php if ($this->session->userdata('group') == 1) { ?>
                             <li class="nav-item">
@@ -212,6 +220,16 @@
                                 </p>
                             </a>
                         </li>
+                        <?php if ($this->session->userdata('group') == 1) { ?>
+                            <li class="nav-item">
+                                <a href="<?= base_url('log') ?>" class="nav-link <?= $this->uri->segment(1) == 'log' ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-history"></i>
+                                    <p>
+                                        LOG
+                                    </p>
+                                </a>
+                            </li>
+                        <?php } ?>
                         <li class="nav-item">
                             <a href="<?= base_url('auth/logout') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>

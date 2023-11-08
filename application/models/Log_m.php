@@ -3,6 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Log_m extends CI_Model
 {
+    private $_table = 'log';
+    public function get_all_log()
+    {
+        $this->db->select('*');
+        $this->db->join('users', 'users.id_user= log.id_user', 'left');
+        $this->db->from($this->_table, $this);
+        $this->db->order_by('id_log', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+    }
     public function create_log($deskripsi)
     {
         $this->load->library('user_agent');
