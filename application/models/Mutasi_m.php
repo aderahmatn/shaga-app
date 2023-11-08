@@ -49,15 +49,28 @@ class Mutasi_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_mutasi_by_id($id_mutasi)
+    {
+        $this->db->select('*');
+        $this->db->join('inventory', 'inventory.nomor_registrasi= mutasi_inventory.nomor_registrasi', 'left');
+        $this->db->join('master_barang', 'inventory.id_master_barang= master_barang.kode_barang', 'left');
+        $this->db->where('mutasi_inventory.deleted', 0);
+        $this->db->where('mutasi_inventory.id_mutasi', $id_mutasi);
+        $this->db->from($this->_table, $this);
+        $query = $this->db->get();
+        return $query->row();
+    }
     public function get_mutasi_by_no_registrasi($no_registrasi)
     {
         $this->db->select('*');
         $this->db->join('inventory', 'inventory.nomor_registrasi= mutasi_inventory.nomor_registrasi', 'left');
         $this->db->where('mutasi_inventory.deleted', 0);
         $this->db->where('mutasi_inventory.nomor_registrasi', $no_registrasi);
+        $this->db->order_by('id_mutasi', 'desc');
+
         $this->db->from($this->_table, $this);
         $query = $this->db->get();
-        return $query->row();
+        return $query->result();
     }
     public function add_mutasi()
     {

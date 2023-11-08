@@ -67,14 +67,14 @@
                 <div class="card ">
                     <!-- card-body -->
                     <div class="card-body">
-                        <h5 class="text-primary">TAMBAH DATA MUTASI BARANG</h5>
+                        <h5 class="text-warning">EDIT DATA MUTASI BARANG</h5>
                         <hr>
                         <form role="form" method="POST" action="" autocomplete="off">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                             <div class="form-group required">
                                 <label class="control-label" for="finventory">Nama Barang</label>
                                 <div class="input-group ">
-                                    <input type="text" class=" form-control <?php echo form_error('finventory') ? 'is-invalid' : '' ?>" id="finventory" name="finventory" onfocus="onFocus()" placeholder="Pilih nama barang" value="<?= $this->input->post('finventory'); ?>">
+                                    <input type="text" class=" form-control <?php echo form_error('finventory') ? 'is-invalid' : '' ?>" id="finventory" name="finventory" onfocus="onFocus()" placeholder="Pilih nama barang" value="<?= strtoupper($data->nama_barang)  ?>">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-default " data-toggle="modal" data-target="#modal_barang"><i class="fas fa-search"></i></button>
                                     </span>
@@ -86,33 +86,33 @@
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fbarang">No Registrasi</label>
-                                <input type="text" class="form-control <?= form_error('fno_regis') ? 'is-invalid' : '' ?>" id="fno_regis" name="fno_regis" placeholder="No registrasi barang" value="<?= $this->input->post('fno_regis'); ?>" readonly>
+                                <input type="text" class="form-control <?= form_error('fno_regis') ? 'is-invalid' : '' ?>" id="fno_regis" name="fno_regis" placeholder="No registrasi barang" value="<?= $data->nomor_registrasi ?>" readonly>
                                 <div class="invalid-feedback">
                                     <?= form_error('fno_regis') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="ftgl_mutasi">Tanggal Mutasi</label>
-                                <input type="date" class="form-control <?= form_error('ftgl_mutasi') ? 'is-invalid' : '' ?>" id="ftgl_mutasi" name="ftgl_mutasi" placeholder="Mac address" value="<?= date('Y-m-d'); ?>">
+                                <input type="date" class="form-control <?= form_error('ftgl_mutasi') ? 'is-invalid' : '' ?>" id="ftgl_mutasi" name="ftgl_mutasi" placeholder="Mac address" value="<?= $data->tgl_mutasi ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('ftgl_mutasi') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="flokasi_barang">Lokasi Barang</label>
-                                <textarea name="flokasi_barang" class="form-control <?= form_error('flokasi_barang') ? 'is-invalid' : '' ?> text-uppercase" id="flokasi_barang"><?= $this->input->post('flokasi_barang'); ?></textarea>
+                                <textarea name="flokasi_barang" class="form-control <?= form_error('flokasi_barang') ? 'is-invalid' : '' ?> text-uppercase" id="flokasi_barang"><?= $data->lokasi_barang ?></textarea>
                                 <div class="invalid-feedback">
                                     <?= form_error('flokasi_barang') ?>
                                 </div>
                             </div>
                             <div class="form-group ">
                                 <label for="fnote">Catatan</label>
-                                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase" id="fnote"><?= $this->input->post('fnote'); ?></textarea>
+                                <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase" id="fnote"><?= $data->note ?></textarea>
                                 <div class="invalid-feedback">
                                     <?= form_error('fnote') ?>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary float-right">Tambah</button>
+                            <button type="submit" class="btn btn-primary float-right">Update</button>
 
                         </form>
                     </div>

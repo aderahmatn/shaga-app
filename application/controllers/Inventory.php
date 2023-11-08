@@ -9,7 +9,7 @@ class Inventory extends CI_Controller
         parent::__construct();
         check_not_login();
         check_role_administrator_and_admin_officer();
-        $this->load->model(['Master_barang_m', 'Master_merek_m', 'Log_m', 'Master_tipe_m', 'Inventory_m']);
+        $this->load->model(['Master_barang_m', 'Master_merek_m', 'Log_m', 'Master_tipe_m', 'Inventory_m', 'Mutasi_m']);
         $this->load->helper('Rupiah');
     }
 
@@ -28,7 +28,7 @@ class Inventory extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $inventory->add_inventory($post);
             if ($this->db->affected_rows() > 0) {
-                $this->Log_m->create_log('insert inventory barang ' . $post['fbarang']);
+                $this->Log_m->create_log('insert inventory barang SN ' . $post['fserial_number']);
                 $this->session->set_flashdata('success', 'Data barang berhasil disimpan!');
                 redirect('inventory', 'refresh');
             }
@@ -54,7 +54,7 @@ class Inventory extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $inventory->update_inventory($id, $post);
             if ($this->db->affected_rows() > 0) {
-                $this->Log_m->create_log('update data inventory barang ' . $post['fno_registrasi']);
+                $this->Log_m->create_log('update data inventory barang no regis ' . $post['fno_registrasi']);
                 $this->session->set_flashdata('success', 'Update data barang berhasil!');
                 redirect('inventory', 'refresh');
             } else {
@@ -172,6 +172,60 @@ class Inventory extends CI_Controller
             redirect('inventory/master_tipe', 'refresh');
         }
     }
+
+    public function show_mutasi($noregis)
+    {
+        $data = $this->Mutasi_m->get_mutasi_by_no_registrasi($noregis);
+        if ($data) { ?>
+            <div class="card-header">
+                <div class="card-title">
+                    MUTASI BARANG [<?= $noregis ?>]
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">NO MUTASI</th>
+                            <th scope="col">TGL MUTASI</th>
+                            <th scope="col">LOKASI</th>
+                            <th scope="col">NOTE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data as $key) : ?>
+                            <tr>
+                                <th scope="row"><?= $key->no_mutasi ?></th>
+                                <td><?= TanggalIndo($key->tgl_mutasi) ?></td>
+                                <td><?= strtoupper($key->lokasi_barang)  ?></td>
+                                <td><?= strtoupper($key->note) ?></td>
+                            </tr>
+                        <?php endforeach ?>
+
+                    </tbody>
+                </table>
+
+            </div>
+        <?php } else { ?>
+            <div class="card-header">
+                <div class="card-title">
+                    MUTASI BARANG [<?= $noregis ?>]
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body">
+                <p class="text-center">Belum ada mutasi</p>
+            </div>
+        <?php } ?>
+
+
+<?php }
 }
 
 /* End of file Inventory.php */

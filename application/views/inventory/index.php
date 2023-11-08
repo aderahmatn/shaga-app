@@ -74,6 +74,9 @@
                                         </td>
                                         <td>
                                             <a href="<?= base_url('inventory/edit/') . encrypt_url($key->id_inventory) ?>" class="btn btn-xs btn-primary">EDIT DATA</a>
+                                            <a data-toggle="modal" onclick="showMutasi('<?= $key->nomor_registrasi ?>')" href="#modal_mutasi" class="btn btn-primary btn-xs">
+                                                LIHAT MUTASI
+                                            </a>
                                             <a href="<?= base_url('inventory/barcode/') . $key->nomor_registrasi ?>" class="btn btn-xs btn-success" target="_blank">BARCODE</a>
                                             <a href="#" class="btn btn-xs btn-danger" onclick="deleteConfirm('<?= base_url() . 'inventory/delete_inventory/' . encrypt_url($key->id_inventory) ?>')">DELETE</a>
 
@@ -242,7 +245,6 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-
             </div>
             <div class="modal-body" id="bodymodal_modal_tipe_barang">
                 <div class="card-body table-responsive-sm">
@@ -277,6 +279,14 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Mutasi-->
+<div class="modal fade" id="modal_mutasi">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="bodymodal_mutasi">
+
         </div>
     </div>
 </div>
@@ -318,5 +328,17 @@
 
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+    function showMutasi(noregis) {
+        $.ajax({
+            type: "get",
+            url: "<?= site_url('inventory/show_mutasi/'); ?>" + noregis,
+            dataType: "html",
+            success: function(response) {
+                $('#bodymodal_mutasi').empty();
+                $('#bodymodal_mutasi').append(response);
+            }
+        });
     }
 </script>
