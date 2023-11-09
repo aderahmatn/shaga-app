@@ -6,6 +6,7 @@ class Master_tipe_m extends CI_Model
     private $_table = 'master_tipe';
     public $kode_tipe;
     public $id_master_merek;
+    public $nama_tipe;
     public $no_urut_tipe;
     public $spesifikasi;
     public $deleted;
@@ -20,6 +21,11 @@ class Master_tipe_m extends CI_Model
             [
                 'field' => 'fspesifikasi',
                 'label' => 'spesifikasi',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'fnama_tipe',
+                'label' => 'nama_tipe',
                 'rules' => 'required'
             ],
             [
@@ -43,6 +49,7 @@ class Master_tipe_m extends CI_Model
         $post = $this->input->post();
         $this->kode_tipe = 'TP' . sprintf("%04d", $this->get_no_urut_tipe());
         $this->no_urut_tipe = $this->get_no_urut_tipe();
+        $this->nama_tipe = $post['fnama_tipe'];
         $this->id_master_merek = $post['fmerek'];
         $this->spesifikasi = $post['fspesifikasi'];
         $this->deleted = 0;

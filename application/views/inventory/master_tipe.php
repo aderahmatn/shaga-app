@@ -26,6 +26,7 @@
                                 <tr>
                                     <th>KODE TIPE</th>
                                     <th>NAMA MEREK</th>
+                                    <th>NAMA TIPE</th>
                                     <th>SPEKSIFIKASI</th>
                                     <th>OPSI</th>
                                 </tr>
@@ -42,6 +43,9 @@
                                         </td>
                                         <td class="text-uppercase">
                                             <?= $key->nama_merek ?>
+                                        </td>
+                                        <td class="text-uppercase">
+                                            <?= $key->nama_tipe ?>
                                         </td>
                                         <td class="text-uppercase">
                                             <?= $key->spesifikasi ?>
@@ -66,10 +70,17 @@
                         <form role="form" method="POST" action="" autocomplete="off">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                             <div class="form-group required">
-                                <label class="control-label" for="fkode_merek">Kode Tipe</label>
+                                <label class="control-label" for="fkode_tipe">Kode Tipe</label>
                                 <input type="text" class="form-control <?= form_error('fkode_tipe') ? 'is-invalid' : '' ?>" id="fkode_tipe" name="fkode_tipe" placeholder="Kode barang" value="<?= 'TP' . sprintf("%04d", $no_urut) ?>" readonly>
                                 <div class="invalid-feedback">
                                     <?= form_error('fkode_tipe') ?>
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label" for="fnama_tipe">Nama Tipe</label>
+                                <input type="text" class="form-control <?= form_error('fnama_tipe') ? 'is-invalid' : '' ?>" id="fnama_tipe" name="fnama_tipe" placeholder="Nama tipe" value="<?= $this->input->post('fnama_tipe') ?>">
+                                <div class="invalid-feedback">
+                                    <?= form_error('fnama_tipe') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
