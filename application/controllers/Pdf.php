@@ -8,8 +8,8 @@ class Pdf extends CI_Controller
     {
         parent::__construct();
         check_not_login();
-        $this->load->model(['Users_m', 'Payroll_m', 'Kasbon_m']);
-        $this->load->helper('rupiah');
+        $this->load->model(['Users_m', 'Payroll_m', 'Kasbon_m', 'Spk_m']);
+        $this->load->helper(['rupiah', 'project']);
         include_once APPPATH . '/third_party/fpdf/fpdf.php';
     }
 
@@ -47,6 +47,11 @@ class Pdf extends CI_Controller
         } else {
             redirect('payroll/payslip', 'refresh');
         }
+    }
+    public function spk_pdf($id_spk)
+    {
+        $data['data'] = $this->Spk_m->get_spk_by_id(decrypt_url($id_spk));
+        $this->load->view('spk/spk_pdf', $data);
     }
 }
 

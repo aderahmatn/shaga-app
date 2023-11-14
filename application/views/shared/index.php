@@ -124,7 +124,14 @@
                             </ul>
 
                         </li>
-
+                        <li class="nav-item">
+                            <a href="<?= base_url('spk') ?>" class="nav-link <?= $this->uri->segment(1) == 'spk'  ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-file-contract"></i>
+                                <p>
+                                    SPK
+                                </p>
+                            </a>
+                        </li>
 
                         <?php if ($this->session->userdata('group') == 1 || $this->session->userdata('group') == 11) { ?>
                             <li class="nav-header">ADMINISTRATOR</li>
