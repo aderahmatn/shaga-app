@@ -81,6 +81,7 @@ class Inventory extends CI_Controller
             redirect('inventory', 'refresh');
         } else {
             $data['id'] = $id;
+            $data['data'] = $this->Inventory_m->get_by_no_registrasi($id);
             $this->load->view('inventory/barcode_pdf', $data);
         }
     }

@@ -132,15 +132,15 @@
                                     <?= form_error('fspesifikasi') ?>
                                 </div>
                             </div>
-                            <div class="form-group required">
-                                <label class="control-label" for="fserial_number">Serial Number</label>
+                            <div class="form-group ">
+                                <label for="fserial_number">Serial Number</label>
                                 <input type="text" class="form-control <?= form_error('fserial_number') ? 'is-invalid' : '' ?>" id="fserial_number" name="fserial_number" placeholder="Serial number" value="<?= $data->serial_number ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fserial_number') ?>
                                 </div>
                             </div>
-                            <div class="form-group required">
-                                <label class="control-label" for="fmac_address">Mac Address</label>
+                            <div class="form-group ">
+                                <label for="fmac_address">Mac Address</label>
                                 <input type="text" class="form-control <?= form_error('fmac_address') ? 'is-invalid' : '' ?>" id="fmac_address" name="fmac_address" placeholder="Mac address" value="<?= $data->mac_address ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fmac_address') ?>

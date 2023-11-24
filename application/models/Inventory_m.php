@@ -33,16 +33,6 @@ class Inventory_m extends CI_Model
                 'rules' => 'required'
             ],
             [
-                'field' => 'fserial_number',
-                'label' => 'serial number',
-                'rules' => 'required|is_unique[inventory.serial_number]'
-            ],
-            [
-                'field' => 'fmac_address',
-                'label' => 'mac address',
-                'rules' => 'required|is_unique[inventory.mac_address]'
-            ],
-            [
                 'field' => 'ftgl_registrasi',
                 'label' => 'tanggal registrasi',
                 'rules' => 'required'
@@ -88,16 +78,6 @@ class Inventory_m extends CI_Model
                 'rules' => 'required'
             ],
             [
-                'field' => 'fserial_number',
-                'label' => 'serial number',
-                'rules' => 'required'
-            ],
-            [
-                'field' => 'fmac_address',
-                'label' => 'mac address',
-                'rules' => 'required'
-            ],
-            [
                 'field' => 'ftgl_registrasi',
                 'label' => 'tanggal registrasi',
                 'rules' => 'required'
@@ -138,6 +118,18 @@ class Inventory_m extends CI_Model
         $this->db->from($this->_table, $this);
         $query = $this->db->get();
         return $query->result();
+    }
+    public function get_by_no_registrasi($no_regis)
+    {
+        $this->db->select('*');
+        $this->db->join('master_barang', 'master_barang.kode_barang= inventory.id_master_barang', 'left');
+        $this->db->join('master_tipe', 'master_tipe.id_master_tipe= inventory.id_master_tipe', 'left');
+        $this->db->join('master_merek', 'master_tipe.id_master_merek= master_merek.id_master_merek', 'left');
+        $this->db->where('inventory.deleted', 0);
+        $this->db->where('inventory.nomor_registrasi', $no_regis);
+        $this->db->from($this->_table, $this);
+        $query = $this->db->get();
+        return $query->row();
     }
     public function get_by_id_inventory($id_inventory)
     {

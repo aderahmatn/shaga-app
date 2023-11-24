@@ -131,15 +131,15 @@
                                     <?= form_error('fspesifikasi') ?>
                                 </div>
                             </div>
-                            <div class="form-group required">
-                                <label class="control-label" for="fserial_number">Serial Number</label>
+                            <div class="form-group ">
+                                <label for="fserial_number">Serial Number</label>
                                 <input type="text" class="form-control <?= form_error('fserial_number') ? 'is-invalid' : '' ?>" id="fserial_number" name="fserial_number" placeholder="Serial number" value="<?= $this->input->post('fserial_number'); ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fserial_number') ?>
                                 </div>
                             </div>
-                            <div class="form-group required">
-                                <label class="control-label" for="fmac_address">Mac Address</label>
+                            <div class="form-group ">
+                                <label for="fmac_address">Mac Address</label>
                                 <input type="text" class="form-control <?= form_error('fmac_address') ? 'is-invalid' : '' ?>" id="fmac_address" name="fmac_address" placeholder="Mac address" value="<?= $this->input->post('fmac_address'); ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fmac_address') ?>
@@ -253,6 +253,7 @@
                             <tr>
                                 <th>PILIH</th>
                                 <th>KODE TIPE</th>
+                                <th>NAMA TIPE</th>
                                 <th>MEREK</th>
                                 <th>SPESIFIKASI</th>
                             </tr>
@@ -266,6 +267,9 @@
                                     </td>
                                     <td>
                                         <?= $key->kode_tipe ?>
+                                    </td>
+                                    <td>
+                                        <?= strtoupper($key->nama_tipe) ?>
                                     </td>
                                     <td>
                                         <?= strtoupper($key->nama_merek) ?>
