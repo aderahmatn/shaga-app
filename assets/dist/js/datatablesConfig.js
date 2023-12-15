@@ -14,4 +14,13 @@ $(document).ready(function () {
 		// info: false,
 		// paging: false
 	});
+	$("#tableOnModalPelanggan").DataTable({
+		// rowReorder: {
+		//     selector: 'td:nth-child(2)'
+		// },
+		responsive: true,
+		// "lengthChange": false,
+		// info: false,
+		// paging: false
+	});
 });

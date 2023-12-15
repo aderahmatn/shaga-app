@@ -4,7 +4,7 @@
 $pdf = new FPDF('p', 'mm', 'A4');
 // membuat halaman baru
 $pdf->AddPage();
-$pdf->SetTitle("SPK ", 1);
+$pdf->SetTitle("SPK PELANGGAN " . $data->id_customer . " " . $data->fullname, 1);
 
 // setting jenis font yang akan digunakan
 $pdf->SetFont('Arial', 'B', 10);
@@ -52,13 +52,17 @@ $pdf->Cell(40, 7, 'Tanggal ', 0, 0, 'L');
 $pdf->Cell(7, 7, ':', 0, 0, 'L');
 $pdf->Cell(5, 7, TanggalIndo($data->tgl_spk), 0, 1, 'L');
 $pdf->Cell(7, 7, '', 0, 0, 'L');
-$pdf->Cell(40, 7, 'Nama site ', 0, 0, 'L');
+$pdf->Cell(40, 7, 'ID Pelanggan ', 0, 0, 'L');
 $pdf->Cell(7, 7, ':', 0, 0, 'L');
-$pdf->Cell(5, 7, strtoupper($data->nama_site), 0, 1, 'L');
+$pdf->Cell(5, 7, strtoupper($data->id_customer), 0, 1, 'L');
 $pdf->Cell(7, 7, '', 0, 0, 'L');
-$pdf->Cell(40, 7, 'Jenis site ', 0, 0, 'L');
+$pdf->Cell(40, 7, 'Nama Pelanggan ', 0, 0, 'L');
 $pdf->Cell(7, 7, ':', 0, 0, 'L');
-$pdf->Cell(5, 7, strtoupper($data->jenis_site), 0, 1, 'L');
+$pdf->Cell(5, 7, strtoupper($data->fullname), 0, 1, 'L');
+$pdf->Cell(7, 7, '', 0, 0, 'L');
+$pdf->Cell(40, 7, 'No. Layanan ', 0, 0, 'L');
+$pdf->Cell(7, 7, ':', 0, 0, 'L');
+$pdf->Cell(5, 7, strtoupper($data->no_layanan), 0, 1, 'L');
 $pdf->Cell(7, 7, '', 0, 0, 'L');
 $pdf->Cell(40, 7, 'PIC site ', 0, 0, 'L');
 $pdf->Cell(7, 7, ':', 0, 0, 'L');
@@ -72,10 +76,9 @@ $pdf->Cell(40, 7, 'Alamat site ', 0, 0, 'L');
 $pdf->Cell(7, 7, ':', 0, 0, 'L');
 $pdf->MultiCell(135, 7, strtoupper($data->alamat_site), 0,  1);
 
-$pdf->Cell(68, 5, '', 0, 1, 'L');
+// $pdf->Cell(68, 5, '', 0, 1, 'L');
 $pdf->Cell(68, 7, 'Rincian pekerjaan : ', 0, 1, 'L');
 $pdf->SetLineWidth(0.1);
-
 $pdf->Cell(7, 7, '', 0, 0, 'L');
 $pdf->Cell(40, 9, 'Uraian pekerjaan ', 0, 0, 'L');
 $pdf->Cell(7, 9, ':', 0, 0, 'L');
@@ -108,14 +111,14 @@ $pdf->Cell(20, 5, 'Selesai', 0, 0, 'L');
 $pdf->Cell(5, 5, '', 1, 0, 'L');
 $pdf->Cell(20, 5, 'Belum Selesai', 0, 1, 'L');
 $h = $pdf->getY() + $pdf->getX();
-$descriptionHeight = $h - 2;
+$descriptionHeight = $h - 6;
 $LineHeight = $h / 2;
 if ($h - 145 < 43) {
     $ttd = $h - 145;
 } else {
     $ttd = $h - 153;
 }
-$pdf->Cell(68, 9, '', 0, 1, 'L');
+$pdf->Cell(68, 5, '', 0, 1, 'L');
 $pdf->Cell(2, 9, '', 0, 0, 'L');
 $pdf->Cell(68, 7, 'Catatan :', 0, 1, 'L');
 $pdf->SetLineWidth(0.1);

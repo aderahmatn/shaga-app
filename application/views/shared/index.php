@@ -124,15 +124,37 @@
                             </ul>
 
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('spk') ?>" class="nav-link <?= $this->uri->segment(1) == 'spk'  ? 'active' : '' ?>">
+                        <li class="nav-item <?= $this->uri->segment(1) == 'spk' || $this->uri->segment(1) == 'jenis_pekerjaan' ? 'menu-is-opening menu-open' : '' ?> ">
+                            <a href="#" class="nav-link <?= $this->uri->segment(1) == 'kasbon' || $this->uri->segment(1) == 'pembelian' ? 'active' : '' ?> ">
                                 <i class="nav-icon fas fa-file-contract"></i>
                                 <p>
                                     SPK
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                        </li>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('spk/spk_pelanggan') ?>" class="nav-link <?= $this->uri->segment(2) == 'spk_pelanggan' ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>SPK PELANGGAN</p>
+                                    </a>
+                                </li>
 
+                                <li class="nav-item">
+                                    <a href="<?= base_url('spk/spk_pop') ?>" class="nav-link <?= $this->uri->segment(2) == 'spk_pop' ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>SPK POP</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('spk/spk_project') ?>" class="nav-link <?= $this->uri->segment(1) == 'spk_project' ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>SPK PROJECT</p>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
                         <?php if ($this->session->userdata('group') == 1 || $this->session->userdata('group') == 11) { ?>
                             <li class="nav-header">ADMINISTRATOR</li>
                             <li class="nav-item <?= $this->uri->segment(1) == 'customer' || $this->uri->segment(1) == 'wilayah' || $this->uri->segment(1) == 'profile_layanan' ? 'menu-is-opening menu-open' : '' ?> ">

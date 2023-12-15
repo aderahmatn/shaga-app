@@ -314,12 +314,28 @@ class Kasbon extends CI_Controller
                     </div>
                 </div>
             </div>
-
             <div class="form-group required">
-                <label class="control-label" for="fname_user">Disetujui Oleh</label>
-                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user" name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
+                <label class="control-label" for="fname_user">Nama Karyawan</label>
+                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user" name="fname_user" value="<?= strtoupper($data->nama_user) ?>" readonly>
             </div>
+            <div class="form-group required">
+                <label class="control-label" for="fkategori">Kategori Keuangan</label>
+                <input type="text" class="form-control <?= form_error('fkategori') ? 'is-invalid' : '' ?>" id="fkategori" name="fkategori" value="<?= strtoupper($data->kategori_keuangan) ?>" readonly>
+            </div>
+            <div class="form-group required">
+                <label class="control-label" for="fnominal">Nominal</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Rp</span>
+                    </div>
+                    <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" placeholder="Nominal kasbon" value="<?= rupiah_no_rp($data->nominal) ?>" readonly>
 
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="control-label" for="fnominal">Note Pengajuan</label>
+                <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" value="<?= strtoupper($data->note) ?>" readonly>
+            </div>
             </div>
             <div class="form-group ">
                 <label for="fnote">Catatan</label>
@@ -360,8 +376,22 @@ class Kasbon extends CI_Controller
             </div>
 
             <div class="form-group required">
-                <label class="control-label" for="fname_user">ditolak Oleh</label>
-                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user" name="fname_user" value="<?= strtoupper($this->session->userdata('nama_user')) ?>" readonly>
+                <label class="control-label" for="fname_user">Nama Karyawan</label>
+                <input type="text" class="form-control <?= form_error('fname_user') ? 'is-invalid' : '' ?>" id="fname_user" name="fname_user" value="<?= strtoupper($data->nama_user) ?>" readonly>
+            </div>
+            <div class="form-group required">
+                <label class="control-label" for="fkategori">Kategori Keuangan</label>
+                <input type="text" class="form-control <?= form_error('fkategori') ? 'is-invalid' : '' ?>" id="fkategori" name="fkategori" value="<?= strtoupper($data->kategori_keuangan) ?>" readonly>
+            </div>
+            <div class="form-group required">
+                <label class="control-label" for="fnominal">Nominal</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Rp</span>
+                    </div>
+                    <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" placeholder="Nominal kasbon" value="<?= rupiah_no_rp($data->nominal) ?>" readonly>
+
+                </div>
             </div>
 
             </div>
