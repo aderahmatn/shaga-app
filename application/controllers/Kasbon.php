@@ -15,6 +15,7 @@ class Kasbon extends CI_Controller
         $this->load->helper('rupiah');
         $this->load->helper('status_kasbon');
         $this->load->model('Users_m');
+        $this->load->model('Project_m');
         $this->load->model('Kategori_keuangan_m');
         $this->load->helper('telegram');
     }
@@ -65,17 +66,32 @@ class Kasbon extends CI_Controller
     }
     public function create()
     {
+        // file config
+        $filename = date('d/m/Y');
+        $config['overwrite'] = false;
+        $config['upload_path'] = './uploads/kasbon/pengajuan';
+        $config['allowed_types'] = 'png|jpg|pdf|jpeg';
+        $config['file_name'] = $filename;
+        $config['max_size'] = 2048;
         $kasbon = $this->Kasbon_m;
         $kategori = $this->Kategori_keuangan_m;
+        $project = $this->Project_m;
         $validation = $this->form_validation;
         $validation->set_rules($kasbon->rules());
         if ($validation->run() == FALSE) {
             $data['no_urut'] = $kasbon->get_no_urut_kasbon();
+            $data['project'] = $project->get_all_project();
             $data['kategori_keuangan'] = $kategori->get_all_kategori_keuangan();
             $this->template->load('shared/index', 'kasbon/create', $data);
         } else {
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('flampiran')) {
+                $file = $this->upload->data("file_name");
+            } else {
+                $file = null;
+            }
             $post = $this->input->post(null, TRUE);
-            $kasbon->add_kasbon($post);
+            $kasbon->add_kasbon($post, $file);
             if ($this->db->affected_rows() > 0) {
                 $this->Status_kasbon_m->add_status_created_kasbon($post);
                 telegram_notif_pengajuan_keuangan($post);
@@ -206,11 +222,36 @@ class Kasbon extends CI_Controller
                 </p>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Project</strong>
+                <p class="mb-0">
+                    <?= $data->nama_project ?>
+                </p>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
                 <strong>Note</strong>
                 <p class="mb-0">
                     <?= $data->note ?>
                 </p>
             </li>
+            <?php if ($data->lampiran !== null) : ?>
+                <div class="card card-secondary" style="transition: all 0.15s ease 0s; height: inherit; width: inherit;">
+                    <div class="card-header">
+                        <h3 class="card-title">Lampiran Pengajuan</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="display: block;">
+                        <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                    </div>
+
+                </div>
+            <?php endif ?>
             <li class="pt-3 px-3 d-flex justify-content-end align-items-center">
 
                 <button class="btn btn-primary" id="closemodal">TUTUP</button>
@@ -333,6 +374,10 @@ class Kasbon extends CI_Controller
                 </div>
             </div>
             <div class="form-group required">
+                <label class="control-label" for="fnominal">Project</label>
+                <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" value="<?= strtoupper($data->nama_project) ?>" readonly>
+            </div>
+            <div class="form-group required">
                 <label class="control-label" for="fnominal">Note Pengajuan</label>
                 <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" value="<?= strtoupper($data->note) ?>" readonly>
             </div>
@@ -344,6 +389,25 @@ class Kasbon extends CI_Controller
                     <?= form_error('fnote') ?>
                 </div>
             </div>
+            <?php if ($data->lampiran !== null) : ?>
+                <div class="card card-secondary" style="transition: all 0.15s ease 0s; height: inherit; width: inherit;">
+                    <div class="card-header">
+                        <h3 class="card-title">Lampiran Pengajuan</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="display: block;">
+                        <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                    </div>
+
+                </div>
+            <?php endif ?>
             <button type="submit" class="btn btn-success float-right mt-2">SETUJUI</button>
             <a href="<?= base_url('kasbon') ?>" class="btn btn-primary">TUTUP</a>
         </form>
@@ -393,8 +457,15 @@ class Kasbon extends CI_Controller
 
                 </div>
             </div>
-
+            <div class="form-group required">
+                <label class="control-label" for="fnominal">Project</label>
+                <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" value="<?= strtoupper($data->nama_project) ?>" readonly>
             </div>
+            <div class="form-group required">
+                <label class="control-label" for="fnominal">Note Pengajuan</label>
+                <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" value="<?= strtoupper($data->note) ?>" readonly>
+            </div>
+
             <div class="form-group ">
                 <label for="fnote">Catatan</label>
                 <textarea name="fnote" class="form-control <?= form_error('fnote') ? 'is-invalid' : '' ?> text-uppercase" id="fnote"><?= $this->input->post('fnote'); ?></textarea>
@@ -402,6 +473,25 @@ class Kasbon extends CI_Controller
                     <?= form_error('fnote') ?>
                 </div>
             </div>
+            <?php if ($data->lampiran !== null) : ?>
+                <div class="card card-secondary" style="transition: all 0.15s ease 0s; height: inherit; width: inherit;">
+                    <div class="card-header">
+                        <h3 class="card-title">Lampiran Pengajuan</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="display: block;">
+                        <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                    </div>
+
+                </div>
+            <?php endif ?>
             <button type="submit" class="btn btn-danger float-right mt-2">TOLAK</button>
             <a href="<?= base_url('kasbon') ?>" class="btn btn-primary">TUTUP</a>
         </form>

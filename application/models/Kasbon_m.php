@@ -7,9 +7,11 @@ class Kasbon_m extends CI_Model
     public $no_dokumen;
     public $id_user;
     public $keperluan;
+    public $project_id;
     public $nominal;
     public $cara_bayar;
     public $no_urut_kasbon;
+    public $lampiran;
     public $note;
     public $deleted;
     public function rules()
@@ -30,14 +32,26 @@ class Kasbon_m extends CI_Model
                 'label' => 'cara pencairan',
                 'rules' => 'required'
             ],
+            [
+                'field' => 'fnama_project',
+                'label' => 'project',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'fid_project',
+                'label' => 'project',
+                'rules' => 'required'
+            ],
         ];
     }
 
-    public function add_kasbon()
+    public function add_kasbon($post, $file)
     {
         $post = $this->input->post();
         $this->id_user = $this->session->userdata('id_user');
         $this->no_dokumen = $post['fno_dokumen'];
+        $this->project_id = $post['fid_project'];
+        $this->lampiran = $file;
         $this->keperluan = $post['fkeperluan'];
         $this->nominal = str_replace(".", "", $post['fnominal']);
         $this->cara_bayar = $post['fcara_pencairan'];
@@ -172,10 +186,11 @@ class Kasbon_m extends CI_Model
     }
     public function get_by_id_kasbon($id)
     {
-        $this->db->select('kasbon.*, users.nama_user, users.nik, kategori_keuangan.kategori_keuangan');
+        $this->db->select('kasbon.*, users.nama_user, users.nik, kategori_keuangan.kategori_keuangan, project.nama_project');
         $this->db->from($this->_table);
         $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
         $this->db->join('kategori_keuangan', 'kategori_keuangan.id_kategori_keuangan = kasbon.keperluan', 'left');
+        $this->db->join('project', 'project.project_id = kasbon.project_id', 'left');
         $this->db->where('kasbon.deleted', 0);
         $this->db->where('kasbon.id_kasbon', $id);
         $query = $this->db->get();
