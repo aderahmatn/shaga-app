@@ -73,12 +73,10 @@ class Status_kasbon_m extends CI_Model
         $this->db->select('status_kasbon');
         $this->db->where('no_dokumen', $no_dokumen);
         $this->db->order_by('id_status_kasbon', 'desc');
-
         $this->db->from($this->_table);
         $query = $this->db->get();
         return $query->row()->status_kasbon;
     }
-
 }
 
 /* End of file Status_kasbon_m.php */

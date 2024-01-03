@@ -82,6 +82,15 @@ class Status_pembelian_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    function cek_status_terkahir($no_pembelian)
+    {
+        $this->db->select('status_pembelian');
+        $this->db->where('no_pembelian', $no_pembelian);
+        $this->db->order_by('id_status_pembelian', 'desc');
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->row()->status_pembelian;
+    }
 }
 
 /* End of file Status_pembelian_m.php */

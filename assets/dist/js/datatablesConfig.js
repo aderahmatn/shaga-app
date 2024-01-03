@@ -5,6 +5,13 @@ $(document).ready(function () {
 		// },
 		responsive: true,
 	});
+	$("#tableKeuangan").DataTable({
+		// rowReorder: {
+		//     selector: 'td:nth-child(2)'
+		// },
+		columnDefs: [{ width: "20%", targets: 6 }],
+		responsive: true,
+	});
 	$("#tableOnModal").DataTable({
 		// rowReorder: {
 		//     selector: 'td:nth-child(2)'

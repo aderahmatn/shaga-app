@@ -265,7 +265,146 @@ class Pembelian extends CI_Controller
     function approve_pm($id_pembelian)
     {
         $data = $this->Pembelian_m->get_by_id_pembelian($id_pembelian);
+        $item = $this->Item_pembelian_m->get_item_by_no_pembelian($data->no_pembelian);
     ?>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="text-success">DATA DOKUMEN</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>No. Pembelian</strong>
+                        <p class="mb-0">
+                            <?= $data->no_pembelian ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Tanggal Pengajuan</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->created_date) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>NIK</strong>
+                        <p class="mb-0">
+                            <?= $data->nik ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Lengkap</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_user ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Deadline Pembelian</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->deadline_pembelian) ?>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-success">DATA PROJECT</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Project</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_project ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Owner</strong>
+                        <p class="mb-0">
+                            <?= $data->project_owner ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Deadline</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->project_deadline) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Manager</strong>
+                        <p class="mb-0">
+                            <?= get_project_manager($data->project_id) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Location</strong>
+                        <p class="mb-0">
+                            <?= $data->project_location ?>
+                        </p>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5 class="text-success">DATA BARANG</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NAMA BARANG</th>
+                            <th scope="col">SPESIFIKASI</th>
+                            <th scope="col">HARGA SATUAN</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col">SATUAN</th>
+                            <th scope="col">TOTAL</th>
+                            <th scope="col">NOTE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $no = 1;
+                        foreach ($item as $key) :
+                        ?>
+                            <tr class="text-uppercase">
+                                <th scope="row">
+                                    <?= $no++ ?>
+                                </th>
+                                <td>
+                                    <?= $key->nama_barang ?>
+                                </td>
+                                <td>
+                                    <?= $key->spesifikasi ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->harga_satuan) ?>
+                                </td>
+                                <td>
+                                    <?= $key->qty ?>
+                                </td>
+                                <td>
+                                    <?= $key->satuan ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->total_harga) ?>
+                                </td>
+                                <td>
+                                    <?= $key->note ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                    <tfoot class="bg-secondary">
+                        <tr>
+                            <th colspan="6" class="text-center">TOTAL PEMBELIAN :</th>
+                            <th colspan="2">
+                                <?= rupiah(get_total_pembelian_by_no_pembelian($key->no_pembelian)) ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <hr>
         <h4 class="text-success">APPROVE PROJECT MANAGER</h4>
         <form role="form" method="POST" action="<?= base_url('pembelian/process_approve_pm') ?>" autocomplete="off">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
@@ -305,7 +444,145 @@ class Pembelian extends CI_Controller
     function approve_adm($id_pembelian)
     {
         $data = $this->Pembelian_m->get_by_id_pembelian($id_pembelian);
+        $item = $this->Item_pembelian_m->get_item_by_no_pembelian($data->no_pembelian);
     ?>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="text-success">DATA DOKUMEN</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>No. Pembelian</strong>
+                        <p class="mb-0">
+                            <?= $data->no_pembelian ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Tanggal Pengajuan</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->created_date) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>NIK</strong>
+                        <p class="mb-0">
+                            <?= $data->nik ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Lengkap</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_user ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Deadline Pembelian</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->deadline_pembelian) ?>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-success">DATA PROJECT</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Project</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_project ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Owner</strong>
+                        <p class="mb-0">
+                            <?= $data->project_owner ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Deadline</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->project_deadline) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Manager</strong>
+                        <p class="mb-0">
+                            <?= get_project_manager($data->project_id) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Location</strong>
+                        <p class="mb-0">
+                            <?= $data->project_location ?>
+                        </p>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5 class="text-success">DATA BARANG</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NAMA BARANG</th>
+                            <th scope="col">SPESIFIKASI</th>
+                            <th scope="col">HARGA SATUAN</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col">SATUAN</th>
+                            <th scope="col">TOTAL</th>
+                            <th scope="col">NOTE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $no = 1;
+                        foreach ($item as $key) :
+                        ?>
+                            <tr class="text-uppercase">
+                                <th scope="row">
+                                    <?= $no++ ?>
+                                </th>
+                                <td>
+                                    <?= $key->nama_barang ?>
+                                </td>
+                                <td>
+                                    <?= $key->spesifikasi ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->harga_satuan) ?>
+                                </td>
+                                <td>
+                                    <?= $key->qty ?>
+                                </td>
+                                <td>
+                                    <?= $key->satuan ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->total_harga) ?>
+                                </td>
+                                <td>
+                                    <?= $key->note ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                    <tfoot class="bg-secondary">
+                        <tr>
+                            <th colspan="6" class="text-center">TOTAL PEMBELIAN :</th>
+                            <th colspan="2">
+                                <?= rupiah(get_total_pembelian_by_no_pembelian($key->no_pembelian)) ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <hr>
         <h4 class="text-success">APPROVE ADMINISTRATOR</h4>
         <form role="form" method="POST" action="<?= base_url('pembelian/process_approve_adm') ?>" autocomplete="off">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
@@ -345,7 +622,145 @@ class Pembelian extends CI_Controller
     function reject_pm($id_pembelian)
     {
         $data = $this->Pembelian_m->get_by_id_pembelian($id_pembelian);
+        $item = $this->Item_pembelian_m->get_item_by_no_pembelian($data->no_pembelian);
+
     ?>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="text-success">DATA DOKUMEN</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>No. Pembelian</strong>
+                        <p class="mb-0">
+                            <?= $data->no_pembelian ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Tanggal Pengajuan</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->created_date) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>NIK</strong>
+                        <p class="mb-0">
+                            <?= $data->nik ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Lengkap</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_user ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Deadline Pembelian</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->deadline_pembelian) ?>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-success">DATA PROJECT</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Project</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_project ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Owner</strong>
+                        <p class="mb-0">
+                            <?= $data->project_owner ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Deadline</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->project_deadline) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Manager</strong>
+                        <p class="mb-0">
+                            <?= get_project_manager($data->project_id) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Location</strong>
+                        <p class="mb-0">
+                            <?= $data->project_location ?>
+                        </p>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5 class="text-success">DATA BARANG</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NAMA BARANG</th>
+                            <th scope="col">SPESIFIKASI</th>
+                            <th scope="col">HARGA SATUAN</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col">SATUAN</th>
+                            <th scope="col">TOTAL</th>
+                            <th scope="col">NOTE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $no = 1;
+                        foreach ($item as $key) :
+                        ?>
+                            <tr class="text-uppercase">
+                                <th scope="row">
+                                    <?= $no++ ?>
+                                </th>
+                                <td>
+                                    <?= $key->nama_barang ?>
+                                </td>
+                                <td>
+                                    <?= $key->spesifikasi ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->harga_satuan) ?>
+                                </td>
+                                <td>
+                                    <?= $key->qty ?>
+                                </td>
+                                <td>
+                                    <?= $key->satuan ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->total_harga) ?>
+                                </td>
+                                <td>
+                                    <?= $key->note ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                    <tfoot class="bg-secondary">
+                        <tr>
+                            <th colspan="6" class="text-center">TOTAL PEMBELIAN :</th>
+                            <th colspan="2">
+                                <?= rupiah(get_total_pembelian_by_no_pembelian($key->no_pembelian)) ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <hr>
         <h4 class="text-danger">REJECT PROJECT MANAGER</h4>
         <form role="form" method="POST" action="<?= base_url('pembelian/process_reject_pm') ?>" autocomplete="off">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
@@ -385,7 +800,145 @@ class Pembelian extends CI_Controller
     function reject_adm($id_pembelian)
     {
         $data = $this->Pembelian_m->get_by_id_pembelian($id_pembelian);
+        $item = $this->Item_pembelian_m->get_item_by_no_pembelian($data->no_pembelian);
+
     ?>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="text-success">DATA DOKUMEN</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>No. Pembelian</strong>
+                        <p class="mb-0">
+                            <?= $data->no_pembelian ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Tanggal Pengajuan</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->created_date) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>NIK</strong>
+                        <p class="mb-0">
+                            <?= $data->nik ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Lengkap</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_user ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Deadline Pembelian</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->deadline_pembelian) ?>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-success">DATA PROJECT</h5>
+                <ul class="list-group list-group-flush text-uppercase">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Nama Project</strong>
+                        <p class="mb-0">
+                            <?= $data->nama_project ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Owner</strong>
+                        <p class="mb-0">
+                            <?= $data->project_owner ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Deadline</strong>
+                        <p class="mb-0">
+                            <?= TanggalIndo($data->project_deadline) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Manager</strong>
+                        <p class="mb-0">
+                            <?= get_project_manager($data->project_id) ?>
+                        </p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                        <strong>Project Location</strong>
+                        <p class="mb-0">
+                            <?= $data->project_location ?>
+                        </p>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5 class="text-success">DATA BARANG</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NAMA BARANG</th>
+                            <th scope="col">SPESIFIKASI</th>
+                            <th scope="col">HARGA SATUAN</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col">SATUAN</th>
+                            <th scope="col">TOTAL</th>
+                            <th scope="col">NOTE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $no = 1;
+                        foreach ($item as $key) :
+                        ?>
+                            <tr class="text-uppercase">
+                                <th scope="row">
+                                    <?= $no++ ?>
+                                </th>
+                                <td>
+                                    <?= $key->nama_barang ?>
+                                </td>
+                                <td>
+                                    <?= $key->spesifikasi ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->harga_satuan) ?>
+                                </td>
+                                <td>
+                                    <?= $key->qty ?>
+                                </td>
+                                <td>
+                                    <?= $key->satuan ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->total_harga) ?>
+                                </td>
+                                <td>
+                                    <?= $key->note ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                    <tfoot class="bg-secondary">
+                        <tr>
+                            <th colspan="6" class="text-center">TOTAL PEMBELIAN :</th>
+                            <th colspan="2">
+                                <?= rupiah(get_total_pembelian_by_no_pembelian($key->no_pembelian)) ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <hr>
         <h4 class="text-danger">REJECT ADMINISTRATOR</h4>
         <form role="form" method="POST" action="<?= base_url('pembelian/process_reject_adm') ?>" autocomplete="off">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
