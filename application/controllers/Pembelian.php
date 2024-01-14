@@ -24,10 +24,12 @@ class Pembelian extends CI_Controller
         $validation->set_rules($pembelian->rules());
         if ($validation->run() == FALSE) {
             $data['no_pembelian'] = $this->Pembelian_m->get_no_pembelian();
+            $data['no_urut'] = $this->Pembelian_m->get_no_urut_pembelian();
             $data['project'] = $this->Project_m->get_all_project_for_pembelian();
             $this->template->load('shared/index', 'pembelian/create', $data);
         } else {
-            $nopem = $this->Pembelian_m->get_no_pembelian();
+            $no_urut = $this->Pembelian_m->get_no_urut_pembelian();
+            $nopem = strtoupper(sprintf("%04d", $no_urut) . '/PR/' . bulanRomawi(date('m')) . '/' . date('Y'));
             $post = $this->input->post(null, TRUE);
             $pembelian->add_pembelian($nopem, $post);
             if ($this->db->affected_rows() > 0) {

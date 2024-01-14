@@ -10,6 +10,7 @@ class Pembelian_m extends CI_Model
     public $project_id;
     public $note_pembelian;
     public $deadline_pembelian;
+    public $no_urut_pembelian;
     public $created_date;
     public $deleted;
     public function rules()
@@ -88,7 +89,8 @@ class Pembelian_m extends CI_Model
     {
         $post = $this->input->post();
         $this->note_pembelian = $post['fcatatan'];
-        $this->no_pembelian = $no_pembelian;
+        $this->no_pembelian = strtoupper(sprintf("%04d", $this->get_no_urut_pembelian()) . '/PR/' . bulanRomawi(date('m')) . '/' . date('Y'));
+        $this->no_urut_pembelian = $this->get_no_urut_pembelian();
         $this->deadline_pembelian = $post['fdeadline_pembelian'];
         $this->id_user = $this->session->userdata('id_user');
         $this->project_id = $post['fid_project'];
@@ -110,6 +112,19 @@ class Pembelian_m extends CI_Model
             $kd = "0001";
         }
         return date('dmy') . $kd;
+    }
+    function get_no_urut_pembelian()
+    {
+        $this->db->select('no_urut_pembelian');
+        $this->db->from($this->_table);
+        $this->db->order_by('id_pembelian', 'desc');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if (date('m') == 1 && date('d') == 1) {
+            return 1;
+        } else {
+            return $query->row()->no_urut_pembelian + 1;
+        }
     }
     public function get_by_id_pembelian($id)
     {

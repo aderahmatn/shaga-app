@@ -38,6 +38,26 @@ function bulanindoSQL($month)
     //return $indo_month[$month];
     return array_search($month, $indo_month);
 }
+function bulanRomawi($month)
+{
+    $indo_month = array(
+        'I' => '01',
+        'II' => '02',
+        'III' => '03',
+        'IV' => '04',
+        'V' => '05',
+        'VI' => '06',
+        'VII' => '07',
+        'VIII' => '08',
+        'IX' => '09',
+        'X' => '10',
+        'XI' => '11',
+        'XII' => '12'
+    );
+
+    //return $indo_month[$month];
+    return array_search($month, $indo_month);
+}
 function bulanindo($month)
 {
 
@@ -72,5 +92,3 @@ function indoSQL($date)
 
     return $tahun . '-' . bulanindoSQL($bulan) . '-' . $hari;
 }
-
-?>

@@ -13,6 +13,7 @@ class Kasbon extends CI_Controller
         $this->load->model('Pencairan_kasbon_m');
         $this->load->model('Kategori_keuangan_m');
         $this->load->helper('rupiah');
+        $this->load->helper('formatdate');
         $this->load->helper('status_kasbon');
         $this->load->model('Users_m');
         $this->load->model('Project_m');
@@ -54,15 +55,24 @@ class Kasbon extends CI_Controller
     {
 
         check_role_administrator();
-        $data['bulan'] = date('m');
-        $data['karyawan'] = $this->Users_m->get_all_users();
-        $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
-        $data['total'] = $this->Kasbon_m->get_total_pengajuan_keuangan_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
-        $data['approved'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'approved');
-        $data['rejected'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'rejected');
-        $data['closed'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'closed');
-        $data['kasbon'] = $this->Kasbon_m->get_all_kasbon_by_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
-        $this->template->load('shared/index', 'kasbon/index', $data);
+        // $data['bulan'] = date('m');
+        // $data['karyawan'] = $this->Users_m->get_all_users();
+        // $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
+        // $data['total'] = $this->Kasbon_m->get_total_pengajuan_keuangan_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
+        // $data['approved'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'approved');
+        // $data['rejected'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'rejected');
+        // $data['closed'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'closed');
+        // $data['kasbon'] = $this->Kasbon_m->get_all_kasbon_by_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
+        // $this->template->load('shared/index', 'kasbon/index', $data);
+
+
+    }
+    public function export()
+    {
+        $post = $this->input->post(null, TRUE);
+        $data = $this->Kasbon_m->get_all_kasbon_for_export($post);
+
+        echo json_encode($data);
     }
     public function create()
     {
@@ -145,6 +155,8 @@ class Kasbon extends CI_Controller
                 $post = $this->input->post(null, TRUE);
                 $file = $this->upload->data("file_name");
                 $pencairan->add_pencairan_kasbon($file);
+                $this->Kasbon_m->update_status_terakhir($post['fno_dokumen'], 'closed');
+
                 if ($this->db->affected_rows() > 0) {
                     $this->Status_kasbon_m->add_status_closed_kasbon($post);
                     telegram_notif_status_kasbon($post, 'cair', 'Pengajuan Keuangan Telah Selesai');
@@ -162,6 +174,7 @@ class Kasbon extends CI_Controller
         check_role_administrator();
         $post = $this->input->post(null, TRUE);
         $this->Status_kasbon_m->add_status_approve_kasbon($post);
+        $this->Kasbon_m->update_status_terakhir($post['fno_dokumen'], 'approved');
         if ($this->db->affected_rows() > 0) {
             telegram_notif_status_kasbon($post, 'approved', 'Pengajuan Keuangan Telah disetujui');
             $this->session->set_flashdata('success', 'Data pengajuan berhasil disetujui!');
@@ -174,6 +187,7 @@ class Kasbon extends CI_Controller
         check_role_administrator();
         $post = $this->input->post(null, TRUE);
         $this->Status_kasbon_m->add_status_reject_kasbon($post);
+        $this->Kasbon_m->update_status_terakhir($post['fno_dokumen'], 'rejected');
         if ($this->db->affected_rows() > 0) {
             telegram_notif_status_kasbon($post, 'rejected', 'Pengajuan Keuangan Telah ditolak');
             $this->session->set_flashdata('success', 'Data kasbon berhasil ditolak!');
@@ -246,8 +260,12 @@ class Kasbon extends CI_Controller
                             </button>
                         </div>
                     </div>
-                    <div class="card-body" style="display: block;">
-                        <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                    <div class="card-body p-0" style="display: block;">
+                        <?php if (str_contains($data->lampiran, '.pdf')) { ?>
+                            <embed type="application/pdf" src="<?= base_url("uploads/kasbon/pengajuan/") . $data->lampiran ?>" width="100%" height="600"></embed>
+                        <?php } else { ?>
+                            <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                        <?php } ?>
                     </div>
 
                 </div>
@@ -402,8 +420,12 @@ class Kasbon extends CI_Controller
                             </button>
                         </div>
                     </div>
-                    <div class="card-body" style="display: block;">
-                        <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                    <div class="card-body p-0" style="display: block;">
+                        <?php if (str_contains($data->lampiran, '.pdf')) { ?>
+                            <embed type="application/pdf" src="<?= base_url("uploads/kasbon/pengajuan/") . $data->lampiran ?>" width="100%" height="600"></embed>
+                        <?php } else { ?>
+                            <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                        <?php } ?>
                     </div>
 
                 </div>
@@ -486,8 +508,12 @@ class Kasbon extends CI_Controller
                             </button>
                         </div>
                     </div>
-                    <div class="card-body" style="display: block;">
-                        <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                    <div class="card-body p-0" style="display: block;">
+                        <?php if (str_contains($data->lampiran, '.pdf')) { ?>
+                            <embed type="application/pdf" src="<?= base_url("uploads/kasbon/pengajuan/") . $data->lampiran ?>" width="100%" height="600"></embed>
+                        <?php } else { ?>
+                            <img class="img-fluid pad" src="<?= base_url('uploads/kasbon/pengajuan/') . $data->lampiran ?>" alt="Photo">
+                        <?php } ?>
                     </div>
 
                 </div>

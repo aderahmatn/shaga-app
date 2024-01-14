@@ -94,156 +94,187 @@
         <?php if ($this->session->userdata('group') == 1) { ?>
             <div class="card <?= $this->uri->segment(2) == 'filter' ? '' : 'collapsed-card' ?>">
                 <div class="card-header">
-                    <h3 class="card-title mt-1">FILTER DATA</h3>
+                    <h3 class="card-title mt-1">EXPORT DATA</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-<?= $this->uri->segment(2) == 'filter' ? 'minus' : 'plus' ?>"></i>
                         </button>
                     </div>
-
                 </div>
-
                 <div class="card-body" style="display: <?= $this->uri->segment(2) == 'filter' ? 'block;' : 'none;' ?>">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group ">
-                                <label for="fkaryawan">Karyawan</label>
-                                <select class="form-control form-control-sm bg-default" id="fkaryawan" name="fkaryawan">
-                                    <option value="all">SEMUA KARYAWAN</option>
-                                    <?php foreach ($karyawan as $key) : ?>
-                                        <option value="<?= $key->id_user ?>" <?= $this->uri->segment(3) == $key->id_user ? 'selected' : '' ?>><?= $key->nik . ' - ' . strtoupper($key->nama_user) ?></option>
-                                    <?php endforeach ?>
+                    <form role="form" method="POST" action="<?= base_url('kasbon/export') ?>" autocomplete="off" enctype="multipart/form-data">
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group ">
+                                    <label for="fkaryawan">Karyawan</label>
+                                    <select class="form-control form-control-sm bg-default" id="fkaryawan" name="fkaryawan">
+                                        <option value="all">SEMUA KARYAWAN</option>
+                                        <?php foreach ($karyawan as $key) : ?>
+                                            <option value="<?= $key->id_user ?>" <?= $this->uri->segment(3) == $key->id_user ? 'selected' : '' ?>><?= $key->nik . ' - ' . strtoupper($key->nama_user) ?></option>
+                                        <?php endforeach ?>
 
-                                </select>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <?php ?>
-                        <div class="col-md-3">
-                            <?php
-                            $is_tgl_awal = $this->uri->segment(2) == 'filter' ? $this->uri->segment(4) : 'null';
-                            $day = new DateTime('first day of this month');
-                            $first_day = $day->format('Y-m-d');
-                            ?>
-                            <div class="form-group">
-                                <label for="ftgl_awal">Tanggal Awal</label>
-                                <input type="date" class="form-control form-control-sm bg-default" id="ftgl_awal" name="ftgl_awal" value="<?= strlen($is_tgl_awal) < 10 ? $first_day : $this->uri->segment(4) ?>">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <?php $is_tgl_akhir = $this->uri->segment(2) == 'filter' ? $this->uri->segment(5) : 'null';
-                            $day = new DateTime('last day of this month');
-                            $last_day = $day->format('Y-m-d'); ?>
-                            <div class="form-group">
-                                <label for="ftgl_akhir">Tanggal Akhir</label>
-                                <input type="date" class="form-control form-control-sm bg-default" id="ftgl_akhir" name="ftgl_akhir" value="<?= strlen($is_tgl_akhir) < 10 ? $last_day : $this->uri->segment(5) ?>">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group ">
-                                <label for="fkategori">Kategori</label>
-                                <select class="form-control form-control-sm bg-default" id="fkategori" name="fkategori">
-                                    <option value="all">SEMUA KATEGORI</option>
-                                    <?php foreach ($kategori as $key) : ?>
-                                        <option value="<?= $key->id_kategori_keuangan ?>" <?= $this->uri->segment(6) == $key->id_kategori_keuangan ? 'selected' : '' ?>><?= strtoupper($key->kategori_keuangan) ?>
-                                        </option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group ">
-
-                        <button class="btn btn-sm bg-primary float-right" id="btnFilter" onclick="filter()">FILTER
-                            DATA</button>
-                        <a class="btn btn-sm btn-light float-right mr-2" id="btnFilter" href="<?= base_url('kasbon') ?>">RESET FILTER</a>
-                    </div>
-                </div>
-
-            </div>
-            <!-- FILTER DATA -->
-        <?php } ?>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card ">
-                    <!-- card-body -->
-                    <div class="card-body table-responsive-sm">
-                        <table id="tableKeuangan" class="display nowrap " style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th style="width: 15px">NO</th>
-                                    <th>STATUS</th>
-                                    <th>NO DOC</th>
-                                    <th>NAMA</th>
-                                    <th>TGL PENGAJUAN</th>
-                                    <th>NOMINAL</th>
-                                    <th>KATEGORI</th>
-                                    <th>OPSI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            <div class="col-md-2">
                                 <?php
-                                $no = 1;
-                                foreach ($kasbon as $key) : ?>
-                                    <tr class="text-uppercase">
-                                        <td>
-                                            <?= $no++ ?>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill <?= cek_status_terakhir_kasbon($key->no_dokumen) == 'approved' ? 'badge-success' : '' ?>
-                                            <?= cek_status_terakhir_kasbon($key->no_dokumen) == 'created' ? 'badge-warning' : '' ?>
-                                            <?= cek_status_terakhir_kasbon($key->no_dokumen) == 'rejected' ? 'badge-danger' : '' ?>
-                                            <?= cek_status_terakhir_kasbon($key->no_dokumen) == 'closed' ? 'badge-primary' : '' ?>
-                                            ">
+                                $is_tgl_awal = $this->uri->segment(2) == 'filter' ? $this->uri->segment(4) : 'null';
+                                $day = new DateTime('first day of this month');
+                                $first_day = $day->format('Y-m-d');
+                                ?>
+                                <div class="form-group">
+                                    <label for="ftgl_awal">Tanggal Awal</label>
+                                    <input type="date" class="form-control form-control-sm bg-default" id="ftgl_awal" name="ftgl_awal" value="<?= strlen($is_tgl_awal) < 10 ? $first_day : $this->uri->segment(4) ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <?php $is_tgl_akhir = $this->uri->segment(2) == 'filter' ? $this->uri->segment(5) : 'null';
+                                $day = new DateTime('last day of this month');
+                                $last_day = $day->format('Y-m-d'); ?>
+                                <div class="form-group">
+                                    <label for="ftgl_akhir">Tanggal Akhir</label>
+                                    <input type="date" class="form-control form-control-sm bg-default" id="ftgl_akhir" name="ftgl_akhir" value="<?= strlen($is_tgl_akhir) < 10 ? $last_day : $this->uri->segment(5) ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" class="checks" name="fkategori[]" id="fkategoriAll" alt="Checkbox" value="all" checked>
+                                        <label class="mb-0 font-weight-normal" for="fkategoriAll"><?= strtoupper('semua kategori') ?></label>
+                                    </div>
+                                    <?php foreach ($kategori as $key) : ?>
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="checks" name="fkategori[]" id="fkategori<?= strtoupper($key->kategori_keuangan) ?>" alt="Checkbox" value="<?= $key->id_kategori_keuangan ?>">
+                                            <label class="mb-0 font-weight-normal" for="fkategori<?= strtoupper($key->kategori_keuangan) ?>"><?= strtoupper($key->kategori_keuangan) ?></label>
+                                        </div>
+                                    <?php endforeach ?>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Status Terakhir</label>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" class="checks" name="fstatus[]" id="fstatusAll" alt="Checkbox" value="all" checked>
+                                        <label class="mb-0 font-weight-normal bg-secondary rounded-pill px-1 text-xs" for="fstatusAll"><?= strtoupper('Semua') ?></label>
+                                    </div>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" class="checks" name="fstatus[]" id="fstatusCreated" alt="Checkbox" value="created">
+                                        <label class="mb-0 font-weight-normal bg-warning rounded-pill px-1 text-xs" for="fstatusCreated"><?= strtoupper('Created') ?></label>
+                                    </div>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" class="checks" name="fstatus[]" id="fstatusApproved" alt="Checkbox" value="approved">
+                                        <label class="mb-0 font-weight-normal bg-success rounded-pill px-1 text-xs" for="fstatusApproved"><?= strtoupper('Approved') ?></label>
+                                    </div>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" class="checks" name="fstatus[]" id="fstatusRejected" alt="Checkbox" value="rejected">
+                                        <label class="mb-0 font-weight-normal bg-danger rounded-pill px-1 text-xs" for="fstatusRejected"><?= strtoupper('Rejected') ?></label>
+                                    </div>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" class="checks" name="fstatus[]" id="fstatusClosed" alt="Checkbox" value="closed">
+                                        <label class="mb-0 font-weight-normal bg-primary rounded-pill px-1 text-xs" for="fstatusClosed"><?= strtoupper('Closed') ?></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
 
-                                                <?= cek_status_terakhir_kasbon($key->no_dokumen) ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a data-toggle="modal" onclick="getDetail(<?= $key->id_kasbon ?>)" href="#modal_Detail">
-                                                <?= $key->no_dokumen ?>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <?= $key->nama_user ?>
-                                        </td>
-                                        <td>
-                                            <?= TanggalIndo($key->created_date) ?>
-                                        </td>
-
-                                        <td>
-                                            <?= rupiah($key->nominal) ?>
-                                        </td>
-                                        <td>
-                                            <?= $key->kategori_keuangan ?>
-                                        </td>
-
-                                        <td>
-                                            <?php if ($this->session->userdata('group') == 1) { ?>
-                                                <a data-toggle="modal" onclick="approveAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-success" : "btn-secondary disabled" ?> btn-xs ">
-                                                    SETUJUI
-                                                </a>
-                                                <a data-toggle="modal" onclick="rejectAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-danger" : "btn-secondary disabled" ?> btn-xs ">
-                                                    TOLAK
-                                                </a>
-                                                <a data-toggle="modal" onclick="pencairanAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_terakhir_kasbon($key->no_dokumen) == "approved" ? "btn-primary" : "btn-secondary disabled" ?> btn-xs ">
-                                                    PENCAIRAN
-                                                </a>
-                                            <?php } ?>
-                                            <a data-toggle="modal" onclick="showStatus(<?= $key->id_kasbon ?>)" href="#modal_status" class="btn btn-primary btn-xs">
-                                                LIHAT STATUS
-                                            </a>
-                                            <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20KEUANGAN%0ANo.%20Dokumen%20%3A%20<?= $key->no_dokumen ?>%0ANama%20PIC%20%3A%20<?= strtoupper($key->nama_user) ?>%0ANIK%20%3A%20<?= strtoupper($key->nik) ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('kasbon') ?>" class="btn btn-xs btn-success" target="_blank"><i class="fab fa-whatsapp"></i> KIRIM WA</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                            <button type="submit" class="btn btn-sm bg-primary float-right" id="btnFilter">EXPORT PDF</button>
+                        </div>
+                    </form>
                 </div>
-                <!-- /.card -->
             </div>
 
-        </div>
     </div>
+    <!-- FILTER DATA -->
+<?php } ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <!-- card-body -->
+            <div class="card-body table-responsive-sm">
+                <div class="row mb-3">
+                    <div class="col-md-3" id="status"></div>
+                    <div class="col-md-3" id="karyawan"></div>
+                    <div class="col-md-3" id="kategori"></div>
+                </div>
+                <table id="tableKeuangan" class="display nowrap " style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>STATUS</th>
+                            <th>NAMA</th>
+                            <th>KATEGORI</th>
+                            <th>NOMINAL</th>
+                            <th>TGL PENGAJUAN</th>
+                            <th>NO DOC</th>
+                            <th>OPSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($kasbon as $key) : ?>
+                            <tr class="text-uppercase">
+                                <td>
+                                    <?= $key->id_kasbon ?>
+                                </td>
+                                <td class="<?= $key->status_terakhir == 'approved' ? 'bg-success' : '' ?>
+                                            <?= $key->status_terakhir == 'created' ? 'bg-warning' : '' ?>
+                                            <?= $key->status_terakhir == 'rejected' ? 'bg-danger' : '' ?>
+                                            <?= $key->status_terakhir == 'closed' ? 'bg-primary' : '' ?>">
+                                    <?= $key->status_terakhir ?>
+                                </td>
+                                <td>
+                                    <?= $key->nama_user ?>
+                                </td>
+                                <td>
+                                    <?= $key->kategori_keuangan ?>
+                                </td>
+                                <td>
+                                    <?= rupiah($key->nominal) ?>
+                                </td>
+                                <td>
+                                    <?= TanggalIndo($key->created_date) ?>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" onclick="getDetail(<?= $key->id_kasbon ?>)" href="#modal_Detail">
+                                        <?= $key->no_dokumen ?>
+                                    </a>
+                                </td>
+
+
+
+
+
+
+                                <td>
+                                    <?php if ($this->session->userdata('group') == 1) { ?>
+                                        <a data-toggle="modal" onclick="approveAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-success" : "btn-secondary disabled" ?> btn-xs ">
+                                            SETUJUI
+                                        </a>
+                                        <a data-toggle="modal" onclick="rejectAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-danger" : "btn-secondary disabled" ?> btn-xs ">
+                                            TOLAK
+                                        </a>
+                                        <a data-toggle="modal" onclick="pencairanAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_terakhir_kasbon($key->no_dokumen) == "approved" ? "btn-primary" : "btn-secondary disabled" ?> btn-xs ">
+                                            PENCAIRAN
+                                        </a>
+                                    <?php } ?>
+                                    <a data-toggle="modal" onclick="showStatus(<?= $key->id_kasbon ?>)" href="#modal_status" class="btn btn-primary btn-xs">
+                                        LIHAT STATUS
+                                    </a>
+                                    <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20KEUANGAN%0ANo.%20Dokumen%20%3A%20<?= $key->no_dokumen ?>%0ANama%20PIC%20%3A%20<?= strtoupper($key->nama_user) ?>%0ANIK%20%3A%20<?= strtoupper($key->nik) ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('kasbon') ?>" class="btn btn-xs btn-success" target="_blank"><i class="fab fa-whatsapp"></i> KIRIM WA</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+
+</div>
+</div>
 </section>
 
 <!--Delete Confirmation-->
@@ -289,15 +320,6 @@
 </div>
 <!-- Delete Confirm -->
 <script type="text/javascript">
-    function filter() {
-        $kar = $('#fkaryawan').val()
-        $tgl_awal = $('#ftgl_awal').val()
-        $tgl_akhir = $('#ftgl_akhir').val()
-        $kat = $('#fkategori').val()
-        window.location = "<?= base_url('kasbon/filter/') ?>" + $kar + "/" + $tgl_awal + "/" + $tgl_akhir + "/" + $kat;
-
-    }
-
     function deleteConfirm(url) {
         $('#btn-delete').attr('href', url);
         $('#deleteModal').modal();

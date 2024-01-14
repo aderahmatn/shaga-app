@@ -26,7 +26,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group required">
                                         <label class="control-label" for="ftgl_pengajuan">No. Pembelian</label>
-                                        <input type="text" class="form-control" id="fno_pembelian" name="fno_pembelian" value="<?= $no_pembelian ?>" readonly>
+                                        <input type="text" class="form-control" id="fno_pembelian" name="fno_pembelian" value="<?= strtoupper(sprintf("%04d", $no_urut) . '/PR/' . bulanRomawi(date('m')) . '/' . date('Y')) ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-3">

@@ -12,6 +12,7 @@ class Kasbon_m extends CI_Model
     public $cara_bayar;
     public $no_urut_kasbon;
     public $lampiran;
+    public $status_terakhir;
     public $note;
     public $deleted;
     public function rules()
@@ -51,6 +52,7 @@ class Kasbon_m extends CI_Model
         $this->id_user = $this->session->userdata('id_user');
         $this->no_dokumen = $post['fno_dokumen'];
         $this->project_id = $post['fid_project'];
+        $this->status_terakhir = 'created';
         $this->lampiran = $file;
         $this->keperluan = $post['fkeperluan'];
         $this->nominal = str_replace(".", "", $post['fnominal']);
@@ -159,6 +161,40 @@ class Kasbon_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_all_kasbon_for_export($post)
+    {
+        $this->db->select('kasbon.*, users.nama_user, users.nik, kategori_keuangan.kategori_keuangan');
+        $this->db->from($this->_table);
+        $this->db->join('kategori_keuangan', 'kategori_keuangan.id_kategori_keuangan = kasbon.keperluan', 'left');
+        $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
+
+        $this->db->where('kasbon.deleted', 0);
+        if ($post['fkaryawan'] != 'all') {
+            $this->db->where('kasbon.id_user', $post['fkaryawan']);
+        }
+        if ($post['ftgl_awal'] != null) {
+            $this->db->where('kasbon.created_date >=', $post['ftgl_awal']);
+        }
+        if ($post['ftgl_akhir'] != null) {
+            $this->db->where('kasbon.created_date <=', $post['ftgl_akhir']);
+        }
+        if ($post['fkategori']) {
+            if (stripos(json_encode($post['fkategori']), 'all') == false) {
+
+                $this->db->where_in('kasbon.keperluan', $post['fkategori']);
+            }
+        }
+        if ($post['fstatus']) {
+            if (stripos(json_encode($post['fstatus']), 'all') == false) {
+                $this->db->where_in('kasbon.status_terakhir', $post['fstatus']);
+            }
+        }
+
+
+        $this->db->order_by('id_kasbon', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+    }
     public function get_all_kasbon_by_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori)
     {
         $this->db->select('kasbon.*, users.nama_user, users.nik, kategori_keuangan.kategori_keuangan');
@@ -221,10 +257,14 @@ class Kasbon_m extends CI_Model
     {
         $this->db->select('no_urut_kasbon');
         $this->db->from($this->_table);
-        $this->db->order_by('no_urut_kasbon', 'desc');
+        $this->db->order_by('id_kasbon', 'desc');
         $this->db->limit(1);
         $query = $this->db->get();
-        return $query->row()->no_urut_kasbon + 1;
+        if (date('m') == 1 && date('d') == 1) {
+            return 1;
+        } else {
+            return $query->row()->no_urut_kasbon + 1;
+        }
     }
     public function get_total_kasbon_gaji_by_bulan_by_user($bulan, $tahun, $id_user)
     {
@@ -254,6 +294,12 @@ class Kasbon_m extends CI_Model
         $this->db->from($this->_table);
         $query = $this->db->get();
         return $query->result();
+    }
+    public function update_status_terakhir($no_dokumen, $status)
+    {
+        $this->db->set('status_terakhir', $status);
+        $this->db->where('no_dokumen', $no_dokumen);
+        $this->db->update($this->_table);
     }
 }
 

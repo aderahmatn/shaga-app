@@ -21,7 +21,7 @@
 
                             <div class="form-group required">
                                 <label class="control-label" for="fno_dokumen">No. Dokumen</label>
-                                <input type="text" class="form-control" id="fno_dokumen" name="fno_dokumen" value="<?= strtoupper(sprintf("%04d", $no_urut) . '/FNC/' . $this->session->userdata('group') . '/' . date('Y')) ?>" readonly>
+                                <input type="text" class="form-control" id="fno_dokumen" name="fno_dokumen" value="<?= strtoupper(sprintf("%04d", $no_urut) . '/FN/' . bulanRomawi(date('m')) . '/' . date('Y')) ?>" readonly>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
