@@ -51,22 +51,6 @@ class Kasbon extends CI_Controller
         $nominal = $this->Kategori_keuangan_m->get_default_nominal($id);
         echo $nominal;
     }
-    public function filter($karyawan = null, $tgl_awal = null, $tgl_akhir = null, $kategori = null)
-    {
-
-        check_role_administrator();
-        // $data['bulan'] = date('m');
-        // $data['karyawan'] = $this->Users_m->get_all_users();
-        // $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
-        // $data['total'] = $this->Kasbon_m->get_total_pengajuan_keuangan_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
-        // $data['approved'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'approved');
-        // $data['rejected'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'rejected');
-        // $data['closed'] = $this->Kasbon_m->get_total_by_status_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori, 'closed');
-        // $data['kasbon'] = $this->Kasbon_m->get_all_kasbon_by_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori);
-        // $this->template->load('shared/index', 'kasbon/index', $data);
-
-
-    }
     public function export()
     {
         $post = $this->input->post(null, TRUE);

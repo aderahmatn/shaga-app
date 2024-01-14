@@ -53,6 +53,12 @@ class Pdf extends CI_Controller
         $data['data'] = $this->Spk_pelanggan_m->get_spk_pelanggan_by_id(decrypt_url($id_spk));
         $this->load->view('spk/spk_pelanggan_pdf', $data);
     }
+    public function pengajuan_keuangan_pdf()
+    {
+        $post = $this->input->post(null, TRUE);
+        $data['data'] = $this->Kasbon_m->get_all_kasbon_for_export($post);
+        $this->load->view('kasbon/pengajuan_keuangan_pdf', $data);
+    }
 }
 
 /* End of file Pdf.php */

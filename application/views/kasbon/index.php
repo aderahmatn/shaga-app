@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="card-body" style="display: <?= $this->uri->segment(2) == 'filter' ? 'block;' : 'none;' ?>">
-                    <form role="form" method="POST" action="<?= base_url('kasbon/export') ?>" autocomplete="off" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="<?= base_url('pdf/pengajuan_keuangan_pdf') ?>" autocomplete="off" enctype="multipart/form-data">
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                         <div class="row">
                             <div class="col-md-3">

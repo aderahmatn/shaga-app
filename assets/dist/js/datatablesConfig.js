@@ -11,7 +11,7 @@ $(document).ready(function () {
 		responsive: true,
 		initComplete: function () {
 			this.api()
-				.columns([1])
+				.columns([2])
 				.every(function () {
 					var column = this;
 					var select = $(
@@ -34,7 +34,7 @@ $(document).ready(function () {
 						});
 				});
 			this.api()
-				.columns([2])
+				.columns([3])
 				.every(function () {
 					var column = this;
 					var select = $(
@@ -58,7 +58,7 @@ $(document).ready(function () {
 						});
 				});
 			this.api()
-				.columns([0])
+				.columns([1])
 				.every(function () {
 					var column = this;
 					var select = $(
