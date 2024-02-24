@@ -18,73 +18,89 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                <div class="card ">
+                <div class="alert alert-dismissible alert-default-light">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    Catatan : Ukuran label barcode adalah 30mm x 20mm.
+                </div>
+                <div class="card">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
-                        <table id="tableUSer" class="display nowrap " style="width:100%">
-                            <thead>
-                                <tr>
+                        <form method="post" action="<?= base_url('inventory/barcode_multi') ?>" id="form-print" target="_blank">
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+                            <div class="bg-default mb-2 py-1 px-2">
+                                <input type="checkbox" id="check-all"> <label for="check-all">SELECT ALL</label>
+                                <button type="button" id="btn-print" class="btn btn-sm btn-primary     ml-3" disabled><i class="fas fa-print"></i> PRINT BARCODE</button>
 
-                                    <th>NO REG.</th>
-                                    <th>NAMA BARANG</th>
-                                    <th>SERIAL NUMBER</th>
-                                    <th>MAC ADDRESS</th>
-                                    <th>SUPLYER</th>
-                                    <th>STATUS</th>
-                                    <th>JENIS</th>
-                                    <th>KONDISI</th>
-                                    <th>TGL REGISTRASI</th>
-                                    <th>OPSI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $no = 1;
-                                foreach ($inventory as $key) : ?>
+                            </div>
+                            <table id="tableInventory" class="display nowrap " style="width:100%">
+                                <thead>
                                     <tr>
-
-                                        <td>
-                                            <span class="badge badge-secondary text-uppercase">
-                                                <?= $key->nomor_registrasi ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= $key->nama_barang ?>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= $key->serial_number ?>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= $key->mac_address ?>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= strtoupper($key->suplyer) ?>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= strtoupper($key->status_barang)  ?>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= strtoupper($key->jenis_barang) ?>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= strtoupper($key->kondisi_barang) ?>
-                                        </td>
-                                        <td class="text-uppercase">
-                                            <?= TanggalIndo($key->tgl_registrasi) ?>
-                                        </td>
-                                        <td>
-                                            <a href="<?= base_url('inventory/edit/') . encrypt_url($key->id_inventory) ?>" class="btn btn-xs btn-primary">EDIT DATA</a>
-                                            <a data-toggle="modal" onclick="showMutasi('<?= $key->nomor_registrasi ?>')" href="#modal_mutasi" class="btn btn-primary btn-xs">
-                                                LIHAT MUTASI
-                                            </a>
-                                            <a href="<?= base_url('inventory/barcode/') . $key->nomor_registrasi ?>" class="btn btn-xs btn-success" target="_blank">BARCODE</a>
-                                            <a href="#" class="btn btn-xs btn-danger" onclick="deleteConfirm('<?= base_url() . 'inventory/delete_inventory/' . encrypt_url($key->id_inventory) ?>')">DELETE</a>
-
-                                        </td>
+                                        <th></th>
+                                        <th></th>
+                                        <th>NO REG.</th>
+                                        <th>NAMA BARANG</th>
+                                        <th>SERIAL NUMBER</th>
+                                        <th>MAC ADDRESS</th>
+                                        <th>SUPLYER</th>
+                                        <th>STATUS</th>
+                                        <th>JENIS</th>
+                                        <th>KONDISI</th>
+                                        <th>TGL REGISTRASI</th>
+                                        <th>OPSI</th>
                                     </tr>
-                                <?php endforeach; ?>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no = 1;
+                                    foreach ($inventory as $key) : ?>
 
-                        </table>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input type='checkbox' class='check-item' name='noreg[]' value=<?= $key->nomor_registrasi ?>>
+                                            </td>
+                                            <td class="bg-primary text-lg">
+                                                <?= $key->nomor_registrasi ?>
+                                            </td>
+
+                                            <td class="text-uppercase">
+                                                <?= $key->nama_barang ?>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <?= $key->serial_number ?>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <?= $key->mac_address ?>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <?= strtoupper($key->suplyer) ?>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <?= strtoupper($key->status_barang)  ?>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <?= strtoupper($key->jenis_barang) ?>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <?= strtoupper($key->kondisi_barang) ?>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <?= TanggalIndo($key->tgl_registrasi) ?>
+                                            </td>
+                                            <td>
+                                                <a href="<?= base_url('inventory/edit/') . encrypt_url($key->id_inventory) ?>" class="btn btn-xs btn-primary">EDIT DATA</a>
+                                                <a data-toggle="modal" onclick="showMutasi('<?= $key->nomor_registrasi ?>')" href="#modal_mutasi" class="btn btn-primary btn-xs">
+                                                    LIHAT MUTASI
+                                                </a>
+                                                <a href="<?= base_url('inventory/barcode/') . $key->nomor_registrasi ?>" class="btn btn-xs btn-success" target="_blank">BARCODE</a>
+                                                <a href="#" class="btn btn-xs btn-danger" onclick="deleteConfirm('<?= base_url() . 'inventory/delete_inventory/' . encrypt_url($key->id_inventory) ?>')">DELETE</a>
+
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+
+                            </table>
+                        </form>
                     </div>
                 </div>
                 <!-- /.card -->
@@ -296,6 +312,35 @@
 </div>
 <!-- Delete Confirm -->
 <script type="text/javascript">
+    $(document).ready(function() {
+        var the_terms = $(".check-item");
+
+        the_terms.click(function() {
+            if ($(this).is(":checked")) {
+                $("#btn-print").removeAttr("disabled");
+            } else {
+                $("#btn-print").attr("disabled", "disabled");
+            }
+        });
+        $("#check-all").click(function() {
+            if ($(this).is(":checked")) {
+
+                $(".check-item").prop("checked", true);
+                $("#btn-print").removeAttr("disabled");
+            } else {
+                $(".check-item").prop("checked", false);
+                $("#btn-print").attr("disabled", "disabled");
+            }
+        });
+
+        $("#btn-print").click(function() {
+            $("#form-print").submit();
+            // var confirm = window.confirm("Apakah Anda yakin ingin menghapus data-data ini?"); // Buat sebuah alert konfirmasi
+            // if (confirm) // Jika user mengklik tombol "Ok"
+            //     $("#form-delete").submit(); // Submit form
+        });
+    });
+
     function deleteConfirm(url) {
         $('#btn-delete').attr('href', url);
         $('#deleteModal').modal();

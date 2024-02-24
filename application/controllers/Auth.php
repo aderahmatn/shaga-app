@@ -16,7 +16,6 @@ class auth extends CI_Controller
     public function login()
     {
         check_already_login();
-
         $this->load->view('auth/login');
     }
     public function process()

@@ -5,6 +5,12 @@ $(document).ready(function () {
 		// },
 		responsive: true,
 	});
+	$("#tableInventory").DataTable({
+		// rowReorder: {
+		//     selector: 'td:nth-child(2)'
+		// },
+		responsive: true,
+	});
 	$("#tableKeuangan").DataTable({
 		columnDefs: [{ targets: [0], visible: false, searchable: false }],
 		order: [[0, "desc"]],

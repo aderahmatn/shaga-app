@@ -85,6 +85,14 @@ class Inventory extends CI_Controller
             $this->load->view('inventory/barcode_pdf', $data);
         }
     }
+    function barcode_multi()
+    {
+
+        include_once APPPATH . '/third_party/fpdf/fpdf.php';
+        $noreg = $_POST['noreg'];
+        $data['data'] = $this->Inventory_m->get_all_by_no_registrasi($noreg);
+        $this->load->view('inventory/barcode_multi_pdf', $data);
+    }
 
     public function master_barang()
     {

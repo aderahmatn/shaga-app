@@ -131,6 +131,18 @@ class Inventory_m extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    public function get_all_by_no_registrasi($no_regis)
+    {
+        $this->db->select('*');
+        $this->db->join('master_barang', 'master_barang.kode_barang= inventory.id_master_barang', 'left');
+        $this->db->join('master_tipe', 'master_tipe.id_master_tipe= inventory.id_master_tipe', 'left');
+        $this->db->join('master_merek', 'master_tipe.id_master_merek= master_merek.id_master_merek', 'left');
+        $this->db->where('inventory.deleted', 0);
+        $this->db->where_in('inventory.nomor_registrasi', $no_regis);
+        $this->db->from($this->_table, $this);
+        $query = $this->db->get();
+        return $query->result();
+    }
     public function get_by_id_inventory($id_inventory)
     {
         $this->db->select('*');
