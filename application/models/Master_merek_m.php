@@ -19,7 +19,7 @@ class Master_merek_m extends CI_Model
             [
                 'field' => 'fnama_merek',
                 'label' => 'merek',
-                'rules' => 'required'
+                'rules' => 'required|is_unique[master_merek.nama_merek]'
             ],
         ];
     }

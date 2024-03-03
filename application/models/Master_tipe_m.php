@@ -26,7 +26,7 @@ class Master_tipe_m extends CI_Model
             [
                 'field' => 'fnama_tipe',
                 'label' => 'nama_tipe',
-                'rules' => 'required'
+                'rules' => 'required|is_unique[master_tipe.nama_tipe]'
             ],
             [
                 'field' => 'fmerek',
