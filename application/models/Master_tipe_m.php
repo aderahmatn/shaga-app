@@ -35,6 +35,31 @@ class Master_tipe_m extends CI_Model
             ],
         ];
     }
+    public function rules_update_master_tipe()
+    {
+        return [
+            [
+                'field' => 'fkode_tipe',
+                'label' => 'kode tipe',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'fspesifikasi',
+                'label' => 'spesifikasi',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'fnama_tipe',
+                'label' => 'nama_tipe',
+                'rules' => 'required'
+            ],
+            [
+                'field' => 'fmerek',
+                'label' => 'merek',
+                'rules' => 'required'
+            ],
+        ];
+    }
     public function get_all_master_tipe()
     {
         $this->db->select('*');
@@ -43,6 +68,16 @@ class Master_tipe_m extends CI_Model
         $this->db->from($this->_table, $this);
         $query = $this->db->get();
         return $query->result();
+    }
+    public function get_by_id_master_tipe($id)
+    {
+        $this->db->select('*');
+        $this->db->join('master_merek', 'master_merek.id_master_merek= master_tipe.id_master_merek', 'left');
+        $this->db->where('master_tipe.deleted', 0);
+        $this->db->where('master_tipe.id_master_tipe', $id);
+        $this->db->from($this->_table, $this);
+        $query = $this->db->get();
+        return $query->row();
     }
     public function add_master_tipe()
     {
@@ -58,6 +93,15 @@ class Master_tipe_m extends CI_Model
     public function delete_master_tipe($id)
     {
         $this->db->set('deleted', 1);
+        $this->db->where('id_master_tipe', $id);
+        $this->db->update($this->_table);
+    }
+    public function update_master_tipe($id, $post)
+    {
+        $post = $this->input->post();
+        $this->db->set('nama_tipe', $post['fnama_tipe']);
+        $this->db->set('id_master_merek', $post['fmerek']);
+        $this->db->set('spesifikasi', $post['fspesifikasi']);
         $this->db->where('id_master_tipe', $id);
         $this->db->update($this->_table);
     }

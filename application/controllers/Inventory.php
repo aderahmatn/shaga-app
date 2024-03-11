@@ -63,6 +63,34 @@ class Inventory extends CI_Controller
             }
         }
     }
+    public function edit_master_tipe($id = null)
+    {
+        $tipe = $this->Master_tipe_m;
+        $validation = $this->form_validation;
+        $validation->set_rules($tipe->rules_update_master_tipe());
+        if ($validation->run() == FALSE) {
+            $data['master_tipe'] = $this->Master_tipe_m->get_all_master_tipe();
+            $data['master_merek'] = $this->Master_merek_m->get_all_master_merek();
+            $data['data'] = $tipe->get_by_id_master_tipe(decrypt_url($id));
+            if ($data['data']) {
+                $this->template->load('shared/index', 'inventory/edit_master_tipe', $data);
+            } else {
+                $this->session->set_flashdata('warning', 'Data tidak ditemukan!');
+                redirect('inventory/master_tipe', 'refresh');
+            }
+        } else {
+            $post = $this->input->post(null, TRUE);
+            $tipe->update_master_tipe(decrypt_url($id), $post);
+            if ($this->db->affected_rows() > 0) {
+                $this->Log_m->create_log('update data master tipe ' . $post['fkode_tipe']);
+                $this->session->set_flashdata('success', 'Update data berhasil!');
+                redirect('inventory/master_tipe', 'refresh');
+            } else {
+                $this->session->set_flashdata('warning', 'Tidak ada data yang diupdate!');
+                redirect('inventory/master_tipe', 'refresh');
+            }
+        }
+    }
     public function delete_inventory($id)
     {
         $this->Inventory_m->delete_inventory(decrypt_url($id));

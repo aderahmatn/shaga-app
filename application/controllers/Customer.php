@@ -10,7 +10,7 @@ class Customer extends CI_Controller
         check_not_login();
         check_role_administrator_and_admin_officer();
         $this->load->model('Customers_m');
-
+        $this->load->model('Registrasi_m');
     }
 
     public function browse()
@@ -18,14 +18,18 @@ class Customer extends CI_Controller
 
         $data['customers'] = $this->Customers_m->get_all_customer();
         $this->template->load('shared/index', 'customer/index', $data);
+    }
+    public function browse_registrasi()
+    {
 
+        $data['customers'] = $this->Registrasi_m->get_all_data_registrasi();
+        $this->template->load('shared/index', 'customer/registration', $data);
     }
     public function onbill()
     {
 
         $data['customers'] = $this->Customers_m->get_all_customer();
         $this->template->load('shared/index', 'customer/onbill', $data);
-
     }
     public function create()
     {
@@ -43,7 +47,6 @@ class Customer extends CI_Controller
                 redirect('customer/create', 'refresh');
             }
         }
-
     }
     public function edit($id = null)
     {
@@ -64,7 +67,6 @@ class Customer extends CI_Controller
                 redirect('customer/browse', 'refresh');
             }
         }
-
     }
     public function delete($id)
     {
@@ -74,7 +76,6 @@ class Customer extends CI_Controller
             redirect('customer/browse', 'refresh');
         }
     }
-
 }
 
 /* End of file Customer.php */

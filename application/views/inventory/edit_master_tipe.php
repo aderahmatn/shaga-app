@@ -2,14 +2,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="mt-2">MASTER TIPE BARANG</h1>
+                <h1 class="mt-2">EDIT MASTER TIPE BARANG</h1>
             </div>
-            <div class="col-sm-6">
-                <div class=" float-sm-right justify-content-center">
-                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('inventory/master_merek') ?>">MASTER MEREK</a>
-                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('inventory') ?>">KEMBALI</a>
-                </div>
-            </div>
+
         </div>
     </div><!-- /.container-fluid -->
 </section>
@@ -66,20 +61,26 @@
             <!-- left column -->
             <div class="col-md-5">
                 <div class="card ">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between ">
+                            <h5 class="text-warning ">EDIT DATA TIPE BARANG [<?= $data->kode_tipe ?>]</h5>
+                            <a href="<?= base_url('inventory/master_tipe') ?>" class="btn btn-sm btn-default float-right">Batal</a>
+                        </div>
+                    </div>
                     <!-- card-body -->
                     <div class="card-body">
                         <form role="form" method="POST" action="" autocomplete="off">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                             <div class="form-group required">
                                 <label class="control-label" for="fkode_tipe">Kode Tipe</label>
-                                <input type="text" class="form-control <?= form_error('fkode_tipe') ? 'is-invalid' : '' ?>" id="fkode_tipe" name="fkode_tipe" placeholder="Kode barang" value="<?= 'TP' . sprintf("%04d", $no_urut) ?>" readonly>
+                                <input type="text" class="form-control <?= form_error('fkode_tipe') ? 'is-invalid' : '' ?>" id="fkode_tipe" name="fkode_tipe" placeholder="Kode barang" value="<?= $data->kode_tipe ?>" readonly>
                                 <div class="invalid-feedback">
                                     <?= form_error('fkode_tipe') ?>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fnama_tipe">Nama Tipe</label>
-                                <input type="text" class="form-control <?= form_error('fnama_tipe') ? 'is-invalid' : '' ?>" id="fnama_tipe" name="fnama_tipe" placeholder="Nama tipe" value="<?= $this->input->post('fnama_tipe') ?>">
+                                <input type="text" class="form-control <?= form_error('fnama_tipe') ? 'is-invalid' : '' ?>" id="fnama_tipe" name="fnama_tipe" placeholder="Nama tipe" value="<?= $data->nama_tipe ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fnama_tipe') ?>
                                 </div>
@@ -89,7 +90,7 @@
                                 <select class="form-control <?php echo form_error('fmerek') ? 'is-invalid' : '' ?>" id="fmerek" name="fmerek">
                                     <option hidden value="" selected>Pilih Merek </option>
                                     <?php foreach ($master_merek as $key) : ?>
-                                        <option value="<?= $key->id_master_merek ?>" <?= $this->input->post('fkode_tipe') == $key->id_master_merek ? 'selected' : '' ?>><?= strtoupper($key->nama_merek) ?></option>
+                                        <option value="<?= $key->id_master_merek ?>" <?= $data->id_master_merek == $key->id_master_merek ? 'selected' : '' ?>><?= strtoupper($key->nama_merek) ?></option>
                                     <?php endforeach ?>
                                 </select>
                                 <div class="invalid-feedback">
@@ -98,12 +99,13 @@
                             </div>
                             <div class="form-group required">
                                 <label class="control-label" for="fspesifikasi">Spesifikasi</label>
-                                <textarea name="fspesifikasi" class="form-control <?= form_error('fspesifikasi') ? 'is-invalid' : '' ?> text-uppercase" id="fspesifikasi"><?= $this->input->post('fspesifikasi'); ?></textarea>
+                                <textarea name="fspesifikasi" class="form-control <?= form_error('fspesifikasi') ? 'is-invalid' : '' ?> text-uppercase" id="fspesifikasi"><?= $data->spesifikasi ?></textarea>
                                 <div class="invalid-feedback">
                                     <?= form_error('fspesifikasi') ?>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary float-right">Tambah</button>
+                            <button type="submit" class="btn btn-primary float-right">Update</button>
+                            <a class="btn btn-secondary " href="<?= base_url('inventory/master_tipe') ?>">Batal</a>
 
                         </form>
                     </div>
