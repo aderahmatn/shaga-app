@@ -9,6 +9,7 @@ class Registrasi extends CI_Controller
         parent::__construct();
         $this->load->model('Registrasi_m');
         $this->load->helper('Whatsapp');
+        $this->load->helper('Telegram');
     }
 
 
@@ -49,14 +50,14 @@ Admin kami akan segara menghubungi anda untuk melakukan konfirmasi jadwal pemasa
 Salam,
 Gisaka Media';
                 if ($this->db->affected_rows() > 0) {
+                    telegram_notif_registrasi_pelanggan($post);
                     $notif = send_wa($post['fnowa'], $text_wa);
                     if ($notif == 200) {
-                        $this->session->set_flashdata('success', 'Registrasi berhasil');
-
+                        $this->session->set_flashdata('success', 'Registrasi berhasil ' . $notif);
                         redirect('registrasi/success/' . encrypt_url($data['no_regis']), 'refresh');
                     } else {
-                        $this->session->set_flashdata('warning', 'Silahkan periksa kembali Nomor Whatsapp!');
-                        $this->load->view('registrasi/index');
+                        $this->session->set_flashdata('success', 'Registrasi berhasil ' . $notif);
+                        redirect('registrasi/success/' . encrypt_url($data['no_regis']), 'refresh');
                     }
                 }
             } else {

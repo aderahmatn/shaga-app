@@ -170,6 +170,22 @@ class Registrasi_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_by_id_registrasi($id)
+    {
+        $this->db->select('*');
+        $this->db->from($this->_table);
+        $this->db->where('id_registrasi_customer', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    public function get_by_nomor_identitas($id)
+    {
+        $this->db->select('*');
+        $this->db->from($this->_table);
+        $this->db->where('nomor_identitas', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
     public function add_customer($post, $file)
     {
         $post = $this->input->post();

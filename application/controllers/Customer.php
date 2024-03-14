@@ -21,13 +21,17 @@ class Customer extends CI_Controller
     }
     public function browse_registrasi()
     {
-
         $data['customers'] = $this->Registrasi_m->get_all_data_registrasi();
         $this->template->load('shared/index', 'customer/registration', $data);
     }
+    public function detail_registrasi($id = null)
+    {
+        include_once APPPATH . '/third_party/fpdf/fpdf.php';
+        $data['data'] = $this->Registrasi_m->get_by_id_registrasi(decrypt_url($id));
+        $this->load->view('customer/detail_registration', $data, FALSE);
+    }
     public function onbill()
     {
-
         $data['customers'] = $this->Customers_m->get_all_customer();
         $this->template->load('shared/index', 'customer/onbill', $data);
     }

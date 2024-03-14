@@ -63,8 +63,7 @@
                                             <?= $key->nomor_npwp ?>
                                         </td>
                                         <td>
-                                            <a href="#" onclick="deleteConfirm('<?= base_url() . 'customer/delete/' . encrypt_url($key->id_registrasi_customer) ?>')" class="btn btn-xs btn-danger">DELETE</a>
-                                            <a href="<?= base_url() . 'customer/edit/' . encrypt_url($key->id_registrasi_customer) ?>" class="btn btn-xs btn-primary">EDIT</a>
+                                            <a href="<?= base_url() . 'customer/detail_registrasi/' . encrypt_url($key->id_registrasi_customer) ?>" class="btn btn-xs btn-primary" target="_blank">LIHAT DETAIL</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

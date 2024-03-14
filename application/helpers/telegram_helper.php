@@ -138,4 +138,33 @@ function telegram_notif_pengajuan_keuangan($post)
         curl_close($ch);
     }
 }
-?>
+function telegram_notif_registrasi_pelanggan($post)
+{
+    $CI = get_instance();
+    $CI->load->model('Users_m');
+    $CI->load->model('Registrasi_m');
+    $nomor_identitas = $post['fnomor_identitas'];
+    $time = date("d-m-Y h:i:sa");
+    $plg = $CI->Registrasi_m->get_by_nomor_identitas($nomor_identitas);
+    $admin = $CI->Users_m->get_chat_id_administrator();
+    $no_regis = $plg->nomor_registrasi;
+    $pelanggan = strtoupper($plg->nama_lengkap);
+    $alamat = strtoupper($plg->alamat_identitas);
+    $id_regis = encrypt_url($plg->id_registrasi_customer);
+    $ch = curl_init();
+
+
+    $txt = urlencode("LOG : REGISTRASI PELANGGAN \nNO REGISTRASI : $no_regis \nPELANGGAN : $pelanggan  \nNO IDENTITAS : $nomor_identitas \nAlamat : $alamat  \nWAKTU : $time \n\n INFO LEBIH LANJUT : https://gas.gisaka.net/customer/detail_registrasi/$id_regis");
+    $TOKEN = "6259502863:AAEsTD1linSz1FbX4Hs7SH5U238u_ftIRZU";
+    $apiURL = "https://api.telegram.org/bot$TOKEN";
+
+    foreach ($admin as $key) {
+        curl_setopt($ch, CURLOPT_URL, $apiURL . "/sendmessage?chat_id=$key->chat_id/&text=$txt");
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // $output contains the output string 
+        $output = curl_exec($ch);
+        // close curl resource to free up system resources 
+        curl_close($ch);
+    }
+}
