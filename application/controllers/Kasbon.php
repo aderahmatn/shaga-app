@@ -74,7 +74,7 @@ class Kasbon extends CI_Controller
         $validation->set_rules($kasbon->rules());
         if ($validation->run() == FALSE) {
             $data['no_urut'] = $kasbon->get_no_urut_kasbon();
-            $data['project'] = $project->get_all_project();
+            $data['project'] = $project->get_all_project_for_pembelian();
             $data['kategori_keuangan'] = $kategori->get_all_kategori_keuangan();
             $this->template->load('shared/index', 'kasbon/create', $data);
         } else {

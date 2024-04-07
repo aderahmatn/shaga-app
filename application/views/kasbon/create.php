@@ -212,16 +212,20 @@
                 method: "GET",
                 async: false,
                 success: function(data) {
-                    console.log(data)
+
                     $('#fnominal').val(formatRupiah(data))
                     if (data != 0) {
                         $('#fnominal').prop('readonly', true)
+                        $('#flampiran').prop('required', true)
                     } else {
                         $('#fnominal').prop('readonly', false)
+                        $('#flampiran').prop('required', false)
+
 
                     }
                 }
             });
+
         });
     });
 </script>

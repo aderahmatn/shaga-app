@@ -43,7 +43,7 @@ $pdf->Cell(68, 4, '', 0, 1, 'L');
 $pdf->SetFont('Arial', '', $font_size);
 $pdf->Cell(70, 7, ' ' . $data->jenis_formulir, 1, 0, 'C');
 $pdf->Cell(40, 7, '', 0, 0, 'L');
-$pdf->Cell(30, 7, 'Nomor Kontrak :', 0, 0, 'L');
+$pdf->Cell(30, 7, 'Nomor Layanan :', 0, 0, 'L');
 $pdf->Cell(55, 7, '', 1, 1, 'L');
 $pdf->Cell(68, 3, '', 0, 1, 'L');
 

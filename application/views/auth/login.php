@@ -34,17 +34,17 @@
     <div class="login-box">
         <div class="row  justify-content-center">
         </div>
-        <div class="login-logo">
-            <p class="font-weight-light " style="font-size:1.9rem;">Gisaka Automation System</p>
-        </div>
+
         <!-- /.login-logo -->
         <div class="card ">
             <div class="card-body login-card-body ">
+                <div class="login-logo">
+                    <p class="font-weight-light text-primary" style="font-size:1.8rem;">Gisaka Automation System</p>
+                </div>
                 <p class="login-box-msg">Login untuk memulai sesi anda</p>
 
                 <form action="<?= base_url('auth/process') ?>" method="post" autocomplete="off">
-                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                        value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                     <input type="hidden" name="flock" id="lock" style="display: none">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Username" name="fusername" required>
@@ -55,8 +55,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password" autocomplete="on"
-                            name="fpassword" required>
+                        <input type="password" class="form-control" placeholder="Password" autocomplete="on" name="fpassword" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -70,8 +69,7 @@
                         </div>
                         <div class="col-md-7 ">
                             <div class="form-group mb-1">
-                                <input type="text" class="form-control" placeholder="Ketik captcha disini"
-                                    autocomplete="off" name="code" required>
+                                <input type="text" class="form-control" placeholder="Ketik captcha disini" autocomplete="off" name="code" required>
                             </div>
                             <div class="">
                                 <p id="not-valid" class="text-xs text-danger"> </p>
@@ -109,7 +107,7 @@
     <script src="<?= base_url() . 'assets/plugins/toastr/toastr.min.js' ?>"></script>
     <!-- Alert Config -->
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -122,21 +120,21 @@
                     title: '<?= $this->session->flashdata('success'); ?>'
                 });
             <?php } else if ($this->session->flashdata('error')) { ?>
-                    Toast.fire({
-                        icon: 'error',
-                        title: '<?= $this->session->flashdata('error'); ?>'
-                    });
-                <?php } else if ($this->session->flashdata('warning')) { ?>
-                        Toast.fire({
-                            icon: 'warning',
-                            title: '<?= $this->session->flashdata('warning'); ?>'
-                        });
-                    <?php } else if ($this->session->flashdata('info')) { ?>
-                            Toast.fire({
-                                icon: 'info',
-                                title: '<?= $this->session->flashdata('info'); ?>'
-                            });
-                        <?php } ?>
+                Toast.fire({
+                    icon: 'error',
+                    title: '<?= $this->session->flashdata('error'); ?>'
+                });
+            <?php } else if ($this->session->flashdata('warning')) { ?>
+                Toast.fire({
+                    icon: 'warning',
+                    title: '<?= $this->session->flashdata('warning'); ?>'
+                });
+            <?php } else if ($this->session->flashdata('info')) { ?>
+                Toast.fire({
+                    icon: 'info',
+                    title: '<?= $this->session->flashdata('info'); ?>'
+                });
+            <?php } ?>
         });
     </script>
 
