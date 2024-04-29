@@ -8,7 +8,7 @@ class Pdf extends CI_Controller
     {
         parent::__construct();
         check_not_login();
-        $this->load->model(['Users_m', 'Payroll_m', 'Kasbon_m', 'Spk_pelanggan_m']);
+        $this->load->model(['Users_m', 'Payroll_m', 'Kasbon_m', 'Spk_pelanggan_m', 'Project_m']);
         $this->load->helper(['rupiah', 'project']);
         include_once APPPATH . '/third_party/fpdf/fpdf.php';
     }
@@ -57,7 +57,13 @@ class Pdf extends CI_Controller
     {
         $post = $this->input->post(null, TRUE);
         $data['data'] = $this->Kasbon_m->get_all_kasbon_for_export($post);
-        $this->load->view('kasbon/pengajuan_keuangan_pdf', $data);
+        $data['karyawan'] = $post['fkaryawan'] == 'all' ? 'SEMUA KARYAWAN' : $this->Users_m->get_by_id_user($post['fkaryawan'])->nama_user;
+        $data['tgl_awal'] = $post['ftgl_awal'];
+        $data['tgl_akhir'] = $post['ftgl_akhir'];
+        $data['post'] = $post;
+        $data['total'] = $this->Kasbon_m->get_total_kasbon_for_export($post);
+        $data['project'] = $post['fproject'] == 'all' ? 'SEMUA PROJECT' : $this->Project_m->get_project_by_id($post['fproject'])->nama_project;
+        $this->load->view('kasbon/pengajuan_keuangan_pdf', $data);;
     }
 }
 

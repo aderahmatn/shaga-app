@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="card-body" style="display: <?= $this->uri->segment(2) == 'filter' ? 'block;' : 'none;' ?>">
-                    <form role="form" method="POST" action="<?= base_url('pdf/pengajuan_keuangan_pdf') ?>" autocomplete="off" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="<?= base_url('pdf/pengajuan_keuangan_pdf') ?>" autocomplete="off" enctype="multipart/form-data" target="_blank">
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                         <div class="row">
                             <div class="col-md-3">
@@ -115,8 +115,6 @@
 
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
                                 <?php
                                 $is_tgl_awal = $this->uri->segment(2) == 'filter' ? $this->uri->segment(4) : 'null';
                                 $day = new DateTime('first day of this month');
@@ -126,8 +124,6 @@
                                     <label for="ftgl_awal">Tanggal Awal</label>
                                     <input type="date" class="form-control form-control-sm bg-default" id="ftgl_awal" name="ftgl_awal" value="<?= strlen($is_tgl_awal) < 10 ? $first_day : $this->uri->segment(4) ?>">
                                 </div>
-                            </div>
-                            <div class="col-md-2">
                                 <?php $is_tgl_akhir = $this->uri->segment(2) == 'filter' ? $this->uri->segment(5) : 'null';
                                 $day = new DateTime('last day of this month');
                                 $last_day = $day->format('Y-m-d'); ?>
@@ -135,8 +131,20 @@
                                     <label for="ftgl_akhir">Tanggal Akhir</label>
                                     <input type="date" class="form-control form-control-sm bg-default" id="ftgl_akhir" name="ftgl_akhir" value="<?= strlen($is_tgl_akhir) < 10 ? $last_day : $this->uri->segment(5) ?>">
                                 </div>
+                                <div class="form-group ">
+                                    <label for="fproject">Project</label>
+                                    <select class="form-control form-control-sm bg-default" id="fproject" name="fproject">
+                                        <option value="all">SEMUA PROJECT</option>
+                                        <?php foreach ($project as $key) : ?>
+                                            <option value="<?= $key->project_id ?>" <?= $this->uri->segment(3) == $key->project_id ? 'selected' : '' ?>><?= strtoupper($key->nama_project) ?></option>
+                                        <?php endforeach ?>
+
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Kategori</label>
                                     <div class="custom-checkbox">
@@ -151,7 +159,7 @@
                                     <?php endforeach ?>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Status Terakhir</label>
                                     <div class="custom-checkbox">
@@ -202,12 +210,13 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>STATUS</th>
+                            <th></th>
                             <th>NAMA</th>
                             <th>KATEGORI</th>
                             <th>NOMINAL</th>
-                            <th>TGL PENGAJUAN</th>
+                            <th>TANGGAL</th>
                             <th>NO DOC</th>
+                            <th>NOTE</th>
                             <th>OPSI</th>
                         </tr>
                     </thead>
@@ -218,12 +227,14 @@
                                 <td>
                                     <?= $key->id_kasbon ?>
                                 </td>
-                                <td class="<?= $key->status_terakhir == 'approved' ? 'bg-success' : '' ?>
+                                <td class=" <?= $key->status_terakhir == 'approved' ? 'bg-success' : '' ?>
                                             <?= $key->status_terakhir == 'created' ? 'bg-warning' : '' ?>
                                             <?= $key->status_terakhir == 'rejected' ? 'bg-danger' : '' ?>
                                             <?= $key->status_terakhir == 'closed' ? 'bg-primary' : '' ?>">
-                                    <?= $key->status_terakhir ?>
-                                </td>
+                                    <i class=" text-white fas <?= $key->status_terakhir == 'approved' ? 'fa-check-circle' : '' ?>
+                                    <?= $key->status_terakhir == 'created' ? 'fa-pencil-alt' : '' ?>
+                                    <?= $key->status_terakhir == 'rejected' ? 'fa-times-circle' : '' ?>
+                                    <?= $key->status_terakhir == 'closed' ? 'fa-money-check-alt' : '' ?>"></i>
                                 <td>
                                     <?= $key->nama_user ?>
                                 </td>
@@ -241,6 +252,10 @@
                                         <?= $key->no_dokumen ?>
                                     </a>
                                 </td>
+                                <td class="text-xs">
+
+                                    <?= substr($key->note, 0, 20) ?>
+                                </td>
 
 
 
@@ -249,20 +264,21 @@
 
                                 <td>
                                     <?php if ($this->session->userdata('group') == 1) { ?>
-                                        <a data-toggle="modal" onclick="approveAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-success" : "btn-secondary disabled" ?> btn-xs ">
-                                            SETUJUI
+
+                                        <a data-toggle="modal" onclick="approveAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-success" : "btn-secondary disabled" ?> btn-sm " data-toggle="tooltip" title="SETUJUI PENGAJUAN">
+                                            <i class="fas fa-check-circle"></i>
                                         </a>
-                                        <a data-toggle="modal" onclick="rejectAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-danger" : "btn-secondary disabled" ?> btn-xs ">
-                                            TOLAK
+                                        <a data-toggle="modal" onclick="rejectAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_kasbon($key->no_dokumen) ? "btn-danger" : "btn-secondary disabled" ?> btn-sm " data-toggle="tooltip" title="TOLAK PENGAJUAN">
+                                            <i class="fas fa-times-circle"></i>
                                         </a>
-                                        <a data-toggle="modal" onclick="pencairanAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_terakhir_kasbon($key->no_dokumen) == "approved" ? "btn-primary" : "btn-secondary disabled" ?> btn-xs ">
-                                            PENCAIRAN
+                                        <a data-toggle="modal" onclick="pencairanAct(<?= $key->id_kasbon ?>)" href="#modal_Detail" class="btn <?= cek_status_terakhir_kasbon($key->no_dokumen) == "approved" ? "btn-primary" : "btn-secondary disabled" ?> btn-sm " data-toggle="tooltip" title="PENCAIRAN PENGAJUAN">
+                                            <i class="fas fa-money-check-alt"></i>
                                         </a>
                                     <?php } ?>
-                                    <a data-toggle="modal" onclick="showStatus(<?= $key->id_kasbon ?>)" href="#modal_status" class="btn btn-primary btn-xs">
-                                        LIHAT STATUS
+                                    <a data-toggle="modal" onclick="showStatus(<?= $key->id_kasbon ?>)" href="#modal_status" class="btn btn-primary btn-sm" data-toggle="tooltip" title="LIHAT STATUS PENGAJUAN">
+                                        <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20KEUANGAN%0ANo.%20Dokumen%20%3A%20<?= $key->no_dokumen ?>%0ANama%20PIC%20%3A%20<?= strtoupper($key->nama_user) ?>%0ANIK%20%3A%20<?= strtoupper($key->nik) ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('kasbon') ?>" class="btn btn-xs btn-success" target="_blank"><i class="fab fa-whatsapp"></i> KIRIM WA</a>
+                                    <a href="https://wa.me/6285295644177/?text=PEMBERITAHUAN%20GAS%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0APengajuan%20%3A%20KEUANGAN%0ANo.%20Dokumen%20%3A%20<?= $key->no_dokumen ?>%0ANama%20PIC%20%3A%20<?= strtoupper($key->nama_user) ?>%0ANIK%20%3A%20<?= strtoupper($key->nik) ?>%0A%0AKlik%20link%20dibawah%20ini%20untuk%20melihat%20detail%20%3A%0A<?= base_url('kasbon') ?>" class="btn btn-sm btn-success" target="_blank" data-toggle="tooltip" title="KIRIM WHATSAPP"><i class="fab fa-whatsapp"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

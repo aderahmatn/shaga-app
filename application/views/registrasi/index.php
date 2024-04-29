@@ -68,9 +68,10 @@
                                 <small class="font-weight-light font-italic">/ Full Name</small>
                             </label>
                             <input type="text" class="form-control <?= form_error('fnama_lengkap') ? 'is-invalid' : '' ?>" id="fnama_lengkap" name="fnama_lengkap" value="<?= $this->input->post('fnama_lengkap') ?>" placeholder="Nama lengkap">
-                            <div class="invalid-feedback">
-                                <?= form_error('fnama_lengkap') ?>
-                            </div>
+                            <small id="flampiran" class="form-text text-muted">Nama lengkap tidak boleh ada simbol (.,!@#$%^&*()_+?":><~`) </small>
+                                    <div class="invalid-feedback">
+                                        <?= form_error('fnama_lengkap') ?>
+                                    </div>
                         </div>
                     </div>
                     <div class="col-md-4">

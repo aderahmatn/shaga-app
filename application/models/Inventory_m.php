@@ -109,6 +109,24 @@ class Inventory_m extends CI_Model
             ],
         ];
     }
+    public function get_all_stok_inventory()
+    {
+        $sql = "SELECT * FROM inventory 
+        LEFT JOIN master_tipe ON master_tipe.id_master_tipe = inventory.id_master_tipe 
+        LEFT JOIN master_barang ON master_barang.kode_barang = inventory.id_master_barang 
+        WHERE NOT EXISTS (SELECT * FROM mutasi_inventory WHERE inventory.nomor_registrasi = mutasi_inventory.nomor_registrasi) ORDER BY id_inventory DESC";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    public function get_total_by_type()
+    {
+        $sql = "SELECT master_barang.nama_barang, count(master_barang.nama_barang) as total FROM inventory 
+        -- LEFT JOIN master_tipe ON master_tipe.id_master_tipe = inventory.id_master_tipe 
+        LEFT JOIN master_barang ON master_barang.kode_barang = inventory.id_master_barang 
+        WHERE NOT EXISTS (SELECT * FROM mutasi_inventory WHERE inventory.nomor_registrasi = mutasi_inventory.nomor_registrasi) GROUP BY  master_barang.nama_barang";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
     public function get_all_inventory()
     {
         $this->db->select('*');
@@ -200,6 +218,15 @@ class Inventory_m extends CI_Model
         $this->db->limit(1);
         $query = $this->db->get();
         return $query->row()->no_urut + 1;
+    }
+    function get_last_inventory()
+    {
+        $this->db->select('nomor_registrasi');
+        $this->db->from($this->_table);
+        $this->db->order_by('id_inventory', 'desc');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->row()->nomor_registrasi;
     }
     public function delete_inventory($id)
     {

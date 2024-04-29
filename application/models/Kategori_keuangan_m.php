@@ -35,7 +35,14 @@ class Kategori_keuangan_m extends CI_Model
         $this->db->from($this->_table);
         $query = $this->db->get();
         return $query->row()->default_nominal;
-
+    }
+    function get_by_id_kategori($id)
+    {
+        $this->db->select('*');
+        $this->db->where('id_kategori_keuangan', $id);
+        $this->db->from($this->_table);
+        $query = $this->db->get();
+        return $query->row();
     }
     public function add_kategori_keuangan()
     {
@@ -44,6 +51,14 @@ class Kategori_keuangan_m extends CI_Model
         $this->default_nominal = str_replace(".", "", $post['fnominal']);
         $this->deleted = 0;
         $this->db->insert($this->_table, $this);
+    }
+    public function update_kategori_keuangan($id, $post)
+    {
+        $post = $this->input->post();
+        $this->db->set('kategori_keuangan', $post['fkategori_keuangan']);
+        $this->db->set('default_nominal', str_replace(".", "", $post['fnominal']));
+        $this->db->where('id_kategori_keuangan', $id);
+        $this->db->update($this->_table);
     }
     public function delete_kategori_keuangan($id)
     {
@@ -54,4 +69,3 @@ class Kategori_keuangan_m extends CI_Model
 }
 
 /* End of file Kategori_keuangan_m.php */
-?>

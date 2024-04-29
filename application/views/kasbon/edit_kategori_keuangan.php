@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="mt-2">KATEGORI KEUANGAN</h1>
+                <h1 class="mt-2">EDIT KATEGORI KEUANGAN</h1>
             </div>
             <div class="col-sm-6">
                 <div class=" float-sm-right justify-content-center">
-                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('kasbon') ?>">KEMBALI</a>
+                    <a class="btn btn-md btn-primary mt-2" href="<?= base_url('kasbon/kategori_keuangan') ?>">KEMBALI</a>
                 </div>
             </div>
         </div>
@@ -19,13 +19,19 @@
             <!-- left column -->
             <div class="col-md-4">
                 <div class="card ">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between ">
+                            <h5 class="text-warning ">EDIT KATEGORI KEUANGAN [ID <?= $data->id_kategori_keuangan ?>]</h5>
+                            <a href="<?= base_url('kasbon/kategori_keuangan') ?>" class="btn btn-sm btn-default float-right">Batal</a>
+                        </div>
+                    </div>
                     <!-- card-body -->
                     <div class="card-body">
                         <form role="form" method="POST" action="" autocomplete="off">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                             <div class="form-group required">
                                 <label class="control-label" for="fkategori_keuangan">Tambah Kategori Keuangan</label>
-                                <input type="text" class="form-control <?= form_error('fkategori_keuangan') ? 'is-invalid' : '' ?>" id="fkategori_keuangan" name="fkategori_keuangan" placeholder="Kategori keuangan" value="<?= $this->input->post('fkategori_keuangan'); ?>">
+                                <input type="text" class="form-control <?= form_error('fkategori_keuangan') ? 'is-invalid' : '' ?>" id="fkategori_keuangan" name="fkategori_keuangan" placeholder="Kategori keuangan" value="<?= strtoupper($data->kategori_keuangan) ?>">
                                 <div class="invalid-feedback">
                                     <?= form_error('fkategori_keuangan') ?>
                                 </div>
@@ -36,16 +42,14 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rp</span>
                                     </div>
-                                    <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" placeholder="Nominal" value="0">
+                                    <input type="text" class="form-control <?= form_error('fnominal') ? 'is-invalid' : '' ?>" id="fnominal" name="fnominal" placeholder="Nominal" value="<?= $data->default_nominal ?>">
                                     <div class=" invalid-feedback">
                                         <?= form_error('fnominal') ?>
                                     </div>
-
                                 </div>
                                 <div class="form-text small text-muted mt-n2">Isi 0 jika tidak ada nominal default</div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary float-right">Tambah</button>
+                            <button type="submit" class="btn btn-primary float-right">Update</button>
 
                         </form>
                     </div>

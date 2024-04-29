@@ -13,6 +13,7 @@
             </div>
         </div><!-- /.container-fluid -->
 </section>
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -20,8 +21,29 @@
             <div class="col-md-8">
                 <div class="alert alert-dismissible alert-default-light">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    Berikut adalah data stok barang yang tersedia (belum mutasi).<br>
                     Catatan : Ukuran label barcode adalah 30mm x 20mm.
                 </div>
+                <div class="row">
+                    <?php foreach ($stok as $key) : ?>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info elevation-0"><?= strtoupper(substr($key->nama_barang, 0, 3)) ?></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text"><?= strtoupper($key->nama_barang) ?></span>
+                                    <span class="info-box-number">
+                                        <?= strtoupper($key->total) ?>
+                                        <small>Unit</small>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    <?php endforeach ?>
+                </div>
+
+
                 <div class="card">
                     <!-- card-body -->
                     <div class="card-body table-responsive-sm">
@@ -32,6 +54,11 @@
                                 <button type="button" id="btn-print" class="btn btn-sm btn-primary     ml-3" disabled><i class="fas fa-print"></i> PRINT BARCODE</button>
 
                             </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3" id="nama_barang"></div>
+                                <div class="col-md-3" id="kategori"></div>
+                            </div>
+                            <?= $this->session->flashdata('pesan'); ?>
                             <table id="tableInventory" class="display nowrap " style="width:100%">
                                 <thead>
                                     <tr>

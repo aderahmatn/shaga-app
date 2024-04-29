@@ -9,7 +9,57 @@ $(document).ready(function () {
 		// rowReorder: {
 		//     selector: 'td:nth-child(2)'
 		// },
+		columnDefs: [{ targets: [0], visible: false, searchable: false }],
 		responsive: true,
+		initComplete: function () {
+			this.api()
+				.columns([3])
+				.every(function () {
+					var column = this;
+					var select = $(
+						'<select class="form-control form-control-sm bg-default" ><option value="" disabled selected>Filter Nama Barang</option><option value=""></option></select>'
+					)
+						.appendTo($("#nama_barang"))
+						.on("change", function () {
+							var val = $.fn.dataTable.util.escapeRegex($(this).val());
+							column.search(val ? "^" + val + "$" : "", true, false).draw();
+						});
+
+					column
+						.data()
+						.unique()
+						.sort()
+						.each(function (d, j) {
+							select.append(
+								'<option value="' + d + '">' + d.toUpperCase() + "</option>"
+							);
+						});
+				});
+			this.api()
+				.columns([6])
+				.every(function () {
+					var column = this;
+					var select = $(
+						'<select class="form-control form-control-sm bg-default" ><option value="" disabled selected>Filter Suplyer</option><option value=""></option></select>'
+					)
+						.appendTo($("#kategori"))
+						.on("change", function () {
+							var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+							column.search(val ? "^" + val + "$" : "", true, false).draw();
+						});
+
+					column
+						.data()
+						.unique()
+						.sort()
+						.each(function (d, j) {
+							select.append(
+								'<option value="' + d + '">' + d.toUpperCase() + "</option>"
+							);
+						});
+				});
+		},
 	});
 	$("#tableKeuangan").DataTable({
 		columnDefs: [{ targets: [0], visible: false, searchable: false }],

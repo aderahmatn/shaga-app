@@ -20,6 +20,8 @@
 
                                     <th>NO MUTASI</th>
                                     <th>NO REG.</th>
+                                    <th>SERIAL NUMBER</th>
+                                    <th>MAC ADDRESS</th>
                                     <th>TGL MUTASI</th>
                                     <th>LOKASI</th>
                                     <th>NOTE</th>
@@ -39,6 +41,12 @@
                                         </td>
                                         <td class="text-uppercase">
                                             <?= $key->nomor_registrasi ?>
+                                        </td>
+                                        <td class="text-uppercase">
+                                            <?= $key->serial_number ?>
+                                        </td>
+                                        <td class="text-uppercase">
+                                            <?= $key->mac_address ?>
                                         </td>
                                         <td class="text-uppercase">
                                             <?= TanggalIndo($key->tgl_mutasi)  ?>

@@ -13,22 +13,28 @@ class Inventory extends CI_Controller
         $this->load->helper('Rupiah');
     }
 
-
     public function index()
     {
         $inventory = $this->Inventory_m;
         $validation = $this->form_validation;
         $validation->set_rules($inventory->rules_inventory());
         if ($validation->run() == FALSE) {
+            $data['stok'] = $this->Inventory_m->get_total_by_type();
             $data['master_barang'] = $this->Master_barang_m->get_all_master_barang();
             $data['master_tipe'] = $this->Master_tipe_m->get_all_master_tipe();
-            $data['inventory'] = $inventory->get_all_inventory();
+            $data['inventory'] = $inventory->get_all_stok_inventory();
             $this->template->load('shared/index', 'inventory/index', $data);
         } else {
             $post = $this->input->post(null, TRUE);
             $inventory->add_inventory($post);
             if ($this->db->affected_rows() > 0) {
+                $last_no_regis = $inventory->get_last_inventory();
+                $url = base_url('inventory/barcode/') . $last_no_regis;
                 $this->Log_m->create_log('insert inventory barang SN ' . $post['fserial_number']);
+                $this->session->set_flashdata('pesan', "<div class='alert alert-dismissible alert-default-success'>
+                                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
+                                Data Inventory berhasil disimpan, <br> <a href={$url} class='btn btn-sm btn-primary text-white mt-2' target='_blank'><i class='fas fa-print'></i> PRINT BARCODE BARANG TERBARU</a>
+                            </div>");
                 $this->session->set_flashdata('success', 'Data barang berhasil disimpan!');
                 redirect('inventory', 'refresh');
             }

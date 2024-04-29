@@ -172,6 +172,9 @@ class Kasbon_m extends CI_Model
         if ($post['fkaryawan'] != 'all') {
             $this->db->where('kasbon.id_user', $post['fkaryawan']);
         }
+        if ($post['fproject'] != 'all') {
+            $this->db->where('kasbon.project_id', $post['fproject']);
+        }
         if ($post['ftgl_awal'] != null) {
             $this->db->where('kasbon.created_date >=', $post['ftgl_awal']);
         }
@@ -180,7 +183,6 @@ class Kasbon_m extends CI_Model
         }
         if ($post['fkategori']) {
             if (stripos(json_encode($post['fkategori']), 'all') == false) {
-
                 $this->db->where_in('kasbon.keperluan', $post['fkategori']);
             }
         }
@@ -194,6 +196,40 @@ class Kasbon_m extends CI_Model
         $this->db->order_by('id_kasbon', 'desc');
         $query = $this->db->get();
         return $query->result();
+    }
+    public function get_total_kasbon_for_export($post)
+    {
+        $this->db->select_sum('nominal');
+        $this->db->from($this->_table);
+        $this->db->join('kategori_keuangan', 'kategori_keuangan.id_kategori_keuangan = kasbon.keperluan', 'left');
+        $this->db->join('users', 'users.id_user = kasbon.id_user', 'left');
+
+        $this->db->where('kasbon.deleted', 0);
+        if ($post['fkaryawan'] != 'all') {
+            $this->db->where('kasbon.id_user', $post['fkaryawan']);
+        }
+        if ($post['fproject'] != 'all') {
+            $this->db->where('kasbon.project_id', $post['fproject']);
+        }
+        if ($post['ftgl_awal'] != null) {
+            $this->db->where('kasbon.created_date >=', $post['ftgl_awal']);
+        }
+        if ($post['ftgl_akhir'] != null) {
+            $this->db->where('kasbon.created_date <=', $post['ftgl_akhir']);
+        }
+        if ($post['fkategori']) {
+            if (stripos(json_encode($post['fkategori']), 'all') == false) {
+                $this->db->where_in('kasbon.keperluan', $post['fkategori']);
+            }
+        }
+        if ($post['fstatus']) {
+            if (stripos(json_encode($post['fstatus']), 'all') == false) {
+                $this->db->where_in('kasbon.status_terakhir', $post['fstatus']);
+            }
+        }
+        $this->db->order_by('id_kasbon', 'desc');
+        $query = $this->db->get();
+        return $query->row()->nominal;
     }
     public function get_all_kasbon_by_filter($karyawan, $tgl_awal, $tgl_akhir, $kategori)
     {

@@ -52,6 +52,8 @@ Gisaka Media';
                 if ($this->db->affected_rows() > 0) {
                     telegram_notif_registrasi_pelanggan($post);
                     $notif = send_wa($post['fnowa'], $text_wa);
+                    $wa_ade = '087776451664';
+                    send_wa($wa_ade, $text_wa);
                     if ($notif == 200) {
                         $this->session->set_flashdata('success', 'Registrasi berhasil ' . $notif);
                         redirect('registrasi/success/' . encrypt_url($data['no_regis']), 'refresh');
@@ -67,32 +69,15 @@ Gisaka Media';
             }
         }
     }
-    // function send_wa()
-    // {
-    //     $dataSending = array();
-    //     $dataSending["api_key"] = "HUVICSYRSVNYX7MW";
-    //     $dataSending["number_key"] = "EhlZhkMgwgxbfNOx";
-    //     $dataSending["phone_no"] = "6287776451664";
-    //     $dataSending["message"] = "ezhilan ganteng";
-    //     $curl = curl_init();
-    //     curl_setopt_array($curl, array(
-    //         CURLOPT_URL => 'https://api.watzap.id/v1/send_message',
-    //         CURLOPT_RETURNTRANSFER => true,
-    //         CURLOPT_ENCODING => '',
-    //         CURLOPT_MAXREDIRS => 10,
-    //         CURLOPT_TIMEOUT => 0,
-    //         CURLOPT_FOLLOWLOCATION => true,
-    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //         CURLOPT_CUSTOMREQUEST => 'POST',
-    //         CURLOPT_POSTFIELDS => json_encode($dataSending),
-    //         CURLOPT_HTTPHEADER => array(
-    //             'Content-Type: application/json'
-    //         ),
-    //     ));
-    //     $response = curl_exec($curl);
-    //     curl_close($curl);
-    //     echo $response;
-    // }
+
+    function send_wa()
+    {
+        $no_wa = '087776451664';
+        $pesan = 'ada yang registrasi nih';
+        $image = 'NUGRAHA_AGUNG_PRATAMA_04042024.jpeg';
+        $notif = send_wa_with_image($no_wa, $pesan, $image);
+        echo $notif;
+    }
     // function cek_wa()
     // {
     //     $dataSending = array();

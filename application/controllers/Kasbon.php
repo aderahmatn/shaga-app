@@ -27,6 +27,7 @@ class Kasbon extends CI_Controller
         if ($bln == null) {
             $data['bulan'] = date('m');
             $data['karyawan'] = $this->Users_m->get_all_users();
+            $data['project'] = $this->Project_m->get_all_project();
             $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
             $data['total'] = $this->Kasbon_m->get_total_pengajuan_keuangan($data['bulan']);
             $data['approved'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'approved');
@@ -37,6 +38,7 @@ class Kasbon extends CI_Controller
         } else {
             $data['bulan'] = $bln;
             $data['karyawan'] = $this->Users_m->get_all_users();
+            $data['project'] = $this->Project_m->get_all_project();
             $data['kategori'] = $this->Kategori_keuangan_m->get_all_kategori_keuangan();
             $data['rejected'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'rejected');
             $data['approved'] = $this->Kasbon_m->get_total_by_status($data['bulan'], 'approved');
@@ -108,6 +110,30 @@ class Kasbon extends CI_Controller
             $kasbon->add_kategori_keuangan($post);
             if ($this->db->affected_rows() > 0) {
                 $this->session->set_flashdata('success', 'Data kategori berhasil disimpan!');
+                redirect('kasbon/kategori_keuangan', 'refresh');
+            }
+        }
+    }
+    public function edit_kategori_keuangan($id = null)
+    {
+        check_role_administrator();
+        $kasbon = $this->Kategori_keuangan_m;
+        $validation = $this->form_validation;
+        $validation->set_rules($kasbon->rules_kategori_keuangan());
+        if ($validation->run() == FALSE) {
+            $data['kategori'] = $kasbon->get_all_kategori_keuangan();
+            $data['data'] = $kasbon->get_by_id_kategori(decrypt_url($id));
+            if ($data['data']) {
+                $this->template->load('shared/index', 'kasbon/edit_kategori_keuangan', $data);
+            } else {
+                $this->session->set_flashdata('warning', 'Data tidak ditemukan!');
+                redirect('kasbon/kategori_keuangan', 'refresh');
+            }
+        } else {
+            $post = $this->input->post(null, TRUE);
+            $kasbon->update_kategori_keuangan(decrypt_url($id), $post);
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('success', 'Update data kategori keuangan berhasil!');
                 redirect('kasbon/kategori_keuangan', 'refresh');
             }
         }
