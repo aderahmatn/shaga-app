@@ -47,6 +47,7 @@
                     <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
                     <input type="hidden" name="flock" id="lock" style="display: none">
                     <div class="input-group mb-3">
+
                         <input type="text" class="form-control" placeholder="Username" name="fusername" required>
                         <div class="input-group-append">
                             <div class="input-group-text">

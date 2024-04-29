@@ -24,23 +24,35 @@
                     Berikut adalah data stok barang yang tersedia (belum mutasi).<br>
                     Catatan : Ukuran label barcode adalah 30mm x 20mm.
                 </div>
-                <div class="row">
-                    <?php foreach ($stok as $key) : ?>
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-info elevation-0"><?= strtoupper(substr($key->nama_barang, 0, 3)) ?></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text"><?= strtoupper($key->nama_barang) ?></span>
-                                    <span class="info-box-number">
-                                        <?= strtoupper($key->total) ?>
-                                        <small>Unit</small>
-                                    </span>
-                                </div>
-
-                            </div>
-
+                <div class="card <?= $this->uri->segment(2) == 'filter' ? '' : 'collapsed-card' ?>">
+                    <div class="card-header">
+                        <h3 class="card-title mt-1">STOK INVENTORY</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-<?= $this->uri->segment(2) == 'filter' ? 'minus' : 'plus' ?>"></i>
+                            </button>
                         </div>
-                    <?php endforeach ?>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <?php foreach ($stok as $key) : ?>
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info elevation-0"><?= strtoupper(substr($key->nama_barang, 0, 3)) ?></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><?= strtoupper($key->nama_barang) ?></span>
+                                            <span class="info-box-number">
+                                                <?= strtoupper($key->total) ?>
+                                                <small>Unit</small>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+
+                    </div>
                 </div>
 
 
