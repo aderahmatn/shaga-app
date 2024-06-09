@@ -257,6 +257,59 @@ class Registrasi_m extends CI_Model
             return $query->row();
         }
     }
+    function update_foto_identitas($post, $file)
+    {
+        $this->db->set('foto_identitas',  $file);
+        $this->db->where('id_registrasi_customer', decrypt_url($post['fid_regis']));
+        $this->db->update($this->_table);
+    }
+    function update_registrasi($post)
+    {
+        $this->db->set('jenis_formulir',  $post['fjenis_formulir']);
+        $this->db->set('nama_lengkap',  $post['fnama_lengkap']);
+        $this->db->set('jenkel',  $post['fjenkel']);
+        $this->db->set('nomor_npwp',  $post['fnpwp']);
+        $this->db->set('tgl_lahir',  $post['ftgl_lahir']);
+        $this->db->set('nomor_identitas',  $post['fnomor_identitas']);
+        $this->db->set('jenis_identitas',  $post['fjenis_identitas']);
+        $this->db->set('alamat_identitas',  $post['falamat_identitas']);
+        $this->db->set('kota',  $post['fkota']);
+        $this->db->set('kode_pos',  $post['fkode_pos']);
+        $this->db->set('faksimili',  $post['ffaksimili']);
+        $this->db->set('whatsapp',  $post['fnowa']);
+        $this->db->set('seluler',  $post['fseluler']);
+        $this->db->set('email',  $post['femail']);
+        $this->db->set('jenis_layanan',  $post['fjenis_layanan']);
+        $this->db->set('bandwidth',  $post['fbandwidth']);
+        if ($post['fbandwidth'] == "Lainnya") {
+            $blainnya = $post['fbandwidth_lainnya'];
+        } else {
+            $blainnya = null;
+        }
+        $this->db->set('bandwidth_lainnya',  $blainnya);
+        $this->db->set('alamat_pemasangan',  $post['falamat_pemasangan']);
+        $this->db->set('rt',  $post['frt']);
+        $this->db->set('rw',  $post['frw']);
+        $this->db->set('desa',  $post['fdesa']);
+        $this->db->set('kecamatan',  $post['fkecamatan']);
+        $this->db->set('kota_pemasangan',  $post['fkota_pemasangan']);
+        $this->db->set('kode_pos_pemasangan',  $post['fkode_pos_pemasangan']);
+        $this->db->set('jangka_waktu_berlangganan',  $post['fjangka_waktu_berlangganan']);
+        if ($post['fjangka_waktu_berlangganan'] == "Lainnya") {
+            $jlainnya = $post['fjangka_waktu_berlangganan_lainnya'];
+        } else {
+            $jlainnya = null;
+        }
+        $this->db->set('jangka_waktu_berlangganan_lainnya',  $jlainnya);
+        $this->db->set('tgl_pemasangan', $post['ftgl_pemasangan']);
+        $this->db->where('id_registrasi_customer', decrypt_url($post['fid_regis']));
+        $this->db->update($this->_table);
+    }
+    public function delete($id)
+    {
+        $this->db->where('id_registrasi_customer', $id);
+        $this->db->delete($this->_table);
+    }
 }
 
 /* End of file Registrasi_m.php */

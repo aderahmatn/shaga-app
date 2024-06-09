@@ -83,8 +83,6 @@
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-default " data-toggle="modal" data-target="#modal_project"><i class="fas fa-search"></i></button>
                                     </span>
-
-
                                 </div>
                                 <span class="text-xs text-red">
                                     <?= form_error('fid_project') ?>

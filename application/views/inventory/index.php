@@ -34,22 +34,26 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <?php foreach ($stok as $key) : ?>
-                                <div class="col-12 col-sm-6 col-md-3">
-                                    <div class="info-box">
-                                        <span class="info-box-icon bg-info elevation-0"><?= strtoupper(substr($key->nama_barang, 0, 3)) ?></span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text"><?= strtoupper($key->nama_barang) ?></span>
-                                            <span class="info-box-number">
-                                                <?= strtoupper($key->total) ?>
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">NAMA BARANG</th>
+                                        <th scope="col">STOK BARANG</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($stok as $key) : ?>
+                                        <tr>
+                                            <td><?= strtoupper($key->nama_barang) ?></td>
+                                            <td><strong><?= strtoupper($key->total) ?></strong>
                                                 <small>Unit</small>
-                                            </span>
-                                        </div>
+                                            </td>
 
-                                    </div>
+                                        </tr>
+                                    <?php endforeach ?>
 
-                                </div>
-                            <?php endforeach ?>
+                                </tbody>
+                            </table>
                         </div>
 
                     </div>

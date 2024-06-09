@@ -63,7 +63,35 @@
                                             <?= $key->nomor_npwp ?>
                                         </td>
                                         <td>
-                                            <a href="<?= base_url() . 'customer/detail_registrasi/' . encrypt_url($key->id_registrasi_customer) ?>" class="btn btn-xs btn-primary" target="_blank">LIHAT DETAIL</a>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    OPSI
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="<?= base_url() . 'registrasi/edit/' . encrypt_url($key->id_registrasi_customer) ?>" title="EDIT DATA" target="_blank" class="dropdown-item">
+                                                        <div class="row">
+                                                            <div class="col-2"><i class="fas fa-edit fa-sm"></i></div>
+                                                            <div class="col">EDIT DATA</div>
+                                                        </div>
+                                                    </a>
+
+                                                    <a href="<?= base_url() . 'customer/detail_registrasi/' . encrypt_url($key->id_registrasi_customer) ?>" target="_blank" class="dropdown-item">
+                                                        <div class="row">
+                                                            <div class="col-2"><i class="fas fa-file-pdf fa-sm"></i></div>
+                                                            <div class="col text-capitalize">EXPORT PDF</div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" onclick="deleteConfirm('<?= base_url() . 'registrasi/delete/' . encrypt_url($key->id_registrasi_customer) ?>')" class="dropdown-item">
+                                                        <div class="row">
+                                                            <div class="col-2"><i class="fas fa-trash fa-sm"></i></div>
+                                                            <div class="col">DELETE DATA</div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -101,8 +129,8 @@
         </div>
     </div>
 </div>
-
 <!-- Delete Confirm -->
+<!-- END MODAL UBAH -->
 <script type="text/javascript">
     function deleteConfirm(url) {
         $('#btn-delete').attr('href', url);

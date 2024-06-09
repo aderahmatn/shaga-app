@@ -12,7 +12,29 @@ class Registrasi extends CI_Controller
         $this->load->helper('Telegram');
     }
 
-
+    function update_foto_identitas()
+    {
+        // file config
+        $filename = $this->input->post('fnama_lengkap') . '_' . date('d/m/Y');
+        $config['overwrite'] = false;
+        $config['upload_path'] = './uploads/registrasi/';
+        $config['allowed_types'] = 'png|jpg|jpeg';
+        $config['file_name'] = $filename;
+        $config['max_size'] = 2048;
+        $this->load->library('upload', $config);
+        if ($this->upload->do_upload('flampiran')) {
+            $file = $this->upload->data("file_name");
+            $post = $this->input->post(null, TRUE);
+            $this->Registrasi_m->update_foto_identitas($post, $file);
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('success', 'Update foto identitas berhasil');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+        } else {
+            $this->session->set_flashdata('warning', 'Foto KTP / SIM / Passport harus terisi');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
     public function index()
     {
         // file config
@@ -78,32 +100,7 @@ Gisaka Media';
         $notif = send_wa_with_image($no_wa, $pesan, $image);
         echo $notif;
     }
-    // function cek_wa()
-    // {
-    //     $dataSending = array();
-    //     $dataSending["api_key"] = "HUVICSYRSVNYX7MW";
-    //     $dataSending["number_key"] = "EhlZhkMgwgxbfNOx";
-    //     $dataSending["phone_no"] = "6287776451664";
-    //     $curl = curl_init();
-    //     curl_setopt_array($curl, array(
-    //         CURLOPT_URL => 'https://api.watzap.id/v1/validate_number',
-    //         CURLOPT_RETURNTRANSFER => true,
-    //         CURLOPT_ENCODING => '',
-    //         CURLOPT_MAXREDIRS => 10,
-    //         CURLOPT_TIMEOUT => 0,
-    //         CURLOPT_FOLLOWLOCATION => true,
-    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //         CURLOPT_CUSTOMREQUEST => 'POST',
-    //         CURLOPT_POSTFIELDS => json_encode($dataSending),
-    //         CURLOPT_HTTPHEADER => array(
-    //             'Content-Type: application/json'
-    //         ),
-    //     ));
-    //     $response = curl_exec($curl);
-    //     curl_close($curl);
-    //     $data = json_decode($response);
-    //     echo $data->status;
-    // }
+
     function success($noregis = null)
     {
         if (!$noregis) {
@@ -118,6 +115,31 @@ Gisaka Media';
                 $this->session->set_flashdata('warning', 'Data tidak ditemukan!');
                 // redirect('registrasi', 'refresh');
             }
+        }
+    }
+    function edit($id_registrasi_customer)
+    {
+        $data['regis'] = $this->Registrasi_m->get_by_id_registrasi(decrypt_url($id_registrasi_customer));
+        $this->load->view('registrasi/edit', $data);
+    }
+    function update()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->Registrasi_m->update_registrasi($post);
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Edit data registrasi berhasil!');
+            redirect('customer/browse_registrasi', 'refresh');
+        } else {
+            $this->session->set_flashdata('warning', 'Edit data registrasi gagal!');
+            redirect('customer/browse_registrasi', 'refresh');
+        }
+    }
+    public function delete($id)
+    {
+        $this->Registrasi_m->delete(decrypt_url($id));
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Data registrasi berhasil dihapus!');
+            redirect('customer/browse_registrasi', 'refresh');
         }
     }
 }

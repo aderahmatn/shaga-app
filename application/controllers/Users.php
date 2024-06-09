@@ -48,10 +48,10 @@ class Users extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Users_m->update($post);
             if ($this->db->affected_rows() > 0) {
-                $this->session->set_flashdata('success', 'User Berhasil Diupdate!');
+                $this->session->set_flashdata('success', 'Edit data user berhasil');
                 redirect('users/profile', 'refresh');
             } else {
-                $this->session->set_flashdata('warning', 'Data User Tidak Diupdate!');
+                $this->session->set_flashdata('warning', 'Edit data user gagal');
                 redirect('users/profile', 'refresh');
             }
         }

@@ -12,7 +12,10 @@ class auth extends CI_Controller
         $this->load->helper('telegram');
         $this->load->helper('string');
     }
-
+    // function test()
+    // {
+    //     echo decrypt_url('eGRNWEJ6eStTWHh5SFF1Rk96NHNUQT09');
+    // }
     public function login()
     {
         check_already_login();
